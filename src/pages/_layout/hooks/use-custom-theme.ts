@@ -164,15 +164,20 @@ export const useCustomTheme = () => {
             secondary: setting.secondary_text || dt.secondary_text,
           },
           background: {
-            paper: dt.background_color,
             default: dt.background_color,
+            paper: mode === 'light' ? '#FFFFFF' : '#2C2C2E',
           },
         },
+        shape: { borderRadius: 6 },
         shadows: Array(25).fill('none') as Shadows,
         typography: {
           fontFamily: setting.font_family
             ? `${setting.font_family}, ${dt.font_family}`
             : dt.font_family,
+        },
+        components: {
+          MuiButton: { defaultProps: { disableElevation: true } },
+          MuiPaper: { defaultProps: { elevation: 0 } },
         },
       })
     } catch (e) {
@@ -191,26 +196,36 @@ export const useCustomTheme = () => {
           success: { main: dt.success_color },
           text: { primary: dt.primary_text, secondary: dt.secondary_text },
           background: {
-            paper: dt.background_color,
             default: dt.background_color,
+            paper: mode === 'light' ? '#FFFFFF' : '#2C2C2E',
           },
         },
+        shape: { borderRadius: 6 },
         typography: { fontFamily: dt.font_family },
       })
     }
 
     const rootEle = document.documentElement
     if (rootEle) {
-      const backgroundColor = mode === 'light' ? '#ECECEC' : dt.background_color
+      const backgroundColor = dt.background_color
+      const sidebarColor = mode === 'light' ? '#ececec' : '#1c1c1e'
+      const contentColor = mode === 'light' ? '#ffffff' : '#2c2c2e'
       const selectColor = mode === 'light' ? '#f5f5f5' : '#3E3E3E'
       const scrollColor = mode === 'light' ? '#90939980' : '#555555'
       const dividerColor =
         mode === 'light' ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.06)'
       rootEle.style.setProperty('--divider-color', dividerColor)
       rootEle.style.setProperty('--background-color', backgroundColor)
+      rootEle.style.setProperty('--sidebar-color', sidebarColor)
+      rootEle.style.setProperty('--content-color', contentColor)
       rootEle.style.setProperty('--selection-color', selectColor)
       rootEle.style.setProperty('--scroller-color', scrollColor)
       rootEle.style.setProperty('--primary-main', muiTheme.palette.primary.main)
+      rootEle.style.setProperty('--text-primary', muiTheme.palette.text.primary)
+      rootEle.style.setProperty(
+        '--text-secondary',
+        muiTheme.palette.text.secondary,
+      )
       rootEle.style.setProperty(
         '--background-color-alpha',
         alpha(muiTheme.palette.primary.main, 0.1),
@@ -221,7 +236,7 @@ export const useCustomTheme = () => {
       )
       rootEle.style.setProperty(
         '--scrollbar-bg',
-        mode === 'light' ? '#f1f1f1' : '#2E303D',
+        mode === 'light' ? '#f1f1f1' : '#1C1C1E',
       )
       rootEle.style.setProperty(
         '--scrollbar-thumb',
@@ -272,21 +287,8 @@ export const useCustomTheme = () => {
           background-color: ${mode === 'light' ? '#a1a1a1' : '#666666'};
         }
 
-        /* 背景图处理 */
         body {
           background-color: var(--background-color);
-          ${
-            hasUserBackground
-              ? `
-            background-image: var(--user-background-image);
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-blend-mode: var(--background-blend-mode);
-            opacity: var(--background-opacity);
-          `
-              : ''
-          }
         }
 
         /* 修复可能的白色边框 */
@@ -296,7 +298,7 @@ export const useCustomTheme = () => {
 
         /* 确保模态框和对话框也使用暗色主题 */
         .MuiDialog-paper {
-          background-color: ${mode === 'light' ? '#ffffff' : '#2E303D'} !important;
+          background-color: ${mode === 'light' ? '#ffffff' : '#2C2C2E'} !important;
         }
 
         /* 移除可能的白色点或线条 */

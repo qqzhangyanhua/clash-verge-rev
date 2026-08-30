@@ -4,33 +4,15 @@ import {
   MultipleStopRounded,
 } from '@mui/icons-material'
 import { Box, Paper, Stack, Typography } from '@mui/material'
-import { useLockFn } from 'ahooks'
-import { type ReactNode, useState } from 'react'
+import { type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type BaseConfig, closeAllConnections } from 'tauri-plugin-mihomo-api'
 
-import { useClashMode, useRuntimeConfig } from '@/hooks/use-clash'
-import { useVerge } from '@/hooks/use-verge'
 import {
-  useAppRefreshers,
-  useClashConfigData,
-  useCoreDataStatus,
-} from '@/providers/app-data-context'
-import { patchClashMode } from '@/services/cmds'
-import { showNotice } from '@/services/notice-service'
-import { setCacheData } from '@/services/query-client'
+  CLASH_MODES,
+  useClashModeSwitch,
+  type ClashMode,
+} from '@/hooks/use-clash-mode-switch'
 import type { TranslationKey } from '@/types/generated/i18n-keys'
-
-const CLASH_MODES = ['rule', 'global', 'direct'] as const
-type ClashMode = (typeof CLASH_MODES)[number]
-
-const isClashMode = (mode: string): mode is ClashMode =>
-  (CLASH_MODES as readonly string[]).includes(mode)
-
-const toClashMode = (mode?: string | null) => {
-  const normalized = mode?.toLowerCase()
-  return normalized && isClashMode(normalized) ? normalized : undefined
-}
 
 const MODE_META: Record<
   ClashMode,
@@ -58,57 +40,13 @@ const MODE_ICONS: Record<ClashMode, ReactNode> = {
 
 export const ClashModeCard = () => {
   const { t } = useTranslation()
-  const { verge } = useVerge()
-  const { clashConfig } = useClashConfigData()
-  const { isCoreDataPending } = useCoreDataStatus()
-  const { refreshClashConfig } = useAppRefreshers()
-
-  const [optimisticMode, setOptimisticMode] = useState<ClashMode | null>(null)
-
-  const controllerMode = toClashMode(clashConfig?.mode)
-  const needFallback = !controllerMode
-  const { data: runtimeConfig, isPending: isRuntimeConfigPending } =
-    useRuntimeConfig(needFallback)
-  const runtimeMode = toClashMode(runtimeConfig?.mode)
-  const {
-    data: backendMode,
-    isPending: isBackendModePending,
-    refetch: refetchBackendMode,
-  } = useClashMode(needFallback)
-  // Saved config is refreshed on mode changes; runtime config may be stale.
-  const fallbackMode = toClashMode(backendMode) ?? runtimeMode
-
-  const resolvedMode = controllerMode ?? fallbackMode
-  const currentMode = optimisticMode ?? resolvedMode
+  const { currentMode, isPending, onChangeMode } = useClashModeSwitch()
 
   const modeDescription = currentMode
     ? t(MODE_META[currentMode].description)
-    : isCoreDataPending || isRuntimeConfigPending || isBackendModePending
+    : isPending
       ? '\u00A0'
       : t('home.components.clashMode.errors.communication')
-
-  const onChangeMode = useLockFn(async (mode: ClashMode) => {
-    if (mode === currentMode) return
-    if (verge?.auto_close_connection) {
-      closeAllConnections()
-    }
-
-    setOptimisticMode(mode)
-    try {
-      await patchClashMode(mode)
-    } catch (error) {
-      setOptimisticMode(null)
-      showNotice.error(error)
-      return
-    }
-
-    // Write through the live cache to avoid flashing the old mode during refetch.
-    setCacheData<BaseConfig>(['getClashConfig'], (old) =>
-      old ? { ...old, mode } : old,
-    )
-    await Promise.allSettled([refreshClashConfig(), refetchBackendMode()])
-    setOptimisticMode(null)
-  })
 
   const buttonStyles = (mode: ClashMode) => ({
     cursor: 'pointer',

@@ -1,25 +1,14 @@
 import { DragDropProvider, KeyboardSensor, PointerSensor } from '@dnd-kit/react'
-import {
-  Box,
-  List,
-  Menu,
-  MenuItem,
-  Paper,
-  SvgIcon,
-  ThemeProvider,
-} from '@mui/material'
+import { Box, List, Menu, MenuItem, Paper, ThemeProvider } from '@mui/material'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet, useNavigate } from 'react-router'
 
-import iconDark from '@/assets/image/icon_dark.svg?react'
-import iconLight from '@/assets/image/icon_light.svg?react'
-import LogoSvg from '@/assets/image/logo.svg?react'
 import { BaseErrorBoundary, SortableItem } from '@/components/base'
+import { ControlBar } from '@/components/layout/control-bar'
 import { LayoutItem } from '@/components/layout/layout-item'
-import { LayoutTraffic } from '@/components/layout/layout-traffic'
 import { NoticeManager } from '@/components/layout/notice-manager'
 import { ServiceMigrationDialog } from '@/components/layout/service-migration-dialog'
 import { SysproxyPrivilegeDialog } from '@/components/layout/sysproxy-privilege-dialog'
@@ -79,7 +68,6 @@ const OS = getSystem()
 
 const Layout = () => {
   const mode = useThemeMode()
-  const isDark = mode !== 'light'
   const { t } = useTranslation()
   const { theme } = useCustomTheme()
   const { verge, mutateVerge, patchVerge } = useVerge()
@@ -253,10 +241,10 @@ const Layout = () => {
           }
         }}
         sx={[
-          ({ palette }) => ({ bgcolor: palette.background.paper }),
+          { bgcolor: 'var(--background-color)' },
           OS === 'linux'
             ? {
-                borderRadius: '8px',
+                borderRadius: '6px',
                 width: '100vw',
                 height: '100vh',
               }
@@ -270,40 +258,19 @@ const Layout = () => {
 
         <div className="layout-content">
           <div className="layout-content__left">
-            <div className="the-logo" data-tauri-drag-region="false">
-              <div
-                data-tauri-drag-region="true"
-                style={{
-                  height: '27px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <SvgIcon
-                  component={isDark ? iconDark : iconLight}
-                  style={{
-                    height: '36px',
-                    width: '36px',
-                    marginTop: '-3px',
-                    marginRight: '5px',
-                    marginLeft: '-3px',
-                  }}
-                  inheritViewBox
-                />
-                <LogoSvg fill={isDark ? 'white' : 'black'} />
-              </div>
+            <div className="the-logo">
               <UpdateButton className="the-newbtn" />
             </div>
 
             {menuUnlocked && (
               <Box
+                className="the-reorder-hint"
                 sx={(theme) => ({
                   px: 1.5,
                   py: 0.75,
-                  mx: 'auto',
+                  mx: 1,
                   mb: 1,
-                  maxWidth: 250,
-                  borderRadius: 1.5,
+                  borderRadius: 1,
                   fontSize: 12,
                   fontWeight: 600,
                   textAlign: 'center',
@@ -319,7 +286,12 @@ const Layout = () => {
             )}
 
             {menuUnlocked ? (
-              <List className="the-menu" onContextMenu={handleMenuContextMenu}>
+              <List
+                className="the-menu"
+                dense
+                disablePadding
+                onContextMenu={handleMenuContextMenu}
+              >
                 <DragDropProvider
                   sensors={[PointerSensor, KeyboardSensor]}
                   onDragEnd={handleMenuDragEnd}
@@ -341,7 +313,12 @@ const Layout = () => {
                 </DragDropProvider>
               </List>
             ) : (
-              <List className="the-menu" onContextMenu={handleMenuContextMenu}>
+              <List
+                className="the-menu"
+                dense
+                disablePadding
+                onContextMenu={handleMenuContextMenu}
+              >
                 {menuOrder.map((path) => {
                   const item = navItemMap.get(path)
                   if (!item) {
@@ -396,14 +373,10 @@ const Layout = () => {
                 {t('layout.components.navigation.menu.restoreDefaultOrder')}
               </MenuItem>
             </Menu>
-
-            <div className="the-traffic">
-              <LayoutTraffic />
-            </div>
           </div>
 
           <div className="layout-content__right">
-            <div className="the-bar"></div>
+            <ControlBar />
             <div className="the-content">
               <BaseErrorBoundary>
                 <Outlet />
