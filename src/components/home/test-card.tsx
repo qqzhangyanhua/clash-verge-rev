@@ -21,8 +21,6 @@ import { TestItem } from '@/components/test/test-item'
 import { TestViewer, type TestViewerRef } from '@/components/test/test-viewer'
 import { useVerge } from '@/hooks/use-verge'
 
-import { EnhancedCard } from './enhanced-card'
-
 // 自定义滚动条样式
 const ScrollBox = styled(Box)(({ theme }) => ({
   maxHeight: '180px',
@@ -186,11 +184,17 @@ export const TestCard = () => {
   }, [])
 
   return (
-    <EnhancedCard
-      title={t('home.components.tests.title')}
-      icon={<NetworkCheck />}
-      action={
-        <Box sx={{ display: 'flex', gap: 1 }}>
+    <Box className="inset-group-block">
+      <Box
+        className="inset-group-block__title"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        {t('home.components.tests.title')}
+        <Box sx={{ display: 'flex', gap: 0.5 }}>
           <Tooltip title={t('tests.page.actions.testAll')} arrow>
             <IconButton size="small" onClick={handleTestAll}>
               <NetworkCheck fontSize="small" />
@@ -202,15 +206,16 @@ export const TestCard = () => {
             </IconButton>
           </Tooltip>
         </Box>
-      }
-    >
-      <ScrollBox>
-        <DragDropProvider sensors={[PointerSensor]} onDragEnd={onDragEnd}>
-          {renderTestItems}
-        </DragDropProvider>
-      </ScrollBox>
+      </Box>
+      <Box className="inset-group-block__list">
+        <ScrollBox>
+          <DragDropProvider sensors={[PointerSensor]} onDragEnd={onDragEnd}>
+            {renderTestItems}
+          </DragDropProvider>
+        </ScrollBox>
+      </Box>
 
       <TestViewer ref={viewerRef} onChange={onTestListItemChange} />
-    </EnhancedCard>
+    </Box>
   )
 }

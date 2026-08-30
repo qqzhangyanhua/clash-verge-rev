@@ -898,77 +898,67 @@ export const CurrentProxyCard = () => {
       }
     >
       {isCoreDataPending ? (
-        <Box sx={{ py: 4, height: 24 }} />
+        <Box sx={{ py: 1, height: 24 }} />
       ) : currentProxy || (!isDirectMode && selectedGroup) ? (
         <Box>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              pb: 1.25,
-              mb: 1.5,
-              borderBottom: '1px solid var(--divider-color)',
-            }}
-          >
-            <Box>
-              <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
-                {currentProxy?.name ??
-                  t('home.components.currentProxy.labels.noActiveNode')}
-              </Typography>
-
-              <Box
-                sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}
-              >
+          {(currentProxy || isGlobalMode || isDirectMode) && (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: 0.5,
+                mb: 1.5,
+              }}
+            >
+              {currentProxy?.type && (
                 <Typography
                   variant="caption"
                   color="text.secondary"
-                  sx={{ mr: 1 }}
+                  sx={{ mr: 0.5 }}
                 >
-                  {currentProxy?.type}
+                  {currentProxy.type}
                 </Typography>
-                {isGlobalMode && (
-                  <Chip
-                    size="small"
-                    label={t('home.components.currentProxy.labels.globalMode')}
-                    color="primary"
-                    sx={{ mr: 0.5 }}
-                  />
-                )}
-                {isDirectMode && (
-                  <Chip
-                    size="small"
-                    label={t('home.components.currentProxy.labels.directMode')}
-                    color="success"
-                    sx={{ mr: 0.5 }}
-                  />
-                )}
-                {currentProxy?.udp && (
-                  <Chip size="small" label="UDP" variant="outlined" />
-                )}
-                {currentProxy?.tfo && (
-                  <Chip size="small" label="TFO" variant="outlined" />
-                )}
-                {currentProxy?.xudp && (
-                  <Chip size="small" label="XUDP" variant="outlined" />
-                )}
-                {currentProxy?.mptcp && (
-                  <Chip size="small" label="MPTCP" variant="outlined" />
-                )}
-                {currentProxy?.smux && (
-                  <Chip size="small" label="SMUX" variant="outlined" />
-                )}
-              </Box>
+              )}
+              {isGlobalMode && (
+                <Chip
+                  size="small"
+                  label={t('home.components.currentProxy.labels.globalMode')}
+                  color="primary"
+                />
+              )}
+              {isDirectMode && (
+                <Chip
+                  size="small"
+                  label={t('home.components.currentProxy.labels.directMode')}
+                  color="success"
+                />
+              )}
+              {currentProxy?.udp && (
+                <Chip size="small" label="UDP" variant="outlined" />
+              )}
+              {currentProxy?.tfo && (
+                <Chip size="small" label="TFO" variant="outlined" />
+              )}
+              {currentProxy?.xudp && (
+                <Chip size="small" label="XUDP" variant="outlined" />
+              )}
+              {currentProxy?.mptcp && (
+                <Chip size="small" label="MPTCP" variant="outlined" />
+              )}
+              {currentProxy?.smux && (
+                <Chip size="small" label="SMUX" variant="outlined" />
+              )}
+              {currentProxy && !isDirectMode && (
+                <Chip
+                  size="small"
+                  label={delayManager.formatDelay(currentDelay)}
+                  color={convertDelayColor(currentDelay)}
+                  sx={{ ml: 'auto' }}
+                />
+              )}
             </Box>
-
-            {currentProxy && !isDirectMode && (
-              <Chip
-                size="small"
-                label={delayManager.formatDelay(currentDelay)}
-                color={convertDelayColor(currentDelay)}
-              />
-            )}
-          </Box>
+          )}
           <FormControl
             fullWidth
             variant="standard"
@@ -1017,12 +1007,8 @@ export const CurrentProxyCard = () => {
           />
         </Box>
       ) : (
-        <Box sx={{ textAlign: 'center', py: 4 }}>
-          <Typography
-            sx={{ height: 24 }}
-            variant="body1"
-            color="text.secondary"
-          >
+        <Box sx={{ textAlign: 'center', py: 1.5 }}>
+          <Typography variant="body2" color="text.secondary">
             {t('home.components.currentProxy.labels.noActiveNode')}
           </Typography>
         </Box>

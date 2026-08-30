@@ -1,14 +1,17 @@
 import {
-  InfoOutlined,
   AdminPanelSettingsOutlined,
   DnsOutlined,
   ExtensionOutlined,
 } from '@mui/icons-material'
-import { Typography, Stack, Divider, Chip } from '@mui/material'
+import { Typography } from '@mui/material'
 import { useLockFn } from 'ahooks'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import {
+  SettingItem,
+  SettingList,
+} from '@/components/setting/mods/setting-comp'
 import { useServiceInstaller } from '@/hooks/use-service-installer'
 import { useSystemState } from '@/hooks/use-system-state'
 import { useUpdate } from '@/hooks/use-update'
@@ -17,7 +20,14 @@ import { getSystemInfo } from '@/services/cmds'
 import { showNotice } from '@/services/notice-service'
 import { version as appVersion } from '@root/package.json'
 
-import { EnhancedCard } from './enhanced-card'
+const valueSx = { py: '7px', pr: 1 } as const
+
+const clickableValueSx = {
+  ...valueSx,
+  cursor: 'pointer',
+  textDecoration: 'underline',
+  '&:hover': { opacity: 0.7 },
+} as const
 
 export const SystemInfoCard = () => {
   const { t } = useTranslation()
@@ -94,20 +104,22 @@ export const SystemInfoCard = () => {
     [verge],
   )
 
+  const runningModeClickable = isSidecarMode || (isAdminMode && isSidecarMode)
+
   const runningModeStyle = useMemo(
     () => ({
-      cursor:
-        isSidecarMode || (isAdminMode && isSidecarMode) ? 'pointer' : 'default',
-      textDecoration:
-        isSidecarMode || (isAdminMode && isSidecarMode) ? 'underline' : 'none',
+      ...valueSx,
+      cursor: runningModeClickable ? 'pointer' : 'default',
+      textDecoration: runningModeClickable ? 'underline' : 'none',
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'flex-end',
       gap: 0.5,
       '&:hover': {
-        opacity: isSidecarMode || (isAdminMode && isSidecarMode) ? 0.7 : 1,
+        opacity: runningModeClickable ? 0.7 : 1,
       },
     }),
-    [isSidecarMode, isAdminMode],
+    [runningModeClickable],
   )
 
   const getModeIcon = () => {
@@ -165,88 +177,33 @@ export const SystemInfoCard = () => {
   if (!verge) return null
 
   return (
-    <EnhancedCard
-      title={t('home.components.systemInfo.title')}
-      icon={<InfoOutlined />}
-      iconColor="error"
-    >
-      <Stack spacing={1.5}>
-        <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
-          <Typography variant="body2" color="text.secondary">
-            {t('home.components.systemInfo.fields.osInfo')}
-          </Typography>
-          <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-            {osInfo}
-          </Typography>
-        </Stack>
-        <Divider />
-        <Stack
-          direction="row"
-          sx={{ justifyContent: 'space-between', alignItems: 'center' }}
-        >
-          <Typography variant="body2" color="text.secondary">
-            {t('home.components.systemInfo.fields.autoLaunch')}
-          </Typography>
-          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-            <Chip
-              size="small"
-              label={
-                autoLaunchEnabled
-                  ? t('shared.statuses.enabled')
-                  : t('shared.statuses.disabled')
-              }
-              color={autoLaunchEnabled ? 'success' : 'default'}
-              variant={autoLaunchEnabled ? 'filled' : 'outlined'}
-              onClick={toggleAutoLaunch}
-              sx={{ cursor: 'pointer' }}
-            />
-          </Stack>
-        </Stack>
-        <Divider />
-        <Stack
-          direction="row"
-          sx={{ justifyContent: 'space-between', alignItems: 'center' }}
-        >
-          <Typography variant="body2" color="text.secondary">
-            {t('home.components.systemInfo.fields.runningMode')}
-          </Typography>
-          <Typography
-            variant="body2"
-            onClick={handleRunningModeClick}
-            sx={{ ...runningModeStyle, fontWeight: 'medium' }}
-          >
-            {getModeIcon()}
-            {getModeText()}
-          </Typography>
-        </Stack>
-        <Divider />
-        <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
-          <Typography variant="body2" color="text.secondary">
-            {t('home.components.systemInfo.fields.lastCheckUpdate')}
-          </Typography>
-          <Typography
-            variant="body2"
-            onClick={onCheckUpdate}
-            sx={{
-              cursor: 'pointer',
-              textDecoration: 'underline',
-              fontWeight: 'medium',
-              '&:hover': { opacity: 0.7 },
-            }}
-          >
-            {lastCheckUpdateText}
-          </Typography>
-        </Stack>
-        <Divider />
-        <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
-          <Typography variant="body2" color="text.secondary">
-            {t('home.components.systemInfo.fields.vergeVersion')}
-          </Typography>
-          <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-            v{appVersion}
-          </Typography>
-        </Stack>
-      </Stack>
-    </EnhancedCard>
+    <SettingList title={t('home.components.systemInfo.title')}>
+      <SettingItem label={t('home.components.systemInfo.fields.osInfo')}>
+        <Typography sx={valueSx}>{osInfo}</Typography>
+      </SettingItem>
+      <SettingItem label={t('home.components.systemInfo.fields.autoLaunch')}>
+        <Typography onClick={toggleAutoLaunch} sx={clickableValueSx}>
+          {autoLaunchEnabled
+            ? t('shared.statuses.enabled')
+            : t('shared.statuses.disabled')}
+        </Typography>
+      </SettingItem>
+      <SettingItem label={t('home.components.systemInfo.fields.runningMode')}>
+        <Typography onClick={handleRunningModeClick} sx={runningModeStyle}>
+          {getModeIcon()}
+          {getModeText()}
+        </Typography>
+      </SettingItem>
+      <SettingItem
+        label={t('home.components.systemInfo.fields.lastCheckUpdate')}
+      >
+        <Typography onClick={onCheckUpdate} sx={clickableValueSx}>
+          {lastCheckUpdateText}
+        </Typography>
+      </SettingItem>
+      <SettingItem label={t('home.components.systemInfo.fields.vergeVersion')}>
+        <Typography sx={valueSx}>v{appVersion}</Typography>
+      </SettingItem>
+    </SettingList>
   )
 }
