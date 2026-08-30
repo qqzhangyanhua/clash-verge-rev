@@ -1,0 +1,19 @@
+src/components/setting/mods/layout-viewer.tsx
+  s_00fcfe79f36358::t_dc6000488fdfee 30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "development:1.6.23",
+  "base_commit_sha": "fa0f6efe945fd9d26dcb8b7248c26d9e249b0018",
+  "prompts": {},
+  "sessions": {
+    "s_00fcfe79f36358": {
+      "agent_id": {
+        "tool": "grok",
+        "id": "01a051bb-23b3-79b0-a520-d828ee28ad6e",
+        "model": "grok-4.6"
+      },
+      "human_author": "张艳华 <939593210@qq.com>"
+    }
+  }
+}
