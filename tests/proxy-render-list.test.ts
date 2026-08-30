@@ -62,6 +62,7 @@ const gamma = nodeOf('gamma', 'c:2')
 const visible = groupOf('VISIBLE', [alpha, beta])
 const hidden = groupOf('HIDDEN', [gamma], { hidden: true })
 const globalGroup = groupOf('GLOBAL', [alpha, gamma])
+const other = groupOf('OTHER', [gamma])
 
 const view: ProxyViewV1 = {
   schemaVersion: 1,
@@ -77,6 +78,11 @@ const view: ProxyViewV1 = {
   },
   standalone: [alpha.recordId, gamma.recordId],
   providers: [],
+}
+
+const twoGroups: ProxyViewV1 = {
+  ...view,
+  groups: [visible, other],
 }
 
 const opened = (...names: string[]) =>
@@ -162,11 +168,6 @@ test('rule mode packs expanded members into column blocks when col > 1', () => {
 })
 
 test('rule mode renders each expanded group in order', () => {
-  const other = groupOf('OTHER', [gamma])
-  const twoGroups: ProxyViewV1 = {
-    ...view,
-    groups: [visible, other],
-  }
   assert.deepEqual(
     rowsOf(
       buildRenderList({
@@ -337,6 +338,123 @@ test('filter and name sort still apply to member rows', () => {
       { type: 'member', group: 'VISIBLE', name: 'alpha' },
       { type: 'member', group: 'VISIBLE', name: 'beta' },
     ],
+  )
+})
+
+test('split pane lists only the selected group tools and single-column members', () => {
+  assert.deepEqual(
+    rowsOf(
+      buildRenderList({
+        view: twoGroups,
+        mode: 'rule',
+        col: 2,
+        splitPane: true,
+        selectedGroup: 'OTHER',
+        headStates: opened('VISIBLE', 'OTHER'),
+      }),
+    ),
+    [
+      { type: 'head', name: 'OTHER' },
+      { type: 'member', group: 'OTHER', name: 'gamma' },
+    ],
+  )
+})
+
+test('split pane shows members even when the selected group is collapsed', () => {
+  assert.deepEqual(
+    rowsOf(
+      buildRenderList({
+        view: twoGroups,
+        mode: 'rule',
+        col: 2,
+        splitPane: true,
+        selectedGroup: 'VISIBLE',
+      }),
+    ),
+    [
+      { type: 'head', name: 'VISIBLE' },
+      { type: 'member', group: 'VISIBLE', name: 'alpha' },
+      { type: 'member', group: 'VISIBLE', name: 'beta' },
+    ],
+  )
+})
+
+test('split pane without a selected group has no rows', () => {
+  assert.deepEqual(
+    buildRenderList({
+      view: twoGroups,
+      mode: 'rule',
+      col: 1,
+      splitPane: true,
+    }),
+    [],
+  )
+})
+
+test('split pane ignores a hidden selected group', () => {
+  assert.deepEqual(
+    buildRenderList({
+      view,
+      mode: 'rule',
+      col: 1,
+      splitPane: true,
+      selectedGroup: 'HIDDEN',
+      headStates: opened('HIDDEN'),
+    }),
+    [],
+  )
+})
+
+test('split pane still uses tools and members in global mode as a single column', () => {
+  assert.deepEqual(
+    rowsOf(
+      buildRenderList({
+        view,
+        mode: 'global',
+        col: 2,
+        splitPane: true,
+      }),
+    ),
+    [
+      { type: 'head', name: 'GLOBAL' },
+      { type: 'member', group: 'GLOBAL', name: 'alpha' },
+      { type: 'member', group: 'GLOBAL', name: 'gamma' },
+    ],
+  )
+})
+
+test('split pane does not change chain-mode rows', () => {
+  assert.deepEqual(
+    rowsOf(
+      buildRenderList({
+        view,
+        mode: 'rule',
+        isChainMode: true,
+        splitPane: true,
+        selectedGroup: 'VISIBLE',
+        col: 1,
+        runtimeConfigReady: true,
+        runtimeProxies: [{ name: 'gamma' }],
+      }),
+    ),
+    [
+      { type: 'member', group: 'VISIBLE', name: 'alpha' },
+      { type: 'member', group: 'VISIBLE', name: 'beta' },
+    ],
+  )
+
+  assert.deepEqual(
+    buildRenderList({
+      view,
+      mode: 'rule',
+      isChainMode: true,
+      splitPane: true,
+      selectedGroup: 'removed-group',
+      col: 1,
+      runtimeConfigReady: true,
+      runtimeProxies: [{ name: 'gamma' }],
+    }),
+    [],
   )
 })
 

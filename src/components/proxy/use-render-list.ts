@@ -46,9 +46,11 @@ export const useRenderList = (
     runtimeConfig as RuntimeConfigWithProxySequence | null | undefined
   )?.proxies
 
+  const splitPane = !isChainMode
   const col = useMemo(
-    () => calculateColumns(width, verge?.proxy_layout_column || 6),
-    [width, verge?.proxy_layout_column],
+    () =>
+      splitPane ? 1 : calculateColumns(width, verge?.proxy_layout_column || 6),
+    [splitPane, width, verge?.proxy_layout_column],
   )
 
   const chainOccurrences = useMemo(() => {
@@ -110,12 +112,18 @@ export const useRenderList = (
     if (!proxyView) return []
     if (isChainMode)
       return selectedGroup ? [selectedGroup] : [CHAIN_DELAY_GROUP]
+    if (splitPane) {
+      if (mode === 'global') {
+        return proxyView.global ? [proxyView.global.name] : []
+      }
+      return selectedGroup ? [selectedGroup] : []
+    }
     return mode === 'rule' || mode === 'script'
       ? proxyView.groups.map(({ name }) => name)
       : proxyView.global
         ? [proxyView.global.name]
         : []
-  }, [isChainMode, mode, proxyView, selectedGroup])
+  }, [isChainMode, mode, proxyView, selectedGroup, splitPane])
   const groupDelays = useGroupsDelays(renderedGroupNames)
 
   const renderList = useMemo<IRenderItem[]>(() => {
@@ -129,6 +137,7 @@ export const useRenderList = (
       mode,
       col,
       isChainMode,
+      splitPane,
       selectedGroup,
       headStates,
       latencyTimeout,
@@ -147,6 +156,7 @@ export const useRenderList = (
     runtimeConfig,
     runtimeProxies,
     selectedGroup,
+    splitPane,
   ])
 
   return {

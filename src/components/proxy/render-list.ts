@@ -32,6 +32,7 @@ export type BuildRenderListInput = {
   mode: string
   col: number
   isChainMode?: boolean
+  splitPane?: boolean
   selectedGroup?: string | null
   headStates?: Record<string, HeadState>
   latencyTimeout?: number
@@ -148,11 +149,44 @@ export const chainOccurrencesOf = (
   )
 }
 
+const filteredOccurrences = (
+  view: ProxyViewV1,
+  group: ProxyGroupView,
+  headState: HeadState,
+  latencyTimeout?: number,
+) =>
+  filterSort(
+    resolveOccurrences(view, group),
+    group.name,
+    headState.filterText,
+    headState.sortType,
+    latencyTimeout,
+    {
+      matchCase: headState.filterMatchCase,
+      matchWholeWord: headState.filterMatchWholeWord,
+      useRegularExpression: headState.filterUseRegularExpression,
+    },
+  )
+
+const splitPaneGroup = (
+  view: ProxyViewV1,
+  mode: string,
+  selectedGroup: string | null,
+): ProxyGroupView | undefined => {
+  if (mode === 'direct') return undefined
+  if (mode !== 'rule' && mode !== 'script') return view.global ?? undefined
+  if (!selectedGroup) return undefined
+  const group = view.groups.find(({ name }) => name === selectedGroup)
+  if (!group || group.hidden) return undefined
+  return group
+}
+
 export function buildRenderList({
   view,
   mode,
   col,
   isChainMode = false,
+  splitPane = false,
   selectedGroup = null,
   headStates = {},
   latencyTimeout,
@@ -199,6 +233,22 @@ export function buildRenderList({
 
   if (mode === 'direct') return []
 
+  if (splitPane) {
+    const group = splitPaneGroup(view, mode, selectedGroup)
+    if (!group) return []
+    const headState = headStates[group.name] || DEFAULT_STATE
+    const occurrences = filteredOccurrences(
+      view,
+      group,
+      headState,
+      latencyTimeout,
+    )
+    return [
+      { type: 1, key: `head-${group.name}`, group, headState },
+      ...memberRows(group, occurrences, headState, 1),
+    ]
+  }
+
   const useRule = mode === 'rule' || mode === 'script'
   const renderGroups = useRule
     ? view.groups
@@ -220,17 +270,11 @@ export function buildRenderList({
     ]
 
     if (headState.open || !useRule) {
-      const occurrences = filterSort(
-        resolveOccurrences(view, group),
-        group.name,
-        headState.filterText,
-        headState.sortType,
+      const occurrences = filteredOccurrences(
+        view,
+        group,
+        headState,
         latencyTimeout,
-        {
-          matchCase: headState.filterMatchCase,
-          matchWholeWord: headState.filterMatchWholeWord,
-          useRegularExpression: headState.filterUseRegularExpression,
-        },
       )
       if (!useRule) {
         ret.push({ type: 1, key: `head-${group.name}`, group, headState })
