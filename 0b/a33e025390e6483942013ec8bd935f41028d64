@@ -1,0 +1,38 @@
+tests/proxy-render-list.test.ts
+  s_b836cd07db29ad::t_271bfb20711ab6 65,83-85
+  s_b836cd07db29ad::t_75309806c4cac6 344-460
+  s_b836cd07db29ad::t_61ddcc058e983d 86-87
+src/components/proxy/proxy-groups.tsx
+  s_b836cd07db29ad::t_2cf12b1a3cc889 14,17,20-21,23-27
+  s_b836cd07db29ad::t_7eaf7ed8c884d5 244
+src/components/proxy/use-render-list.ts
+  s_b836cd07db29ad::t_273e700579a150 49,51-53,115-120,126,140,159
+src/components/proxy/proxy-split-groups.tsx
+  s_b836cd07db29ad::t_fc0f807321d35b 71-74,88,96,141,219
+  s_b836cd07db29ad::t_4e8affc5f411b1 1-32,35-41,44-70,75-87,89-95,97-105,107-140,142-218,220-286
+  s_b836cd07db29ad::t_64db8d8eb94246 33-34,42-43,106
+src/assets/styles/page.scss
+  s_b836cd07db29ad::t_47a246ead9d365 1-24
+src/components/proxy/render-list.ts
+  s_b836cd07db29ad::t_12be0d085119c7 152-170,240-243,273-276
+  s_b836cd07db29ad::t_5a7e7984e5372e 236-239,244-251
+  s_b836cd07db29ad::t_52c131f1688488 35,171-183,189
+src/components/proxy/use-proxy-render-state.tsx
+  s_b836cd07db29ad::t_67055551c8fb32 1-148
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "development:1.6.23",
+  "base_commit_sha": "0ba33e025390e6483942013ec8bd935f41028d64",
+  "prompts": {},
+  "sessions": {
+    "s_b836cd07db29ad": {
+      "agent_id": {
+        "tool": "grok",
+        "id": "01a0517c-91e1-7f23-a151-6f21daa442fd",
+        "model": "grok-4.6"
+      },
+      "human_author": "张艳华 <939593210@qq.com>"
+    }
+  }
+}
