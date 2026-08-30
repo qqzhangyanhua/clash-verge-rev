@@ -1,0 +1,19 @@
+src-tauri/src/utils/startup.rs
+  s_00fcfe79f36358::t_43e03b9d22e4d9 27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "development:1.6.23",
+  "base_commit_sha": "e4ba2ae7c29881321e6d5c8455ac76912211a974",
+  "prompts": {},
+  "sessions": {
+    "s_00fcfe79f36358": {
+      "agent_id": {
+        "tool": "grok",
+        "id": "01a051bb-23b3-79b0-a520-d828ee28ad6e",
+        "model": "grok-4.6"
+      },
+      "human_author": "张艳华 <939593210@qq.com>"
+    }
+  }
+}
