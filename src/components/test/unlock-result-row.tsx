@@ -3,7 +3,7 @@ import { Box, Button, Chip, Tooltip } from '@mui/material'
 import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export interface UnlockResultItem {
+interface UnlockResultItem {
   name: string
   status: string
   region?: string | null
