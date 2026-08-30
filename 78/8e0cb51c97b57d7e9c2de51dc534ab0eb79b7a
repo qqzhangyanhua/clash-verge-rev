@@ -1,0 +1,36 @@
+src/components/connection/connection-table.tsx
+  s_00fcfe79f36358::t_ddefe1210ca954 1,253-254,265-266,277,286,322-324,329,338,759-762,893-894
+src/assets/styles/page.scss
+  s_00fcfe79f36358::t_036a53c8746ff6 41-42,48,58
+  s_00fcfe79f36358::t_6e756d26701b44 25-40,43-47,49-57,59-118
+src/pages/connections.tsx
+  s_00fcfe79f36358::t_966dd057bf9334 299,302-306,332,355-361
+  s_00fcfe79f36358::t_90939a1bed65cf 19,31,45,81-96,105-107,148-152
+  s_00fcfe79f36358::t_00cfe9a0f8a026 309-323
+  s_00fcfe79f36358::t_9a5141b54b046f 254-256,258
+  s_00fcfe79f36358::t_5ade22bc42a556 259-260
+  s_00fcfe79f36358::t_5ff903ea33d669 307-308
+  s_00fcfe79f36358::t_aed063e28110ca 324-326,329-331
+  s_00fcfe79f36358::t_3b8be9baf36ffc 333-335,352-354
+src/components/connection/connection-row-item.tsx
+  s_00fcfe79f36358::t_655744e4235408 3,15,75-80,82,89-92,95-101,137
+src/components/connection/connection-detail.tsx
+  s_00fcfe79f36358::t_e1fcf893ba1ef1 95-114,116,118,121,128
+  s_00fcfe79f36358::t_167570f6c2c640 126
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "development:1.6.23",
+  "base_commit_sha": "788e0cb51c97b57d7e9c2de51dc534ab0eb79b7a",
+  "prompts": {},
+  "sessions": {
+    "s_00fcfe79f36358": {
+      "agent_id": {
+        "tool": "grok",
+        "id": "01a051bb-23b3-79b0-a520-d828ee28ad6e",
+        "model": "grok-4.6"
+      },
+      "human_author": "张艳华 <939593210@qq.com>"
+    }
+  }
+}
