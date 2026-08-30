@@ -1,4 +1,4 @@
-import { useTheme } from '@mui/material/styles'
+import { alpha, useTheme } from '@mui/material/styles'
 import { useLocalStorage } from 'foxact/use-local-storage'
 import {
   memo,
@@ -250,6 +250,8 @@ interface RowComponentProps {
   onShowDetail: (id: string) => void
   getSnapshot: (row: IConnectionsItem) => TableRowSnapshot
   borderColor: string
+  selected: boolean
+  selectedBackground: string
   virtualTop: number
 }
 
@@ -260,6 +262,8 @@ const RowComponent = memo(
     onShowDetail,
     getSnapshot,
     borderColor,
+    selected,
+    selectedBackground,
     virtualTop,
   }: RowComponentProps) {
     const handleClick = useCallback(
@@ -270,6 +274,7 @@ const RowComponent = memo(
 
     return (
       <div
+        aria-selected={selected}
         style={{
           display: 'flex',
           position: 'absolute',
@@ -278,6 +283,7 @@ const RowComponent = memo(
           right: 0,
           height: ROW_HEIGHT,
           cursor: 'pointer',
+          backgroundColor: selected ? selectedBackground : undefined,
           borderBottom: `1px solid ${borderColor}`,
         }}
         onClick={handleClick}
@@ -313,11 +319,14 @@ const RowComponent = memo(
     prev.virtualTop === next.virtualTop &&
     prev.onShowDetail === next.onShowDetail &&
     prev.getSnapshot === next.getSnapshot &&
-    prev.borderColor === next.borderColor,
+    prev.borderColor === next.borderColor &&
+    prev.selected === next.selected &&
+    prev.selectedBackground === next.selectedBackground,
 )
 
 interface Props {
   connections: IConnectionsItem[]
+  selectedId?: string | null
   onShowDetail: (id: string) => void
   columnManagerOpen: boolean
   onCloseColumnManager: () => void
@@ -326,6 +335,7 @@ interface Props {
 export const ConnectionTable = (props: Props) => {
   const {
     connections,
+    selectedId = null,
     onShowDetail: rawOnShowDetail,
     columnManagerOpen,
     onCloseColumnManager,
@@ -746,6 +756,10 @@ export const ConnectionTable = (props: Props) => {
   const borderColor = theme.palette.divider
   const headerBackground = theme.palette.background.paper
   const textSecondary = theme.palette.text.secondary
+  const selectedBackground = alpha(
+    theme.palette.primary.main,
+    theme.palette.mode === 'light' ? 0.14 : 0.28,
+  )
 
   return (
     <>
@@ -876,6 +890,8 @@ export const ConnectionTable = (props: Props) => {
                       onShowDetail={onShowDetail}
                       getSnapshot={getRowSnapshot}
                       borderColor={borderColor}
+                      selected={row.id === selectedId}
+                      selectedBackground={selectedBackground}
                       virtualTop={index * ROW_HEIGHT}
                     />
                   )

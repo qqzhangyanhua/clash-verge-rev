@@ -7,15 +7,16 @@ import {
 import {
   Box,
   Button,
-  ButtonGroup,
   Fab,
   IconButton,
   MenuItem,
+  ToggleButton,
+  ToggleButtonGroup,
   Tooltip,
   Zoom,
 } from '@mui/material'
 import { useLockFn } from 'ahooks'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { closeAllConnections } from 'tauri-plugin-mihomo-api'
 
@@ -27,10 +28,7 @@ import {
   type SearchState,
   VirtualList,
 } from '@/components/base'
-import {
-  ConnectionDetail,
-  ConnectionDetailRef,
-} from '@/components/connection/connection-detail'
+import { ConnectionDetail } from '@/components/connection/connection-detail'
 import { ConnectionRowItem } from '@/components/connection/connection-row-item'
 import {
   getConnectionStartTime,
@@ -44,6 +42,7 @@ import { useVisibility } from '@/hooks/use-visibility'
 import parseTraffic from '@/utils/parse-traffic'
 
 type OrderFunc = (list: IConnectionsItem[]) => IConnectionsItem[]
+type ConnectionsType = 'active' | 'closed'
 
 const ORDER_OPTIONS = [
   {
@@ -79,6 +78,22 @@ const orderFunctionMap = ORDER_OPTIONS.reduce<Record<OrderKey, OrderFunc>>(
 )
 
 const EMPTY_CONNECTIONS: IConnectionsItem[] = []
+
+const segmentedSx = {
+  flexShrink: 0,
+  '& .MuiToggleButtonGroup-grouped': {
+    borderColor: 'divider',
+  },
+  '& .MuiToggleButton-root': {
+    px: 1.25,
+    py: 0.25,
+    fontSize: 12,
+    lineHeight: 1.4,
+    textTransform: 'none',
+    fontWeight: 500,
+  },
+} as const
+
 const ConnectionsPage = () => {
   const { t } = useTranslation()
   const pageVisible = useVisibility()
@@ -87,9 +102,9 @@ const ConnectionsPage = () => {
   )
   const [hasSearch, setHasSearch] = useState(false)
   const [curOrderOpt, setCurOrderOpt] = useState<OrderKey>('default')
-  const [connectionsType, setConnectionsType] = useState<'active' | 'closed'>(
-    'active',
-  )
+  const [connectionsType, setConnectionsType] =
+    useState<ConnectionsType>('active')
+  const [selectedId, setSelectedId] = useState<string | null>(null)
 
   const {
     response: { data: connections },
@@ -130,33 +145,31 @@ const ConnectionsPage = () => {
     isTableLayout ? EMPTY_CONNECTIONS : filterConn,
   )
 
-  const detailRef = useRef<ConnectionDetailRef>(null!)
+  const selectedConnection = useMemo(() => {
+    if (!selectedId) return null
+    return selectedConnections.find((item) => item.id === selectedId) ?? null
+  }, [selectedId, selectedConnections])
+  const visibleSelectedId = selectedConnection?.id ?? null
 
-  const selectConnectionsType = useCallback(
-    (type: 'active' | 'closed') => {
-      if (type === connectionsType) return
-      detailRef.current?.close()
-      setIsColumnManagerOpen(false)
-      setConnectionsType(type)
-    },
-    [connectionsType],
-  )
+  const selectConnectionsType = useCallback((type: ConnectionsType) => {
+    setSelectedId(null)
+    setIsColumnManagerOpen(false)
+    setConnectionsType(type)
+  }, [])
 
-  const showDetailById = useCallback(
-    (id: string) => {
-      const connection = filterConn.find((item) => item.id === id)
-      if (connection) {
-        detailRef.current?.open(connection, connectionsType === 'closed')
-      }
-    },
-    [connectionsType, filterConn],
-  )
+  const showDetailById = useCallback((id: string) => {
+    setSelectedId((current) => (current === id ? null : id))
+  }, [])
+
+  const closeInspector = useCallback(() => {
+    setSelectedId(null)
+  }, [])
 
   const onCloseAll = useLockFn(closeAllConnections)
 
   const handleSearch = useCallback(
-    (match: (content: string) => boolean, state: SearchState) => {
-      setMatch(() => match)
+    (nextMatch: (content: string) => boolean, state: SearchState) => {
+      setMatch(() => nextMatch)
       setHasSearch(state.text.length > 0)
     },
     [],
@@ -176,7 +189,6 @@ const ConnectionsPage = () => {
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        borderRadius: '8px',
         minHeight: 0,
       }}
       header={
@@ -228,24 +240,24 @@ const ConnectionsPage = () => {
           zIndex: 2,
         }}
       >
-        <ButtonGroup sx={{ mr: 1, flexBasis: 'content' }}>
-          <Button
-            size="small"
-            variant={connectionsType === 'active' ? 'contained' : 'outlined'}
-            onClick={() => selectConnectionsType('active')}
-          >
+        <ToggleButtonGroup
+          exclusive
+          size="small"
+          value={connectionsType}
+          onChange={(_event, value: ConnectionsType | null) => {
+            if (value) selectConnectionsType(value)
+          }}
+          sx={{ ...segmentedSx, mr: 1 }}
+        >
+          <ToggleButton value="active" disableRipple>
             {t('connections.components.actions.active')}{' '}
-            {connections?.activeConnections.length}
-          </Button>
-          <Button
-            size="small"
-            variant={connectionsType === 'closed' ? 'contained' : 'outlined'}
-            onClick={() => selectConnectionsType('closed')}
-          >
+            {connections?.activeConnections.length ?? 0}
+          </ToggleButton>
+          <ToggleButton value="closed" disableRipple>
             {t('connections.components.actions.closed')}{' '}
-            {connections?.closedConnections.length}
-          </Button>
-        </ButtonGroup>
+            {connections?.closedConnections.length ?? 0}
+          </ToggleButton>
+        </ToggleButtonGroup>
         {!isTableLayout && (
           <BaseStyledSelect
             value={curOrderOpt}
@@ -284,55 +296,72 @@ const ConnectionsPage = () => {
         )}
       </Box>
 
-      {!hasTableData ? (
+      {!hasTableData && !selectedConnection ? (
         <BaseEmpty />
-      ) : isTableLayout ? (
-        <ConnectionTable
-          connections={filterConn}
-          onShowDetail={showDetailById}
-          columnManagerOpen={isColumnManagerOpen}
-          onCloseColumnManager={() => setIsColumnManagerOpen(false)}
-        />
       ) : (
-        <VirtualList
-          key={connectionsType}
-          count={displayRows.length}
-          estimateSize={56}
-          renderItem={(i) => (
-            <ConnectionRowItem
-              row={displayRows[i]}
-              closed={connectionsType === 'closed'}
-              onShowDetail={showDetailById}
-            />
+        <div className="connection-split">
+          <div className="connection-split__list">
+            {!hasTableData ? (
+              <BaseEmpty />
+            ) : isTableLayout ? (
+              <ConnectionTable
+                connections={filterConn}
+                selectedId={visibleSelectedId}
+                onShowDetail={showDetailById}
+                columnManagerOpen={isColumnManagerOpen}
+                onCloseColumnManager={() => setIsColumnManagerOpen(false)}
+              />
+            ) : (
+              <VirtualList
+                key={connectionsType}
+                count={displayRows.length}
+                estimateSize={56}
+                renderItem={(i) => (
+                  <ConnectionRowItem
+                    row={displayRows[i]}
+                    closed={connectionsType === 'closed'}
+                    selected={displayRows[i].id === visibleSelectedId}
+                    onShowDetail={showDetailById}
+                  />
+                )}
+                style={{
+                  flex: 1,
+                  WebkitOverflowScrolling: 'touch',
+                  overscrollBehavior: 'contain',
+                }}
+              />
+            )}
+            <Zoom
+              in={connectionsType === 'closed' && filterConn.length > 0}
+              unmountOnExit
+            >
+              <Fab
+                size="medium"
+                variant="extended"
+                sx={{
+                  position: 'absolute',
+                  right: 16,
+                  bottom: 16,
+                }}
+                color="primary"
+                onClick={() => clearClosedConnections()}
+              >
+                <DeleteForeverRounded sx={{ mr: 1 }} fontSize="small" />
+                {t('shared.actions.clear')}
+              </Fab>
+            </Zoom>
+          </div>
+          {selectedConnection && (
+            <aside className="connection-split__inspector">
+              <ConnectionDetail
+                data={selectedConnection}
+                closed={connectionsType === 'closed'}
+                onClose={closeInspector}
+              />
+            </aside>
           )}
-          style={{
-            flex: 1,
-            borderRadius: '8px',
-            WebkitOverflowScrolling: 'touch',
-            overscrollBehavior: 'contain',
-          }}
-        />
+        </div>
       )}
-      <ConnectionDetail ref={detailRef} />
-      <Zoom
-        in={connectionsType === 'closed' && filterConn.length > 0}
-        unmountOnExit
-      >
-        <Fab
-          size="medium"
-          variant="extended"
-          sx={{
-            position: 'absolute',
-            right: 16,
-            bottom: isTableLayout ? 70 : 16,
-          }}
-          color="primary"
-          onClick={() => clearClosedConnections()}
-        >
-          <DeleteForeverRounded sx={{ mr: 1 }} fontSize="small" />
-          {t('shared.actions.clear')}
-        </Fab>
-      </Zoom>
     </BasePage>
   )
 }

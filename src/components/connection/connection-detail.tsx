@@ -1,86 +1,40 @@
-import { Box, Button, Snackbar, useTheme } from '@mui/material'
+import { CloseRounded } from '@mui/icons-material'
+import { Button, IconButton } from '@mui/material'
 import { useLockFn } from 'ahooks'
-import dayjs from 'dayjs'
-import { useCallback, useImperativeHandle, useState, type Ref } from 'react'
+import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { closeConnection } from 'tauri-plugin-mihomo-api'
 
 import parseTraffic from '@/utils/parse-traffic'
 
-export interface ConnectionDetailRef {
-  open: (detail: IConnectionsItem, closed: boolean) => void
-  close: () => void
-}
+import { RelativeTime } from './connection-relative-time'
+import {
+  formatConnectionChains,
+  getConnectionHost,
+  getConnectionRule,
+  getConnectionSource,
+  getConnectionTypeLabel,
+} from './connection-row-view'
 
-export function ConnectionDetail({ ref }: { ref?: Ref<ConnectionDetailRef> }) {
-  const [open, setOpen] = useState(false)
-  const [detail, setDetail] = useState<IConnectionsItem | null>(null)
-  const [closed, setClosed] = useState(false)
-  const theme = useTheme()
-
-  const onClose = useCallback(() => {
-    setOpen(false)
-    setDetail(null)
-    setClosed(false)
-  }, [])
-
-  useImperativeHandle(ref, () => ({
-    open: (detail: IConnectionsItem, closed: boolean) => {
-      if (open) return
-      setOpen(true)
-      setDetail(detail)
-      setClosed(closed)
-    },
-    close: onClose,
-  }))
-
-  return (
-    <Snackbar
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      open={open}
-      onClose={onClose}
-      sx={{
-        '.MuiSnackbarContent-root': {
-          maxWidth: '520px',
-          maxHeight: '480px',
-          overflowY: 'auto',
-          backgroundColor: theme.palette.background.paper,
-          color: theme.palette.text.primary,
-        },
-      }}
-      message={
-        detail ? (
-          <InnerConnectionDetail
-            data={detail}
-            closed={closed}
-            onClose={onClose}
-          />
-        ) : null
-      }
-    />
-  )
-}
-
-interface InnerProps {
+interface Props {
   data: IConnectionsItem
   closed: boolean
-  onClose?: () => void
+  onClose: () => void
 }
 
-const InnerConnectionDetail = ({ data, closed, onClose }: InnerProps) => {
-  const { t } = useTranslation()
-  const { metadata, rulePayload } = data
-  const theme = useTheme()
-  const chains = [...data.chains].reverse().join(' / ')
-  const rule = rulePayload ? `${data.rule}(${rulePayload})` : data.rule
-  const hostAddress =
-    metadata.host || metadata.destinationIP || metadata.remoteDestination
-  const host = `${hostAddress}:${metadata.destinationPort}`
-  const Destination = metadata.destinationIP
-    ? metadata.destinationIP
-    : metadata.remoteDestination
+const formatProcess = (metadata: IConnectionsItem['metadata']) => {
+  if (metadata.process && metadata.processPath) {
+    return `${metadata.process}(${metadata.processPath})`
+  }
+  return metadata.process || metadata.processPath || ''
+}
 
-  const information = [
+export function ConnectionDetail({ data, closed, onClose }: Props) {
+  const { t } = useTranslation()
+  const { metadata } = data
+  const host = getConnectionHost(data)
+  const destination = metadata.destinationIP || metadata.remoteDestination || ''
+  const information: { label: string; value: ReactNode }[] = [
     { label: t('connections.components.fields.host'), value: host },
     {
       label: t('shared.labels.downloaded'),
@@ -92,75 +46,85 @@ const InnerConnectionDetail = ({ data, closed, onClose }: InnerProps) => {
     },
     {
       label: t('connections.components.fields.dlSpeed'),
-      value: parseTraffic(data.curDownload ?? -1).join(' ') + '/s',
+      value: `${parseTraffic(data.curDownload ?? -1).join(' ')}/s`,
     },
     {
       label: t('connections.components.fields.ulSpeed'),
-      value: parseTraffic(data.curUpload ?? -1).join(' ') + '/s',
+      value: `${parseTraffic(data.curUpload ?? -1).join(' ')}/s`,
     },
     {
       label: t('connections.components.fields.chains'),
-      value: chains,
+      value: formatConnectionChains(data.chains),
     },
-    { label: t('connections.components.fields.rule'), value: rule },
+    {
+      label: t('connections.components.fields.rule'),
+      value: getConnectionRule(data),
+    },
     {
       label: t('connections.components.fields.process'),
-      value: `${metadata.process}${metadata.processPath ? `(${metadata.processPath})` : ''}`,
+      value: formatProcess(metadata),
     },
     {
       label: t('connections.components.fields.time'),
-      value: dayjs(data.start).fromNow(),
+      value: <RelativeTime start={data.start} />,
     },
     {
       label: t('connections.components.fields.source'),
-      value: `${metadata.sourceIP}:${metadata.sourcePort}`,
+      value: getConnectionSource(data),
     },
     {
       label: t('connections.components.fields.destination'),
-      value: Destination,
+      value: destination,
     },
     {
       label: t('connections.components.fields.destinationPort'),
-      value: `${metadata.destinationPort}`,
+      value: metadata.destinationPort,
     },
     {
       label: t('connections.components.fields.type'),
-      value: `${metadata.type}(${metadata.network})`,
+      value: getConnectionTypeLabel(data),
     },
   ]
 
-  const onDelete = useLockFn(async () => closeConnection(data.id))
+  const onDelete = useLockFn(async () => {
+    await closeConnection(data.id)
+    onClose()
+  })
 
   return (
-    <Box sx={{ userSelect: 'text', color: theme.palette.text.secondary }}>
-      {information.map((each) => (
-        <div key={each.label}>
-          <b>{each.label}</b>
-          <span
-            style={{
-              wordBreak: 'break-all',
-              color: theme.palette.text.primary,
-            }}
-          >
-            : {each.value}
-          </span>
-        </div>
-      ))}
-
+    <div className="connection-inspector">
+      <header className="connection-inspector__header">
+        <div className="connection-inspector__title">{host}</div>
+        <IconButton
+          size="small"
+          onClick={onClose}
+          aria-label={t('shared.actions.hideDetails')}
+          title={t('shared.actions.hideDetails')}
+        >
+          <CloseRounded fontSize="small" />
+        </IconButton>
+      </header>
+      <div className="connection-inspector__fields">
+        {information.map((each) => (
+          <div key={each.label} className="connection-inspector__row">
+            <div className="connection-inspector__label">{each.label}</div>
+            <div className="connection-inspector__value">{each.value}</div>
+          </div>
+        ))}
+      </div>
       {!closed && (
-        <Box sx={{ textAlign: 'right' }}>
+        <div className="connection-inspector__action">
           <Button
+            size="small"
             variant="contained"
-            title={t('connections.components.actions.closeConnection')}
             onClick={() => {
-              onDelete()
-              onClose?.()
+              void onDelete()
             }}
           >
             {t('connections.components.actions.closeConnection')}
           </Button>
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
   )
 }
