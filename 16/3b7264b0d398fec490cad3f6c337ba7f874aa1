@@ -1,0 +1,44 @@
+src-tauri/tauri.macos.conf.json
+  s_87bbfb510943c1::t_619dc05cec44b4 4
+src-tauri/src/core/updater.rs
+  s_87bbfb510943c1::t_f01524bd2febb9 322
+src-tauri/src/utils/resolve/window.rs
+  s_87bbfb510943c1::t_896676a326702b 84
+src-tauri/src/core/tray/mod.rs
+  s_87bbfb510943c1::t_5e400552842db0 318
+src/index.html
+  s_87bbfb510943c1::t_d4ddcdb997de3b 11
+src-tauri/tauri.conf.json
+  s_87bbfb510943c1::t_64052bd0326161 6,16,20,30
+src-tauri/src/lib.rs
+  s_87bbfb510943c1::t_b7b8f0f4b3e3cf 356
+src-tauri/src/utils/startup.rs
+  s_87bbfb510943c1::t_7065ce892109d9 22,33
+  s_00fcfe79f36358::t_43e03b9d22e4d9 27
+.gitignore
+  s_87bbfb510943c1::t_b8be713ec13941 22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "development:1.6.23",
+  "base_commit_sha": "163b7264b0d398fec490cad3f6c337ba7f874aa1",
+  "prompts": {},
+  "sessions": {
+    "s_00fcfe79f36358": {
+      "agent_id": {
+        "tool": "grok",
+        "id": "01a051bb-23b3-79b0-a520-d828ee28ad6e",
+        "model": "grok-4.6"
+      },
+      "human_author": "张艳华 <939593210@qq.com>"
+    },
+    "s_87bbfb510943c1": {
+      "agent_id": {
+        "tool": "grok",
+        "id": "01a05150-1e69-7f01-a79f-757c3d42f2b2",
+        "model": "grok-4.6"
+      },
+      "human_author": "张艳华 <939593210@qq.com>"
+    }
+  }
+}
