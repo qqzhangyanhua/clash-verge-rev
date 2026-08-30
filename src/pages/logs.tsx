@@ -141,7 +141,7 @@ const LogPage = () => {
 
           <Button
             size="small"
-            variant="contained"
+            variant="text"
             onClick={() => {
               refreshGetClashLog(true)
             }}

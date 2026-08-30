@@ -279,7 +279,7 @@ const PersistentProxySelect = ({
       }}
     >
       <Box>
-        <FormControl ref={anchorRef} fullWidth variant="outlined" size="small">
+        <FormControl ref={anchorRef} fullWidth variant="standard" size="small">
           <InputLabel id={labelId}>{label}</InputLabel>
           <Select
             labelId={labelId}
@@ -887,10 +887,9 @@ export const CurrentProxyCard = () => {
             </IconButton>
           </Tooltip>
           <Button
-            variant="outlined"
+            variant="text"
             size="small"
             onClick={goToProxies}
-            sx={{ borderRadius: 1.5 }}
             endIcon={<ChevronRight fontSize="small" />}
           >
             {t('layout.components.navigation.tabs.proxies')}
@@ -972,7 +971,7 @@ export const CurrentProxyCard = () => {
           </Box>
           <FormControl
             fullWidth
-            variant="outlined"
+            variant="standard"
             size="small"
             sx={{ mb: 1.5 }}
           >

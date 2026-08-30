@@ -64,17 +64,21 @@ export const ProxyItem = (props: Props) => {
   )
 
   return (
-    <ListItem sx={sx}>
+    <ListItem disablePadding sx={sx}>
       <ListItemButton
         dense
         disabled={unresolved}
         selected={!unresolved && selected}
         onClick={unresolved ? undefined : () => onClick?.(member)}
         sx={[
-          { borderRadius: 1 },
-          ({ palette: { mode, primary } }) => {
-            const bgcolor = mode === 'light' ? '#ffffff' : '#24252f'
-            const selectColor = mode === 'light' ? primary.main : primary.light
+          {
+            borderRadius: 0,
+            minHeight: 36,
+            height: 36,
+            px: 1.25,
+            borderBottom: '1px solid var(--divider-color)',
+          },
+          ({ palette: { primary } }) => {
             const showDelay = delayValue > 0
 
             return {
@@ -82,17 +86,16 @@ export const ProxyItem = (props: Props) => {
               '&:hover .the-delay': { display: showDelay ? 'block' : 'none' },
               '&:hover .the-icon': { display: 'none' },
               '&.Mui-selected': {
-                width: `calc(100% + 3px)`,
-                marginLeft: `-3px`,
-                borderLeft: `3px solid ${selectColor}`,
-                bgcolor:
-                  mode === 'light'
-                    ? alpha(primary.main, 0.15)
-                    : alpha(primary.main, 0.35),
+                bgcolor: primary.main,
+                color: primary.contrastText,
               },
-              backgroundColor: bgcolor,
-              marginBottom: '8px',
-              height: '40px',
+              '&.Mui-selected:hover': {
+                bgcolor: primary.main,
+              },
+              '&.Mui-selected .MuiListItemText-secondary, &.Mui-selected .MuiListItemText-secondary *':
+                {
+                  color: primary.contrastText,
+                },
             }
           },
         ]}

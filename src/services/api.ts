@@ -142,6 +142,23 @@ const IP_CHECK_SERVICES: ServiceConfig[] = [
 export const getIpInfo = async (): Promise<
   IpInfo & { lastFetchTs: number }
 > => {
+  if (import.meta.env.VITE_WEB_PREVIEW === '1') {
+    return {
+      ip: '203.0.113.10',
+      country_code: 'JP',
+      country: 'Japan',
+      region: 'Tokyo',
+      city: 'Tokyo',
+      organization: 'Example Transit',
+      asn: 64500,
+      asn_organization: 'Example Transit',
+      longitude: 139.69,
+      latitude: 35.68,
+      timezone: 'Asia/Tokyo',
+      lastFetchTs: Date.now(),
+    }
+  }
+
   // 配置参数
   const maxRetries = 2
   const serviceTimeout = 5000

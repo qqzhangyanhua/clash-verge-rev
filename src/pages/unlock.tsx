@@ -228,7 +228,7 @@ const UnlockPage = () => {
       header={
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Button
-            variant="contained"
+            variant="text"
             size="small"
             disabled={
               unlockItems.length === 0 ||

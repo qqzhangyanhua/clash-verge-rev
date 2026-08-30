@@ -713,7 +713,6 @@ const ProfilePage = () => {
 
   return (
     <BasePage
-      full
       title={t('profiles.page.title')}
       contentStyle={{ height: '100%' }}
       header={
@@ -879,17 +878,15 @@ const ProfilePage = () => {
         <Button
           disabled={!url || disabled}
           loading={loading}
-          variant="contained"
+          variant="text"
           size="small"
-          sx={{ borderRadius: '6px' }}
           onClick={onImport}
         >
           {t('profiles.page.actions.import')}
         </Button>
         <Button
-          variant="contained"
+          variant="text"
           size="small"
-          sx={{ borderRadius: '6px' }}
           onClick={() => viewerRef.current?.create()}
         >
           {t('shared.actions.new')}
@@ -910,13 +907,12 @@ const ProfilePage = () => {
           onDragEnd={onDragEnd}
         >
           <Box
+            className="profile-list"
             sx={{
               mb: 1.5,
-              display: 'grid',
+              display: 'flex',
+              flexDirection: 'column',
               overflow: 'hidden',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-              gap: 1,
-              px: 0.5,
             }}
           >
             {profileItems.map((item, index) => (

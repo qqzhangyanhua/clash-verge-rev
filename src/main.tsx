@@ -1,3 +1,4 @@
+import './preview/install-web-preview'
 import './assets/styles/index.scss'
 
 import { ResizeObserver } from '@juggle/resize-observer'
@@ -65,6 +66,11 @@ const initializeApp = (initialThemeMode: 'light' | 'dark') => {
 }
 
 const bootstrap = async () => {
+  if (import.meta.env.VITE_WEB_PREVIEW === '1') {
+    const { installWebPreview } = await import('./preview/install-web-preview')
+    installWebPreview()
+  }
+
   const appDataPromise = preloadAppData()
 
   const { initialThemeMode } = await appDataPromise
