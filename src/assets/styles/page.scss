@@ -11,7 +11,7 @@
     overflow-x: hidden;
     box-sizing: border-box;
     border-right: 1px solid var(--divider-color);
-    background-color: var(--content-color);
+    background-color: var(--background-color);
   }
 
   &__nodes {
@@ -116,21 +116,192 @@
   }
 }
 
+.inset-group {
+  overflow: hidden;
+  border: 1px solid var(--divider-color);
+  border-radius: var(--border-radius);
+  background-color: var(--content-color);
+}
+
+.inset-group-block {
+  margin-bottom: 16px;
+
+  &__title {
+    padding: 0 4px 6px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text-secondary);
+  }
+
+  &__list {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--divider-color);
+    border-radius: var(--border-radius);
+    background-color: var(--content-color);
+
+    .MuiListItem-root,
+    .MuiListItemButton-root {
+      border-bottom: 1px solid var(--divider-color);
+    }
+
+    > .MuiListItem-root:last-child,
+    > .MuiListItemButton-root:last-child {
+      border-bottom: 0;
+    }
+  }
+}
+
+.segmented-control {
+  padding: 2px;
+  border-radius: 7px;
+  background-color: var(--segment-track);
+
+  .MuiToggleButtonGroup-grouped {
+    border: 0 !important;
+    margin: 0 !important;
+  }
+
+  .MuiToggleButton-root {
+    padding: 2px 10px;
+    border-radius: 5px !important;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    text-transform: none;
+    color: var(--text-primary);
+    background-color: transparent !important;
+
+    &.Mui-selected {
+      background-color: var(--content-color) !important;
+      color: var(--text-primary) !important;
+      box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+    }
+
+    &:hover {
+      background-color: transparent !important;
+    }
+
+    &.Mui-selected:hover {
+      background-color: var(--content-color) !important;
+    }
+  }
+}
+
+.unlock-list {
+  overflow: hidden;
+  border: 1px solid var(--divider-color);
+  border-radius: var(--border-radius);
+  background-color: var(--content-color);
+}
+
+.unlock-result-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--divider-color);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &__name {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    flex: 0 1 auto;
+  }
+
+  &__time {
+    font-size: 11px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+}
+
 .home-console {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 
   &__row {
     display: flex;
     align-items: center;
     gap: 12px;
-    min-height: 44px;
+    min-height: 40px;
     padding: 8px 12px;
     box-sizing: border-box;
     border: 1px solid var(--divider-color);
     border-radius: var(--border-radius);
     background-color: var(--content-color);
+  }
+}
+
+.home-profile-rows {
+  display: flex;
+  flex-direction: column;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 32px;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--divider-color);
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  &__label {
+    flex: 0 0 auto;
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  &__value {
+    min-width: 0;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: right;
+  }
+}
+
+.profile-list {
+  overflow: hidden;
+  border: 1px solid var(--divider-color);
+  border-radius: var(--border-radius);
+  background-color: var(--content-color);
+
+  > * {
+    border-radius: 0 !important;
+  }
+
+  [aria-selected] {
+    border: 0 !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid var(--divider-color) !important;
+  }
+
+  > *:last-child [aria-selected] {
+    border-bottom: 0 !important;
   }
 }
 

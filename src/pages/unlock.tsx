@@ -6,26 +6,19 @@ import {
   PendingOutlined,
   RefreshRounded,
 } from '@mui/icons-material'
-import {
-  Box,
-  Button,
-  Card,
-  Chip,
-  CircularProgress,
-  Divider,
-  Grid,
-  Tooltip,
-  Typography,
-  alpha,
-  useTheme,
-} from '@mui/material'
+import { Box, Button, CircularProgress } from '@mui/material'
 import { Channel, invoke } from '@tauri-apps/api/core'
 import { useLockFn } from 'ahooks'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { BaseEmpty, BasePage } from '@/components/base'
+import {
+  UnlockResultRow,
+  type UnlockStatusColor,
+} from '@/components/test/unlock-result-row'
 import { showNotice } from '@/services/notice-service'
+import type { TranslationKey } from '@/types/generated/i18n-keys'
 
 interface UnlockItem {
   name: string
@@ -36,7 +29,7 @@ interface UnlockItem {
 
 const UNLOCK_RESULTS_STORAGE_KEY = 'clash_verge_unlock_results'
 
-const STATUS_LABEL_KEYS: Record<string, string> = {
+const STATUS_LABEL_KEYS: Record<string, TranslationKey> = {
   Pending: 'tests.statuses.test.pending',
   Yes: 'tests.statuses.test.yes',
   No: 'tests.statuses.test.no',
@@ -49,7 +42,16 @@ const STATUS_LABEL_KEYS: Record<string, string> = {
   'Failed (Network Connection)': 'tests.statuses.test.failedNetwork',
 }
 
-const normalizeUnlockName = (name: string) => name.trim().toLowerCase()
+const normalizeUnlockName = (name: string | undefined) =>
+  (name ?? '').trim().toLowerCase()
+
+const getStatusLabel = (
+  status: string,
+  translate: (key: TranslationKey) => string,
+) => {
+  const key = STATUS_LABEL_KEYS[status]
+  return key ? translate(key) : status
+}
 
 const getStatusPriority = (status: string) => (status === 'Pending' ? 0 : 1)
 const mergeOptionalFields = (preferred: UnlockItem, fallback: UnlockItem) => ({
@@ -91,8 +93,6 @@ const dedupeUnlockItems = (items: UnlockItem[]) => {
 
 const UnlockPage = () => {
   const { t } = useTranslation()
-  const theme = useTheme()
-
   const [unlockItems, setUnlockItems] = useState<UnlockItem[]>([])
   const unlockItemsRef = useRef<UnlockItem[]>([])
   const [isCheckingAll, setIsCheckingAll] = useState(false)
@@ -197,7 +197,7 @@ const UnlockPage = () => {
   }
 
   // 状态颜色
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: string): UnlockStatusColor => {
     if (status === 'Pending') return 'default'
     if (status === 'Yes') return 'success'
     if (status === 'No') return 'error'
@@ -223,25 +223,13 @@ const UnlockPage = () => {
     return <HelpOutlined />
   }
 
-  // 边框色
-  const getStatusBorderColor = (status: string) => {
-    if (status === 'Yes') return theme.palette.success.main
-    if (status === 'No') return theme.palette.error.main
-    if (status === 'Soon') return theme.palette.warning.main
-    if (status.includes('Failed')) return theme.palette.error.main
-    if (status === 'Completed') return theme.palette.info.main
-    return theme.palette.divider
-  }
-
-  const isDark = theme.palette.mode === 'dark'
-
   return (
     <BasePage
       title={t('tests.unlock.page.title')}
       header={
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Button
-            variant="contained"
+            variant="text"
             size="small"
             disabled={
               unlockItems.length === 0 ||
@@ -276,133 +264,20 @@ const UnlockPage = () => {
           <BaseEmpty textKey="tests.unlock.page.empty" />
         </Box>
       ) : (
-        <Grid container spacing={1.5} columns={{ xs: 1, sm: 2, md: 3 }}>
+        <Box className="unlock-list">
           {unlockItems.map((item) => (
-            <Grid size={1} key={item.name}>
-              <Card
-                variant="outlined"
-                sx={{
-                  height: '100%',
-                  borderRadius: 2,
-                  borderLeft: `4px solid ${getStatusBorderColor(item.status)}`,
-                  backgroundColor: isDark ? '#282a36' : '#ffffff',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  '&:hover': {
-                    backgroundColor: isDark
-                      ? alpha(theme.palette.primary.dark, 0.05)
-                      : alpha(theme.palette.primary.light, 0.05),
-                  },
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                <Box sx={{ p: 1.3, flex: 1 }}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Typography
-                      variant="subtitle1"
-                      sx={{
-                        fontWeight: 600,
-                        fontSize: '1rem',
-                        color: 'text.primary',
-                      }}
-                    >
-                      {item.name}
-                    </Typography>
-                    <Tooltip title={t('tests.components.item.actions.test')}>
-                      <span>
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          color="primary"
-                          disabled={
-                            loadingItems.includes(item.name) || isCheckingAll
-                          }
-                          sx={{
-                            minWidth: '32px',
-                            width: '32px',
-                            height: '32px',
-                            borderRadius: '50%',
-                          }}
-                          onClick={() => checkSingleMedia(item.name)}
-                        >
-                          <RefreshRounded
-                            sx={{
-                              animation: loadingItems.includes(item.name)
-                                ? 'spin 1s linear infinite'
-                                : 'none',
-                              '@keyframes spin': {
-                                '0%': { transform: 'rotate(0deg)' },
-                                '100%': { transform: 'rotate(360deg)' },
-                              },
-                            }}
-                          />
-                        </Button>
-                      </span>
-                    </Tooltip>
-                  </Box>
-
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      flexWrap: 'wrap',
-                      gap: 1,
-                    }}
-                  >
-                    <Chip
-                      label={t(STATUS_LABEL_KEYS[item.status] ?? item.status)}
-                      color={getStatusColor(item.status)}
-                      size="small"
-                      icon={getStatusIcon(item.status)}
-                      sx={{
-                        fontWeight:
-                          item.status === 'Pending' ? 'normal' : 'bold',
-                      }}
-                    />
-
-                    {item.region && (
-                      <Chip
-                        label={item.region}
-                        size="small"
-                        variant="outlined"
-                        color="info"
-                      />
-                    )}
-                  </Box>
-                </Box>
-
-                <Divider
-                  sx={{
-                    borderStyle: 'dashed',
-                    borderColor: alpha(theme.palette.divider, 0.2),
-                    mx: 1,
-                  }}
-                />
-
-                <Box sx={{ px: 1.5, py: 0.2 }}>
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      display: 'block',
-                      color: 'text.secondary',
-                      fontSize: '0.7rem',
-                      textAlign: 'right',
-                    }}
-                  >
-                    {item.check_time || '-- --'}
-                  </Typography>
-                </Box>
-              </Card>
-            </Grid>
+            <UnlockResultRow
+              key={item.name}
+              item={item}
+              loading={loadingItems.includes(item.name)}
+              disabled={loadingItems.includes(item.name) || isCheckingAll}
+              statusLabel={getStatusLabel(item.status, t)}
+              statusColor={getStatusColor(item.status)}
+              statusIcon={getStatusIcon(item.status)}
+              onTest={checkSingleMedia}
+            />
           ))}
-        </Grid>
+        </Box>
       )}
     </BasePage>
   )

@@ -1,5 +1,4 @@
 import { Box, ListItemButton, ListItemText } from '@mui/material'
-import { alpha } from '@mui/material/styles'
 import { throttle } from 'lodash-es'
 import {
   useCallback,
@@ -224,22 +223,29 @@ export const ProxySplitGroups = ({ mode }: Props) => {
               onClick={() => handleSelectGroup(group.name)}
               sx={[
                 {
-                  minHeight: 44,
+                  minHeight: 36,
                   py: 0.75,
                   px: 1.25,
                   alignItems: 'flex-start',
                   borderRadius: 0,
+                  borderBottom: '1px solid var(--divider-color)',
                 },
-                ({ palette: { mode: paletteMode, primary } }) => {
-                  const bgcolor =
-                    paletteMode === 'light'
-                      ? alpha(primary.main, 0.14)
-                      : alpha(primary.main, 0.28)
-                  return {
-                    '&.Mui-selected': { bgcolor },
-                    '&.Mui-selected:hover': { bgcolor },
-                  }
-                },
+                ({ palette: { primary } }) => ({
+                  '&.Mui-selected': {
+                    bgcolor: primary.main,
+                    color: primary.contrastText,
+                  },
+                  '&.Mui-selected:hover': {
+                    bgcolor: primary.main,
+                  },
+                  '&.Mui-selected .MuiListItemText-primary': {
+                    color: primary.contrastText,
+                  },
+                  '&.Mui-selected .MuiListItemText-secondary': {
+                    color: primary.contrastText,
+                    opacity: 0.8,
+                  },
+                }),
               ]}
             >
               <ListItemText
@@ -275,8 +281,8 @@ export const ProxySplitGroups = ({ mode }: Props) => {
           items={renderList}
           isGroupItem={(item) => item.type === 1}
           getItemKey={(item) => item.key}
-          estimateGroupItemHeight={40}
-          estimateItemHeight={48}
+          estimateGroupItemHeight={36}
+          estimateItemHeight={36}
           renderGroupItem={renderHead}
           renderItem={renderNode}
         />

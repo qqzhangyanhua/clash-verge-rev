@@ -1,26 +1,12 @@
 import {
   CloudUploadOutlined,
-  DnsOutlined,
-  EventOutlined,
   LaunchOutlined,
-  SpeedOutlined,
   StorageOutlined,
-  UpdateOutlined,
 } from '@mui/icons-material'
-import {
-  Box,
-  Button,
-  LinearProgress,
-  Link,
-  Stack,
-  Typography,
-  alpha,
-  keyframes,
-  useTheme,
-} from '@mui/material'
+import { Box, Button, LinearProgress, Link, Typography } from '@mui/material'
 import { useLockFn } from 'ahooks'
 import dayjs from 'dayjs'
-import { useCallback, useMemo, useState } from 'react'
+import { type ReactNode, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -32,13 +18,6 @@ import parseTraffic from '@/utils/parse-traffic'
 
 import { EnhancedCard } from './enhanced-card'
 
-// 定义旋转动画
-const round = keyframes`
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-`
-
-// 辅助函数解析URL和过期时间
 const parseUrl = (url?: string) => {
   if (!url) return '-'
   if (url.startsWith('http')) return new URL(url).host
@@ -54,44 +33,33 @@ const openProfileHome = (url: string) => {
   void openExternalUrl(url).catch(showNotice.error)
 }
 
-// 使用类型定义，而不是导入
-interface ProfileExtra {
-  upload: number
-  download: number
-  total: number
-  expire: number
-}
+const ProfileDetailRow = ({
+  label,
+  children,
+  onClick,
+}: {
+  label: string
+  children: ReactNode
+  onClick?: () => void
+}) => (
+  <Box
+    className="home-profile-rows__row"
+    onClick={onClick}
+    sx={onClick ? { cursor: 'pointer' } : undefined}
+  >
+    <Typography className="home-profile-rows__label">{label}</Typography>
+    <Box className="home-profile-rows__value">{children}</Box>
+  </Box>
+)
 
-interface ProfileItem {
-  uid: string
-  type?: 'local' | 'remote' | 'merge' | 'script'
-  name?: string
-  desc?: string
-  file?: string
-  url?: string
-  updated?: number
-  extra?: ProfileExtra
-  home?: string
-  option?: any
-}
-
-interface HomeProfileCardProps {
-  current: ProfileItem | null | undefined
-  onProfileUpdated?: () => void
-}
-
-// 提取独立组件减少主组件复杂度
 const ProfileDetails = ({
   current,
   onUpdateProfile,
-  updating,
 }: {
-  current: ProfileItem
+  current: IProfileItem
   onUpdateProfile: () => void
-  updating: boolean
 }) => {
   const { t } = useTranslation()
-  const theme = useTheme()
 
   const usedTraffic = useMemo(() => {
     if (!current.extra) return 0
@@ -99,157 +67,75 @@ const ProfileDetails = ({
   }, [current.extra])
 
   const trafficPercentage = useMemo(() => {
-    if (!current.extra || !current.extra.total || current.extra.total <= 0)
+    if (!current.extra || !current.extra.total || current.extra.total <= 0) {
       return 0
+    }
     return Math.min(Math.round((usedTraffic / current.extra.total) * 100), 100)
   }, [current.extra, usedTraffic])
 
   return (
-    <Box>
-      <Stack spacing={2}>
-        {current.url && (
-          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-            <DnsOutlined fontSize="small" color="action" />
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              noWrap
-              sx={{ display: 'flex', alignItems: 'center' }}
-            >
-              <span style={{ flexShrink: 0 }}>{t('shared.labels.from')}: </span>
-              {current.home ? (
-                <Link
-                  component="button"
-                  onClick={() => current.home && openProfileHome(current.home)}
-                  sx={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    minWidth: 0,
-                    maxWidth: 'calc(100% - 40px)',
-                    ml: 0.5,
-                    fontWeight: 'medium',
-                  }}
-                  title={parseUrl(current.url)}
-                >
-                  <Typography
-                    component="span"
-                    sx={{
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      minWidth: 0,
-                      flex: 1,
-                    }}
-                  >
-                    {parseUrl(current.url)}
-                  </Typography>
-                  <LaunchOutlined
-                    fontSize="inherit"
-                    sx={{
-                      ml: 0.5,
-                      fontSize: '0.8rem',
-                      opacity: 0.7,
-                      flexShrink: 0,
-                    }}
-                  />
-                </Link>
-              ) : (
-                <Typography
-                  component="span"
-                  sx={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    minWidth: 0,
-                    flex: 1,
-                    ml: 0.5,
-                    fontWeight: 'medium',
-                  }}
-                  title={parseUrl(current.url)}
-                >
-                  {parseUrl(current.url)}
-                </Typography>
-              )}
-            </Typography>
-          </Stack>
-        )}
-
-        {current.updated && (
-          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-            <UpdateOutlined
-              fontSize="small"
-              color="action"
+    <Box className="home-profile-rows">
+      {current.url && (
+        <ProfileDetailRow label={t('shared.labels.from')}>
+          {current.home ? (
+            <Link
+              component="button"
+              onClick={() => current.home && openProfileHome(current.home)}
               sx={{
-                cursor: 'pointer',
-                animation: updating ? `${round} 1.5s linear infinite` : 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                maxWidth: '100%',
+                fontWeight: 500,
               }}
-              onClick={onUpdateProfile}
-            />
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ cursor: 'pointer' }}
-              onClick={onUpdateProfile}
+              title={parseUrl(current.url)}
             >
-              {t('shared.labels.updateTime')}:{' '}
-              <Box component="span" sx={{ fontWeight: 'medium' }}>
-                {dayjs(current.updated * 1000).format('YYYY-MM-DD HH:mm')}
-              </Box>
+              <Typography component="span" noWrap>
+                {parseUrl(current.url)}
+              </Typography>
+              <LaunchOutlined sx={{ ml: 0.5, fontSize: '0.8rem' }} />
+            </Link>
+          ) : (
+            <Typography component="span" noWrap title={parseUrl(current.url)}>
+              {parseUrl(current.url)}
             </Typography>
-          </Stack>
-        )}
+          )}
+        </ProfileDetailRow>
+      )}
 
-        {current.extra && (
-          <>
-            <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-              <SpeedOutlined fontSize="small" color="action" />
-              <Typography variant="body2" color="text.secondary">
-                {t('shared.labels.usedTotal')}:{' '}
-                <Box component="span" sx={{ fontWeight: 'medium' }}>
-                  {parseTraffic(usedTraffic)} /{' '}
-                  {parseTraffic(current.extra.total)}
-                </Box>
-              </Typography>
-            </Stack>
+      {current.updated && (
+        <ProfileDetailRow
+          label={t('shared.labels.updateTime')}
+          onClick={onUpdateProfile}
+        >
+          {dayjs(current.updated * 1000).format('YYYY-MM-DD HH:mm')}
+        </ProfileDetailRow>
+      )}
 
-            {current.extra.expire > 0 && (
-              <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                <EventOutlined fontSize="small" color="action" />
-                <Typography variant="body2" color="text.secondary">
-                  {t('shared.labels.expireTime')}:{' '}
-                  <Box component="span" sx={{ fontWeight: 'medium' }}>
-                    {parseExpire(current.extra.expire)}
-                  </Box>
-                </Typography>
-              </Stack>
-            )}
+      {current.extra && (
+        <>
+          <ProfileDetailRow label={t('shared.labels.usedTotal')}>
+            {parseTraffic(usedTraffic)} / {parseTraffic(current.extra.total)}
+          </ProfileDetailRow>
 
-            <Box sx={{ mt: 1 }}>
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{ mb: 0.5, display: 'block' }}
-              >
-                {trafficPercentage}%
-              </Typography>
-              <LinearProgress
-                variant="determinate"
-                value={trafficPercentage}
-                sx={{
-                  height: 8,
-                  borderRadius: 4,
-                  backgroundColor: alpha(theme.palette.primary.main, 0.12),
-                }}
-              />
-            </Box>
-          </>
-        )}
-      </Stack>
+          {current.extra.expire > 0 && (
+            <ProfileDetailRow label={t('shared.labels.expireTime')}>
+              {parseExpire(current.extra.expire)}
+            </ProfileDetailRow>
+          )}
+
+          <Box sx={{ pt: 1 }}>
+            <LinearProgress
+              variant="determinate"
+              value={trafficPercentage}
+              sx={{ height: 3, borderRadius: 1 }}
+            />
+          </Box>
+        </>
+      )}
     </Box>
   )
 }
 
-// 提取空配置组件
 const EmptyProfile = ({ onClick }: { onClick: () => void }) => {
   const { t } = useTranslation()
 
@@ -260,24 +146,26 @@ const EmptyProfile = ({ onClick }: { onClick: () => void }) => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        py: 2.4,
+        py: 2,
         cursor: 'pointer',
         '&:hover': { bgcolor: 'action.hover' },
-        borderRadius: 2,
+        borderRadius: 1,
       }}
       onClick={onClick}
     >
       <CloudUploadOutlined
-        sx={{ fontSize: 60, color: 'primary.main', mb: 2 }}
+        sx={{ fontSize: 28, color: 'text.secondary', mb: 1 }}
       />
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="body2">
         {t('profiles.page.actions.import')} {t('profiles.page.title')}
-      </Typography>
-      <Typography variant="body2" color="text.secondary">
-        {t('profiles.components.card.labels.clickToImport')}
       </Typography>
     </Box>
   )
+}
+
+interface HomeProfileCardProps {
+  current: IProfileItem | null | undefined
+  onProfileUpdated?: () => void
 }
 
 export const HomeProfileCard = ({
@@ -287,19 +175,15 @@ export const HomeProfileCard = ({
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { refreshAll } = useAppRefreshers()
-
-  // 更新当前订阅
   const [updating, setUpdating] = useState(false)
 
   const onUpdateProfile = useLockFn(async () => {
-    if (!current?.uid) return
+    if (!current?.uid || updating) return
 
     setUpdating(true)
     try {
       await updateProfile(current.uid, current.option)
       onProfileUpdated?.()
-
-      // 刷新首页数据
       refreshAll()
     } catch (err) {
       showNotice.error(err, 3000)
@@ -308,21 +192,18 @@ export const HomeProfileCard = ({
     }
   })
 
-  // 导航到订阅页面
   const goToProfiles = useCallback(() => {
     navigate('/profile')
   }, [navigate])
 
-  // 卡片标题
   const cardTitle = useMemo(() => {
     if (!current) return t('profiles.page.title')
-
     if (!current.home) return current.name
 
     return (
       <Link
         component="button"
-        variant="h6"
+        variant="body2"
         onClick={() => current.home && openProfileHome(current.home)}
         sx={{
           color: 'inherit',
@@ -331,42 +212,29 @@ export const HomeProfileCard = ({
           alignItems: 'center',
           minWidth: 0,
           maxWidth: '100%',
-          fontWeight: 'medium',
-          fontSize: 18,
-          '& > span': {
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            flex: 1,
-          },
+          fontWeight: 600,
+          fontSize: 13,
         }}
         title={current.name}
       >
         <span>{current.name}</span>
         <LaunchOutlined
           fontSize="inherit"
-          sx={{
-            ml: 0.5,
-            fontSize: '0.8rem',
-            opacity: 0.7,
-            flexShrink: 0,
-          }}
+          sx={{ ml: 0.5, fontSize: '0.8rem', opacity: 0.7, flexShrink: 0 }}
         />
       </Link>
     )
   }, [current, t])
 
-  // 卡片操作按钮
   const cardAction = useMemo(() => {
     if (!current) return null
 
     return (
       <Button
-        variant="outlined"
+        variant="text"
         size="small"
         onClick={goToProfiles}
         endIcon={<StorageOutlined fontSize="small" />}
-        sx={{ borderRadius: 1.5 }}
       >
         {t('layout.components.navigation.tabs.profiles')}
       </Button>
@@ -381,11 +249,7 @@ export const HomeProfileCard = ({
       action={cardAction}
     >
       {current ? (
-        <ProfileDetails
-          current={current}
-          onUpdateProfile={onUpdateProfile}
-          updating={updating}
-        />
+        <ProfileDetails current={current} onUpdateProfile={onUpdateProfile} />
       ) : (
         <EmptyProfile onClick={goToProfiles} />
       )}

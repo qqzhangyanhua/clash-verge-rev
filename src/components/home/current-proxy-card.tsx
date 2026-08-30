@@ -29,8 +29,6 @@ import {
   type SelectChangeEvent,
   Tooltip,
   Typography,
-  alpha,
-  useTheme,
 } from '@mui/material'
 import { useLockFn } from 'ahooks'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -281,7 +279,7 @@ const PersistentProxySelect = ({
       }}
     >
       <Box>
-        <FormControl ref={anchorRef} fullWidth variant="outlined" size="small">
+        <FormControl ref={anchorRef} fullWidth variant="standard" size="small">
           <InputLabel id={labelId}>{label}</InputLabel>
           <Select
             labelId={labelId}
@@ -416,7 +414,6 @@ const PersistentProxySelect = ({
 export const CurrentProxyCard = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const theme = useTheme()
   const { proxyView } = useProxiesData()
   const { clashConfig } = useClashConfigData()
   const { refreshProxy } = useAppRefreshers()
@@ -890,10 +887,9 @@ export const CurrentProxyCard = () => {
             </IconButton>
           </Tooltip>
           <Button
-            variant="outlined"
+            variant="text"
             size="small"
             onClick={goToProxies}
-            sx={{ borderRadius: 1.5 }}
             endIcon={<ChevronRight fontSize="small" />}
           >
             {t('layout.components.navigation.tabs.proxies')}
@@ -910,11 +906,9 @@ export const CurrentProxyCard = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              p: 1,
-              mb: 2,
-              borderRadius: 1,
-              bgcolor: alpha(theme.palette.primary.main, 0.05),
-              border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+              pb: 1.25,
+              mb: 1.5,
+              borderBottom: '1px solid var(--divider-color)',
             }}
           >
             <Box>
@@ -977,7 +971,7 @@ export const CurrentProxyCard = () => {
           </Box>
           <FormControl
             fullWidth
-            variant="outlined"
+            variant="standard"
             size="small"
             sx={{ mb: 1.5 }}
           >

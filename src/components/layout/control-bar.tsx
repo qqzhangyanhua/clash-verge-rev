@@ -9,7 +9,7 @@ import {
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { DialogRef } from '@/components/base'
+import type { DialogRef } from '@/components/base'
 import { SysproxyViewer } from '@/components/setting/mods/sysproxy-viewer'
 import { TunViewer } from '@/components/setting/mods/tun-viewer'
 import {
@@ -99,26 +99,14 @@ export const ControlBar = () => {
       <ToggleButtonGroup
         exclusive
         size="small"
+        className="segmented-control"
         value={currentMode ?? ''}
         onChange={(_event, value: string | null) => {
           if (value && isClashMode(value)) {
             void onChangeMode(value)
           }
         }}
-        sx={{
-          flexShrink: 0,
-          '& .MuiToggleButtonGroup-grouped': {
-            borderColor: 'divider',
-          },
-          '& .MuiToggleButton-root': {
-            px: 1.25,
-            py: 0.25,
-            fontSize: 12,
-            lineHeight: 1.4,
-            textTransform: 'none',
-            fontWeight: 500,
-          },
-        }}
+        sx={{ flexShrink: 0 }}
       >
         {CLASH_MODES.map((mode) => (
           <ToggleButton key={mode} value={mode} disableRipple>

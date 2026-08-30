@@ -79,21 +79,6 @@ const orderFunctionMap = ORDER_OPTIONS.reduce<Record<OrderKey, OrderFunc>>(
 
 const EMPTY_CONNECTIONS: IConnectionsItem[] = []
 
-const segmentedSx = {
-  flexShrink: 0,
-  '& .MuiToggleButtonGroup-grouped': {
-    borderColor: 'divider',
-  },
-  '& .MuiToggleButton-root': {
-    px: 1.25,
-    py: 0.25,
-    fontSize: 12,
-    lineHeight: 1.4,
-    textTransform: 'none',
-    fontWeight: 500,
-  },
-} as const
-
 const ConnectionsPage = () => {
   const { t } = useTranslation()
   const pageVisible = useVisibility()
@@ -217,7 +202,7 @@ const ConnectionsPage = () => {
               <TableChartRounded titleAccess={t('shared.actions.tableView')} />
             )}
           </IconButton>
-          <Button size="small" variant="contained" onClick={onCloseAll}>
+          <Button size="small" variant="text" onClick={onCloseAll}>
             <span style={{ whiteSpace: 'nowrap' }}>
               {t('shared.actions.closeAll')}
             </span>
@@ -243,11 +228,12 @@ const ConnectionsPage = () => {
         <ToggleButtonGroup
           exclusive
           size="small"
+          className="segmented-control"
           value={connectionsType}
           onChange={(_event, value: ConnectionsType | null) => {
             if (value) selectConnectionsType(value)
           }}
-          sx={{ ...segmentedSx, mr: 1 }}
+          sx={{ flexShrink: 0, mr: 1 }}
         >
           <ToggleButton value="active" disableRipple>
             {t('connections.components.actions.active')}{' '}

@@ -5,32 +5,29 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
-  ListSubheader,
 } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
-import React, { ReactNode, useState } from 'react'
-
-import isAsyncFunction from '@/utils/is-async-function'
+import { type ReactNode, useState } from 'react'
 
 interface ItemProps {
   label: ReactNode
   extra?: ReactNode
   children?: ReactNode
   secondary?: ReactNode
-  onClick?: () => void | Promise<any>
+  onClick?: () => Promise<unknown> | void
 }
 
-export const SettingItem: React.FC<ItemProps> = ({
+export const SettingItem = ({
   label,
   extra,
   children,
   secondary,
   onClick,
-}) => {
+}: ItemProps) => {
   const clickable = !!onClick
 
   const primary = (
-    <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '14px' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', fontSize: 13 }}>
       <span>{label}</span>
       {extra ? extra : null}
     </Box>
@@ -38,54 +35,48 @@ export const SettingItem: React.FC<ItemProps> = ({
 
   const [isLoading, setIsLoading] = useState(false)
   const handleClick = () => {
-    if (onClick) {
-      if (isAsyncFunction(onClick)) {
-        setIsLoading(true)
-        onClick()!.finally(() => setIsLoading(false))
-      } else {
-        onClick()
-      }
+    if (!onClick) return
+    const result = onClick()
+    if (result) {
+      setIsLoading(true)
+      void result.finally(() => setIsLoading(false))
     }
   }
 
   return clickable ? (
     <ListItem disablePadding>
-      <ListItemButton onClick={handleClick} disabled={isLoading}>
+      <ListItemButton
+        onClick={handleClick}
+        disabled={isLoading}
+        sx={{ py: 0.75 }}
+      >
         <ListItemText primary={primary} secondary={secondary} />
         {isLoading ? (
-          <CircularProgress color="inherit" size={20} />
+          <CircularProgress color="inherit" size={16} />
         ) : (
-          <ChevronRightRounded />
+          <ChevronRightRounded fontSize="small" />
         )}
       </ListItemButton>
     </ListItem>
   ) : (
-    <ListItem sx={{ pt: '5px', pb: '5px' }}>
+    <ListItem sx={{ py: 0.75 }}>
       <ListItemText primary={primary} secondary={secondary} />
       {children}
     </ListItem>
   )
 }
 
-export const SettingList: React.FC<{
+export const SettingList = ({
+  title,
+  children,
+}: {
   title: string
   children: ReactNode
-}> = ({ title, children }) => (
-  <List>
-    <ListSubheader
-      sx={[
-        { background: 'transparent', fontSize: '16px', fontWeight: '700' },
-        ({ palette }) => {
-          return {
-            color: palette.text.primary,
-          }
-        },
-      ]}
-      disableSticky
-    >
-      {title}
-    </ListSubheader>
-
-    {children}
-  </List>
+}) => (
+  <Box className="inset-group-block">
+    <Box className="inset-group-block__title">{title}</Box>
+    <List className="inset-group-block__list" disablePadding dense>
+      {children}
+    </List>
+  </Box>
 )

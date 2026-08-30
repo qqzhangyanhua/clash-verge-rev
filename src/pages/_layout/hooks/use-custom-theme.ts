@@ -1,9 +1,14 @@
-import { alpha, createTheme, Theme as MuiTheme, Shadows } from '@mui/material'
+import {
+  alpha,
+  createTheme,
+  type Theme as MuiTheme,
+  type Shadows,
+} from '@mui/material'
 import {
   getCurrentWebviewWindow,
-  WebviewWindow,
+  type WebviewWindow,
 } from '@tauri-apps/api/webviewWindow'
-import { Theme as TauriOsTheme } from '@tauri-apps/api/window'
+import type { Theme as TauriOsTheme } from '@tauri-apps/api/window'
 import { useEffect, useMemo } from 'react'
 
 import { useVerge } from '@/hooks/use-verge'
@@ -213,7 +218,7 @@ export const useCustomTheme = () => {
       const selectColor = mode === 'light' ? '#f5f5f5' : '#3E3E3E'
       const scrollColor = mode === 'light' ? '#90939980' : '#555555'
       const dividerColor =
-        mode === 'light' ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.06)'
+        mode === 'light' ? 'rgba(60, 60, 67, 0.18)' : 'rgba(84, 84, 88, 0.42)'
       rootEle.style.setProperty('--divider-color', dividerColor)
       rootEle.style.setProperty('--background-color', backgroundColor)
       rootEle.style.setProperty('--sidebar-color', sidebarColor)
@@ -229,6 +234,10 @@ export const useCustomTheme = () => {
       rootEle.style.setProperty(
         '--background-color-alpha',
         alpha(muiTheme.palette.primary.main, 0.1),
+      )
+      rootEle.style.setProperty(
+        '--segment-track',
+        mode === 'light' ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.1)',
       )
       rootEle.style.setProperty(
         '--window-border-color',

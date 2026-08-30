@@ -137,7 +137,7 @@ const ProxyPage = () => {
 
           <Button
             size="small"
-            variant={isChainMode ? 'contained' : 'outlined'}
+            variant={isChainMode ? 'contained' : 'text'}
             onClick={onToggleChainMode}
             sx={{ ml: 1 }}
             startIcon={

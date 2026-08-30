@@ -46,7 +46,6 @@ export const ProxyRender = memo(function ProxyRender(props: RenderProps) {
   const { t } = useTranslation()
   const {
     item,
-    stickyed = false,
     onLocation,
     onCheckAll,
     onHeadState,
@@ -89,16 +88,11 @@ export const ProxyRender = memo(function ProxyRender(props: RenderProps) {
       <div style={{ padding: '4px 8px' }}>
         <ListItemButton
           dense
-          sx={{
-            boxShadow:
-              stickyed && headState?.open
-                ? '0 4px 8px rgba(0, 0, 0, 0.2) !important'
-                : undefined,
-          }}
           style={{
             background: itembackgroundcolor,
             height: '100%',
-            borderRadius: '8px',
+            borderRadius: 0,
+            borderBottom: '1px solid var(--divider-color)',
           }}
           onClick={() => {
             if (headState?.open) {

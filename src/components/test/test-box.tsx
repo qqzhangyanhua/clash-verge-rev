@@ -4,8 +4,7 @@ export const TestBox = styled(Box)(({ theme, 'aria-selected': selected }) => {
   const { mode, primary, text } = theme.palette
   const key = `${mode}-${!!selected}`
 
-  const backgroundColor =
-    mode === 'light' ? alpha(primary.main, 0.05) : alpha(primary.main, 0.08)
+  const backgroundColor = 'var(--content-color)'
 
   const color = {
     'light-true': text.secondary,
@@ -27,18 +26,19 @@ export const TestBox = styled(Box)(({ theme, 'aria-selected': selected }) => {
     display: 'block',
     cursor: 'pointer',
     textAlign: 'left',
-    borderRadius: 8,
-    boxShadow: theme.shadows[1],
-    padding: '8px 16px',
+    borderRadius: '6px',
+    border: '1px solid var(--divider-color)',
+    padding: '8px 12px',
     boxSizing: 'border-box',
     backgroundColor,
     color,
     '& h2': { color: h2color },
-    transition: 'background-color 0.3s, box-shadow 0.3s',
+    transition: 'background-color 0.2s',
     '&:hover': {
       backgroundColor:
-        mode === 'light' ? alpha(primary.main, 0.1) : alpha(primary.main, 0.15),
-      boxShadow: theme.shadows[2],
+        mode === 'light'
+          ? alpha(primary.main, 0.06)
+          : alpha(primary.main, 0.12),
     },
   }
 })
