@@ -42,7 +42,8 @@ const STATUS_LABEL_KEYS: Record<string, TranslationKey> = {
   'Failed (Network Connection)': 'tests.statuses.test.failedNetwork',
 }
 
-const normalizeUnlockName = (name: string) => name.trim().toLowerCase()
+const normalizeUnlockName = (name: string | undefined) =>
+  (name ?? '').trim().toLowerCase()
 
 const getStatusLabel = (
   status: string,

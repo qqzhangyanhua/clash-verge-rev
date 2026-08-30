@@ -206,6 +206,18 @@ export const handleWebPreviewInvoke = (
       return 'Clash ZYH'
     case 'plugin:app|version':
       return '2.5.4'
+    case 'plugin:updater|check':
+      return { available: false }
+    case 'exit_app':
+    case 'open_app_dir':
+    case 'open_core_dir':
+    case 'open_logs_dir':
+    case 'open_devtools':
+    case 'apply_dns_config':
+    case 'save_dns_config':
+    case 'export_diagnostic_info':
+    case 'read_profile_file':
+      return cmd === 'read_profile_file' ? 'mode: rule\n' : null
     case 'plugin:mihomo|get_version':
       return { version: '1.19.0', meta: true }
     case 'plugin:mihomo|get_base_config':

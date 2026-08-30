@@ -172,10 +172,20 @@
     line-height: 1.4;
     text-transform: none;
     color: var(--text-primary);
+    background-color: transparent !important;
 
     &.Mui-selected {
-      background-color: var(--content-color);
-      color: var(--text-primary);
+      background-color: var(--content-color) !important;
+      color: var(--text-primary) !important;
+      box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+    }
+
+    &:hover {
+      background-color: transparent !important;
+    }
+
+    &.Mui-selected:hover {
+      background-color: var(--content-color) !important;
     }
   }
 }
