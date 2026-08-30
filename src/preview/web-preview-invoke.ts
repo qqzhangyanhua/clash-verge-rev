@@ -228,6 +228,7 @@ export const handleWebPreviewInvoke = (
       return { providers: {} }
     case 'plugin:mihomo|get_connections':
       return previewConnections
+    case 'plugin:mihomo|select_node_for_group':
     case 'plugin:mihomo|close_all_connections':
     case 'plugin:mihomo|close_connection':
     case 'plugin:mihomo|ws_disconnect':

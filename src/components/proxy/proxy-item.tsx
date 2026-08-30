@@ -102,6 +102,10 @@ export const ProxyItem = (props: Props) => {
       >
         <ListItemText
           title={name}
+          slotProps={{
+            primary: { component: 'span' },
+            secondary: { component: 'span' },
+          }}
           secondary={
             <>
               <Box

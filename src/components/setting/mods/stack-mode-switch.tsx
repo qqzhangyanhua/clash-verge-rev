@@ -26,6 +26,11 @@ export const StackModeSwitch = (props: Props) => {
       onChange={(_event, next: string | null) => {
         if (next) onChange?.(next)
       }}
+      sx={{
+        p: '2px',
+        borderRadius: '7px',
+        bgcolor: 'var(--segment-track)',
+      }}
     >
       {STACK_MODES.map((mode) => (
         <ToggleButton key={mode} value={mode} disableRipple>

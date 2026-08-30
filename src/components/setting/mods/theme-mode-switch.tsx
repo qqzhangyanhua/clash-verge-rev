@@ -23,6 +23,11 @@ export const ThemeModeSwitch = (props: Props) => {
       onChange={(_event, next: ThemeValue | null) => {
         if (next) onChange?.(next)
       }}
+      sx={{
+        p: '2px',
+        borderRadius: '7px',
+        bgcolor: 'var(--segment-track)',
+      }}
     >
       {modes.map((mode) => (
         <ToggleButton key={mode} value={mode} disableRipple>
