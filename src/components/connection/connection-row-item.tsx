@@ -1,6 +1,5 @@
 import { CloseRounded } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
-import { alpha, useTheme } from '@mui/material/styles'
 import { useLockFn } from 'ahooks'
 import { memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -79,24 +78,19 @@ export const ConnectionRowItem = memo(
     onShowDetail,
   }: Props) {
     const { t } = useTranslation()
-    const theme = useTheme()
     const onDelete = useLockFn(async () => closeConnection(row.id))
     const handleShowDetail = useCallback(
       () => onShowDetail(row.id),
       [onShowDetail, row.id],
     )
     const showTraffic = row.uploadSpeed >= 100 || row.downloadSpeed >= 100
-    const selectedBackground = alpha(
-      theme.palette.primary.main,
-      theme.palette.mode === 'light' ? 0.14 : 0.28,
-    )
 
     return (
       <div
         aria-selected={selected}
         style={{
           ...itemStyle,
-          backgroundColor: selected ? selectedBackground : undefined,
+          backgroundColor: selected ? 'var(--selected-row)' : undefined,
         }}
       >
         <div style={contentStyle} onClick={handleShowDetail}>

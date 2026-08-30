@@ -1,4 +1,4 @@
-import { alpha, useTheme } from '@mui/material/styles'
+import { useTheme } from '@mui/material/styles'
 import { useLocalStorage } from 'foxact/use-local-storage'
 import {
   memo,
@@ -251,7 +251,6 @@ interface RowComponentProps {
   getSnapshot: (row: IConnectionsItem) => TableRowSnapshot
   borderColor: string
   selected: boolean
-  selectedBackground: string
   virtualTop: number
 }
 
@@ -263,7 +262,6 @@ const RowComponent = memo(
     getSnapshot,
     borderColor,
     selected,
-    selectedBackground,
     virtualTop,
   }: RowComponentProps) {
     const handleClick = useCallback(
@@ -283,7 +281,7 @@ const RowComponent = memo(
           right: 0,
           height: ROW_HEIGHT,
           cursor: 'pointer',
-          backgroundColor: selected ? selectedBackground : undefined,
+          backgroundColor: selected ? 'var(--selected-row)' : undefined,
           borderBottom: `1px solid ${borderColor}`,
         }}
         onClick={handleClick}
@@ -320,8 +318,7 @@ const RowComponent = memo(
     prev.onShowDetail === next.onShowDetail &&
     prev.getSnapshot === next.getSnapshot &&
     prev.borderColor === next.borderColor &&
-    prev.selected === next.selected &&
-    prev.selectedBackground === next.selectedBackground,
+    prev.selected === next.selected,
 )
 
 interface Props {
@@ -756,10 +753,6 @@ export const ConnectionTable = (props: Props) => {
   const borderColor = theme.palette.divider
   const headerBackground = theme.palette.background.paper
   const textSecondary = theme.palette.text.secondary
-  const selectedBackground = alpha(
-    theme.palette.primary.main,
-    theme.palette.mode === 'light' ? 0.14 : 0.28,
-  )
 
   return (
     <>
@@ -891,7 +884,6 @@ export const ConnectionTable = (props: Props) => {
                       getSnapshot={getRowSnapshot}
                       borderColor={borderColor}
                       selected={row.id === selectedId}
-                      selectedBackground={selectedBackground}
                       virtualTop={index * ROW_HEIGHT}
                     />
                   )

@@ -221,32 +221,18 @@ export const ProxySplitGroups = ({ mode }: Props) => {
               key={group.name}
               selected={selected}
               onClick={() => handleSelectGroup(group.name)}
-              sx={[
-                {
-                  minHeight: 36,
-                  py: 0.75,
-                  px: 1.25,
-                  alignItems: 'flex-start',
-                  borderRadius: 0,
-                  borderBottom: '1px solid var(--divider-color)',
-                },
-                ({ palette: { primary } }) => ({
-                  '&.Mui-selected': {
-                    bgcolor: primary.main,
-                    color: primary.contrastText,
+              sx={{
+                minHeight: 36,
+                py: 0.75,
+                px: 1.25,
+                alignItems: 'flex-start',
+                borderRadius: 0,
+                borderBottom: '1px solid var(--divider-color)',
+                '&.Mui-selected, &.Mui-selected:hover, &.Mui-selected.Mui-focusVisible':
+                  {
+                    bgcolor: 'var(--selected-row)',
                   },
-                  '&.Mui-selected:hover': {
-                    bgcolor: primary.main,
-                  },
-                  '&.Mui-selected .MuiListItemText-primary': {
-                    color: primary.contrastText,
-                  },
-                  '&.Mui-selected .MuiListItemText-secondary': {
-                    color: primary.contrastText,
-                    opacity: 0.8,
-                  },
-                }),
-              ]}
+              }}
             >
               <ListItemText
                 primary={group.name}

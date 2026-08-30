@@ -224,6 +224,10 @@ export const useCustomTheme = () => {
       rootEle.style.setProperty('--sidebar-color', sidebarColor)
       rootEle.style.setProperty('--content-color', contentColor)
       rootEle.style.setProperty('--selection-color', selectColor)
+      rootEle.style.setProperty(
+        '--selected-row',
+        mode === 'light' ? '#d1d1d6' : '#3a3a3c',
+      )
       rootEle.style.setProperty('--scroller-color', scrollColor)
       rootEle.style.setProperty('--primary-main', muiTheme.palette.primary.main)
       rootEle.style.setProperty('--text-primary', muiTheme.palette.text.primary)

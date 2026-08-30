@@ -39,38 +39,22 @@ export const LayoutItem = (props: Props) => {
       <ListItemButton
         ref={sortable?.handleRef}
         selected={!!match}
-        sx={[
-          {
-            minHeight: 32,
-            borderRadius: 1,
-            py: 0.5,
-            px: 1,
-            cursor: 'pointer',
-            '& .MuiListItemText-primary': {
-              color: 'text.primary',
-              fontSize: 13,
-              fontWeight: 500,
-            },
+        sx={{
+          minHeight: 32,
+          borderRadius: 1,
+          py: 0.5,
+          px: 1,
+          cursor: 'pointer',
+          '& .MuiListItemText-primary': {
+            color: 'text.primary',
+            fontSize: 13,
+            fontWeight: 500,
           },
-          ({ palette: { primary } }) => ({
-            '&.Mui-selected': {
-              bgcolor: primary.main,
-              color: primary.contrastText,
+          '&.Mui-selected, &.Mui-selected:hover, &.Mui-selected.Mui-focusVisible':
+            {
+              bgcolor: 'var(--selected-row)',
             },
-            '&.Mui-selected:hover': {
-              bgcolor: primary.main,
-            },
-            '&.Mui-selected .MuiListItemText-primary': {
-              color: primary.contrastText,
-            },
-            '&.Mui-selected .MuiListItemIcon-root': {
-              color:
-                effectiveMenuIcon === 'colorful'
-                  ? undefined
-                  : primary.contrastText,
-            },
-          }),
-        ]}
+        }}
         title={navCollapsed ? children : undefined}
         aria-label={navCollapsed ? children : undefined}
         onClick={() => navigate(to)}
