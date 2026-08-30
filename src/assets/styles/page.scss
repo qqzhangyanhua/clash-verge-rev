@@ -363,11 +363,8 @@
   }
 
   &__pin {
-    position: absolute;
-    top: 2px;
-    right: 8px;
     display: flex;
-    font-size: 12px;
+    flex-shrink: 0;
     color: var(--text-secondary);
 
     &[data-pin='hollow'] {

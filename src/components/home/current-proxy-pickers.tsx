@@ -153,7 +153,6 @@ export const ProxyPickerList = ({
               if (!option.disabled) onSelect(option.value)
             }}
             sx={{
-              position: 'relative',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -168,9 +167,9 @@ export const ProxyPickerList = ({
                 aria-hidden
               >
                 {option.pin === 'solid' ? (
-                  <PushPin fontSize="inherit" />
+                  <PushPin fontSize="small" />
                 ) : (
-                  <PushPinOutlined fontSize="inherit" />
+                  <PushPinOutlined fontSize="small" />
                 )}
               </Box>
             )}
