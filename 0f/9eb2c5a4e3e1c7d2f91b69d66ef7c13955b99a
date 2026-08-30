@@ -1,0 +1,40 @@
+src/components/proxy/use-filter-sort.ts
+  s_378f26b8966c15::t_5b9c1e022b2cec 6
+src/components/proxy/render-list.ts
+  s_378f26b8966c15::t_7e8e804709fbf5 181-197
+  s_378f26b8966c15::t_04391c084addf1 57
+  s_378f26b8966c15::t_4ae7ab93e6a49a 108,117,238
+  s_378f26b8966c15::t_c7e09cac700a7b 1-56,58-107,109-116,118-123,125-180,198-237,239-247
+  s_378f26b8966c15::t_24b74ea1447392 124
+tests/proxy-render-list.test.ts
+  s_378f26b8966c15::t_e9f16e99260639 134-136,190-193,198,202
+  s_378f26b8966c15::t_e1f53b5cb74ada 99,103,107,111,140-146,150,159-184,194-197,254-269,286-302
+  s_378f26b8966c15::t_497bb0e9a665d2 1-98,100-102,104-106,108-110,112-133,137-139,147-149,151-158,185-189,199-201,203-253,270-285,303,341-375
+  s_378f26b8966c15::t_b8945e9d1ede32 304-340
+src/components/proxy/use-render-list.ts
+  s_378f26b8966c15::t_638d6899a41d0a 8,13,60-65
+  s_378f26b8966c15::t_dc2cc77350f204 12,14-16,22,24
+  s_378f26b8966c15::t_6c6c20aa46a7aa 127-129,131-140,150
+  s_378f26b8966c15::t_77f022c6d57abb 50
+  s_378f26b8966c15::t_99b513149573f3 7
+  s_378f26b8966c15::t_ae11f91a5decdf 17
+  s_378f26b8966c15::t_dc5c3c775329fd 20-21
+  s_378f26b8966c15::t_0d8a20a1916d7c 23
+  s_378f26b8966c15::t_34a4abdaa1079b 151-152
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "development:1.6.23",
+  "base_commit_sha": "0f9eb2c5a4e3e1c7d2f91b69d66ef7c13955b99a",
+  "prompts": {},
+  "sessions": {
+    "s_378f26b8966c15": {
+      "agent_id": {
+        "tool": "grok",
+        "id": "01a05132-3171-7122-99de-98fd90f972b2",
+        "model": "grok-4.6"
+      },
+      "human_author": "张艳华 <939593210@qq.com>"
+    }
+  }
+}
