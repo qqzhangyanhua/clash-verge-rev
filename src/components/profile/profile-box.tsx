@@ -5,7 +5,7 @@ export const ProfileBox = styled(Box)(
     const { mode, primary, text } = theme.palette
     const key = `${mode}-${!!selected}`
 
-    const backgroundColor = mode === 'light' ? '#ffffff' : '#282A36'
+    const backgroundColor = 'var(--content-color)'
 
     const color = {
       'light-true': text.secondary,
@@ -21,35 +21,20 @@ export const ProfileBox = styled(Box)(
       'dark-false': text.primary,
     }[key]!
 
-    const borderSelect = {
-      'light-true': {
-        borderLeft: `3px solid ${primary.main}`,
-        width: `calc(100% + 3px)`,
-        marginLeft: `-3px`,
-      },
-      'light-false': {
-        width: '100%',
-      },
-      'dark-true': {
-        borderLeft: `3px solid ${primary.main}`,
-        width: `calc(100% + 3px)`,
-        marginLeft: `-3px`,
-      },
-      'dark-false': {
-        width: '100%',
-      },
-    }[key]
-
     return {
       position: 'relative',
       display: 'block',
       cursor: 'pointer',
       textAlign: 'left',
-      padding: '8px 16px',
+      padding: '8px 12px',
       boxSizing: 'border-box',
+      width: '100%',
       backgroundColor,
-      ...borderSelect,
-      borderRadius: '8px',
+      border: '1px solid var(--divider-color)',
+      borderLeft: selected
+        ? `3px solid ${primary.main}`
+        : '1px solid var(--divider-color)',
+      borderRadius: '6px',
       color,
       '& h2': { color: h2color },
     }

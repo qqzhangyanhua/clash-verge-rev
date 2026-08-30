@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { ClashInfoCard } from '@/components/home/clash-info-card'
@@ -10,16 +10,9 @@ const SettingStatus = () => {
 
   return (
     <Box>
-      <Typography
-        sx={{
-          px: 2,
-          py: 1,
-          fontSize: 16,
-          fontWeight: 700,
-        }}
-      >
+      <Box className="inset-group-block__title">
         {t('settings.sections.status.title')}
-      </Typography>
+      </Box>
       <Grid container spacing={1.5}>
         <Grid size={{ xs: 12, md: 6 }}>
           <ClashInfoCard />

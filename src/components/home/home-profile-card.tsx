@@ -106,7 +106,7 @@ const ProfileDetails = ({
 
   return (
     <Box>
-      <Stack spacing={2}>
+      <Stack spacing={1.25}>
         {current.url && (
           <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             <DnsOutlined fontSize="small" color="action" />
@@ -322,7 +322,7 @@ export const HomeProfileCard = ({
     return (
       <Link
         component="button"
-        variant="h6"
+        variant="body2"
         onClick={() => current.home && openProfileHome(current.home)}
         sx={{
           color: 'inherit',
@@ -331,8 +331,8 @@ export const HomeProfileCard = ({
           alignItems: 'center',
           minWidth: 0,
           maxWidth: '100%',
-          fontWeight: 'medium',
-          fontSize: 18,
+          fontWeight: 600,
+          fontSize: 13,
           '& > span': {
             overflow: 'hidden',
             textOverflow: 'ellipsis',

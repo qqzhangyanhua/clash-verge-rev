@@ -1,5 +1,4 @@
 import {
-  alpha,
   ListItem,
   ListItemButton,
   ListItemIcon,
@@ -53,19 +52,24 @@ export const LayoutItem = (props: Props) => {
               fontWeight: 500,
             },
           },
-          ({ palette: { mode, primary } }) => {
-            const bgcolor =
-              mode === 'light'
-                ? alpha(primary.main, 0.14)
-                : alpha(primary.main, 0.28)
-            return {
-              '&.Mui-selected': { bgcolor },
-              '&.Mui-selected:hover': { bgcolor },
-              '&.Mui-selected .MuiListItemText-primary': {
-                color: 'text.primary',
-              },
-            }
-          },
+          ({ palette: { primary } }) => ({
+            '&.Mui-selected': {
+              bgcolor: primary.main,
+              color: primary.contrastText,
+            },
+            '&.Mui-selected:hover': {
+              bgcolor: primary.main,
+            },
+            '&.Mui-selected .MuiListItemText-primary': {
+              color: primary.contrastText,
+            },
+            '&.Mui-selected .MuiListItemIcon-root': {
+              color:
+                effectiveMenuIcon === 'colorful'
+                  ? undefined
+                  : primary.contrastText,
+            },
+          }),
         ]}
         title={navCollapsed ? children : undefined}
         aria-label={navCollapsed ? children : undefined}

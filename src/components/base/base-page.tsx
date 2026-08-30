@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material'
-import React, { ReactNode } from 'react'
+import type React from 'react'
+import type { ReactNode } from 'react'
 
 import { BaseErrorBoundary } from './base-error-boundary'
 
@@ -30,9 +31,19 @@ export const BasePage: React.FC<Props> = (props) => {
 
         <div
           className={full ? 'base-container no-padding' : 'base-container'}
-          style={{ backgroundColor: 'var(--content-color)' }}
+          style={{
+            backgroundColor: full
+              ? 'var(--content-color)'
+              : 'var(--background-color)',
+          }}
         >
-          <section style={{ backgroundColor: 'var(--content-color)' }}>
+          <section
+            style={{
+              backgroundColor: full
+                ? 'var(--content-color)'
+                : 'var(--background-color)',
+            }}
+          >
             <div className="base-content" style={contentStyle}>
               {children}
             </div>
