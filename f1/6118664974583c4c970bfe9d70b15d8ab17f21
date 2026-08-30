@@ -1,0 +1,72 @@
+src/assets/styles/index.scss
+  s_0859158c414f05::t_cd4a6d06d58cd7 27
+  s_47c0f83886efaa::t_df67bea9a481c7 19-20,23-26,28
+src/assets/styles/layout.scss
+  s_0859158c414f05::t_0bd1e4ed68d01f 32-33,35-37,41-43,48,50-51,63-64,66-68,71-74,80-113,208,227,242-244,253
+src/components/layout/control-bar.tsx
+  s_0859158c414f05::t_772d7aee7c45b2 9,41-50,60-66,69,95
+  s_47c0f83886efaa::t_95cad20cf8e4cd 2-8,12
+  s_0859158c414f05::t_86dc6a6d39de23 98,110-145,147-160
+  s_0859158c414f05::t_6263d493dcde44 15-19,51,104,146
+  s_47c0f83886efaa::t_6b5c5437c7f6d5 1
+  s_0859158c414f05::t_86d65661e093d3 20-22,38-40
+  s_0859158c414f05::t_270e3113c8f0cb 52-54,57-59
+  s_0859158c414f05::t_501b1e37b39ae0 67-68
+  s_0859158c414f05::t_42872c617d856a 70-72,92-94
+  s_0859158c414f05::t_e72e783afdca0f 96-97
+  s_0859158c414f05::t_73de3e92534dcf 99-103
+  s_0859158c414f05::t_ca381952410603 105-109
+  s_0859158c414f05::t_488f49c1a0193c 161-163
+src/assets/styles/page.scss
+  s_47c0f83886efaa::t_b009fd3fa5206d 7,10
+src/pages/_layout.tsx
+  s_0859158c414f05::t_c8e1a5460a172c 289-294,316-321
+  s_0859158c414f05::t_86dc6a6d39de23 2
+  s_0859158c414f05::t_57a7ffd70a565f 261,267,271,273,379
+  s_0859158c414f05::t_d4d5bf116cda1d 10,244,247
+src/components/layout/layout-item.tsx
+  s_0859158c414f05::t_86dc6a6d39de23 91-94
+  s_0859158c414f05::t_42a924f818d847 90
+  s_0859158c414f05::t_84be654a7978a3 20,37-38,45-48,52-53,59-60,64-66,77-78,86-89
+src/pages/_theme.tsx
+  s_0859158c414f05::t_b61b32a4746ef5 14,26
+src/components/home/clash-mode-card.tsx
+  s_0859158c414f05::t_d11b0e3aafedd1 7,11-14,43,47
+src/hooks/use-clash-mode-switch.ts
+  s_0859158c414f05::t_4f958bb23d5449 19-70
+  s_0859158c414f05::t_bca9a3f9d541b6 1-18,71-80
+src/pages/_layout/hooks/use-custom-theme.ts
+  s_0859158c414f05::t_9e4c3f58baa8a8 168,171,178-179,181,200,203,210-212,219-220,224-228
+  s_0859158c414f05::t_5716fe925a8df6 180
+  s_0859158c414f05::t_866ae8db3fa52c 239,301
+src/components/base/base-page.tsx
+  s_0859158c414f05::t_f97764bc1b0f3f 22,33,35
+src/pages/proxies.tsx
+  s_0859158c414f05::t_ea519417e42028 11,107
+  s_0859158c414f05::t_e63cd2dfdb8f42 10,106
+  s_0859158c414f05::t_00d7721d24653c 2,37,157
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "development:1.6.23",
+  "base_commit_sha": "f16118664974583c4c970bfe9d70b15d8ab17f21",
+  "prompts": {},
+  "sessions": {
+    "s_0859158c414f05": {
+      "agent_id": {
+        "tool": "grok",
+        "id": "01a05146-8f7a-72e1-8e38-6405225de130",
+        "model": "grok-4.6"
+      },
+      "human_author": "张艳华 <939593210@qq.com>"
+    },
+    "s_47c0f83886efaa": {
+      "agent_id": {
+        "tool": "grok",
+        "id": "01a050e4-489e-7280-bcd2-8c21d73f2024",
+        "model": "grok-4.6"
+      },
+      "human_author": "张艳华 <939593210@qq.com>"
+    }
+  }
+}
