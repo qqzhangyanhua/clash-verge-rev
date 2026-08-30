@@ -18,7 +18,6 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { BaseDialog, DialogRef, Switch, TooltipIcon } from '@/components/base'
-import { DEFAULT_HOVER_DELAY } from '@/components/proxy/proxy-group-navigator'
 import { useVerge } from '@/hooks/use-verge'
 import { useWindowDecorations } from '@/hooks/use-window'
 import { copyIconFile, getAppDir } from '@/services/cmds'
@@ -28,6 +27,7 @@ import getSystem from '@/utils/get-system'
 import { GuardState } from './guard-state'
 
 const OS = getSystem()
+const DEFAULT_HOVER_DELAY = 280
 
 const clampHoverDelay = (value: number) => {
   if (!Number.isFinite(value)) {
