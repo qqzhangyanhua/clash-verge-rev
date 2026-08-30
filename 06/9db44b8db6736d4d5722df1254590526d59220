@@ -1,0 +1,32 @@
+src/components/home/system-info-card.tsx
+  s_46cd24c208a3d2::t_c8bbfeec7ec23f 6,11-14,24-30,107-108,111-113,116,119,122,180-181,183-184,186-191,193-199,201-204,206-207
+  s_46cd24c208a3d2::t_4f02d0ad798c98 23,182,185,192,200,205
+src/components/home/test-card.tsx
+  s_46cd24c208a3d2::t_0fec19b5d28eeb 187-197,209,219
+  s_46cd24c208a3d2::t_1b653e870cf63f 210-216
+src/components/home/clash-info-card.tsx
+  s_46cd24c208a3d2::t_fd770aed53b929 24-25,36-52
+  s_46cd24c208a3d2::t_c8bbfeec7ec23f 5-8
+  s_46cd24c208a3d2::t_0dcbc778c895a4 53-54
+src/components/setting/setting-status.tsx
+  s_46cd24c208a3d2::t_cb8f8104418729 1,16-18
+src/components/home/current-proxy-card.tsx
+  s_46cd24c208a3d2::t_e19c09a4565491 951-958
+  s_46cd24c208a3d2::t_6e06af89ab0f24 901,904-914,918,920,922-950,959,961,1010-1011
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "development:1.6.23",
+  "base_commit_sha": "069db44b8db6736d4d5722df1254590526d59220",
+  "prompts": {},
+  "sessions": {
+    "s_46cd24c208a3d2": {
+      "agent_id": {
+        "tool": "grok",
+        "id": "01a05335-b342-76f3-9005-457a8703f133",
+        "model": "grok-4.6"
+      },
+      "human_author": "张艳华 <939593210@qq.com>"
+    }
+  }
+}
