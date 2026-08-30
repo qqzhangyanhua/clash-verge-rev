@@ -1,23 +1,17 @@
 import {
   InfoOutlined,
-  SettingsOutlined,
   AdminPanelSettingsOutlined,
   DnsOutlined,
   ExtensionOutlined,
 } from '@mui/icons-material'
-import { Typography, Stack, Divider, Chip, IconButton } from '@mui/material'
+import { Typography, Stack, Divider, Chip } from '@mui/material'
 import { useLockFn } from 'ahooks'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
 
 import { useServiceInstaller } from '@/hooks/use-service-installer'
 import { useSystemState } from '@/hooks/use-system-state'
-import {
-  useUpdate,
-  updateLastCheckTime,
-  readLastCheckTime,
-} from '@/hooks/use-update'
+import { useUpdate } from '@/hooks/use-update'
 import { useVerge } from '@/hooks/use-verge'
 import { getSystemInfo } from '@/services/cmds'
 import { showNotice } from '@/services/notice-service'
@@ -28,7 +22,6 @@ import { EnhancedCard } from './enhanced-card'
 export const SystemInfoCard = () => {
   const { t } = useTranslation()
   const { verge, patchVerge } = useVerge()
-  const navigate = useNavigate()
   const { isAdminMode, isSidecarMode, mutateSystemState } = useSystemState()
   const { installServiceAndRestartCore } = useServiceInstaller()
 
@@ -58,21 +51,6 @@ export const SystemInfoCard = () => {
       })
       .catch(console.error)
   }, [])
-
-  useEffect(() => {
-    if (!verge?.auto_check_update) return
-    if (readLastCheckTime() !== null) return
-
-    updateLastCheckTime()
-    const timeoutId = window.setTimeout(() => {
-      triggerCheckUpdate().catch(console.error)
-    }, 5000)
-    return () => window.clearTimeout(timeoutId)
-  }, [verge?.auto_check_update, triggerCheckUpdate])
-
-  const goToSettings = useCallback(() => {
-    navigate('/settings')
-  }, [navigate])
 
   const toggleAutoLaunch = useCallback(async () => {
     if (!verge) return
@@ -105,7 +83,6 @@ export const SystemInfoCard = () => {
         )
       } else {
         showNotice.info('shared.feedback.notifications.updateAvailable', 2000)
-        goToSettings()
       }
     } catch (err) {
       showNotice.error(err)
@@ -192,15 +169,6 @@ export const SystemInfoCard = () => {
       title={t('home.components.systemInfo.title')}
       icon={<InfoOutlined />}
       iconColor="error"
-      action={
-        <IconButton
-          size="small"
-          onClick={goToSettings}
-          title={t('home.components.systemInfo.actions.settings')}
-        >
-          <SettingsOutlined fontSize="small" />
-        </IconButton>
-      }
     >
       <Stack spacing={1.5}>
         <Stack direction="row" sx={{ justifyContent: 'space-between' }}>

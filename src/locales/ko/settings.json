@@ -29,6 +29,9 @@
         }
       }
     },
+    "status": {
+      "title": "Status"
+    },
     "proxyControl": {
       "tooltips": {
         "systemProxy": "운영 체제의 프록시 설정을 수정합니다. 활성화에 실패하면 운영 체제의 프록시를 수동으로 설정하세요",

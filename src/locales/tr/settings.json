@@ -29,6 +29,9 @@
         }
       }
     },
+    "status": {
+      "title": "Status"
+    },
     "proxyControl": {
       "tooltips": {
         "systemProxy": "İşletim sisteminin vekil ayarlarını değiştirmek için etkinleştirin. Etkinleştirme başarısız olursa, işletim sisteminin proxy ayarlarını manuel olarak değiştirin",

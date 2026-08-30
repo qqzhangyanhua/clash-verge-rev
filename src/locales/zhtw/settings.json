@@ -29,6 +29,9 @@
         }
       }
     },
+    "status": {
+      "title": "Status"
+    },
     "proxyControl": {
       "tooltips": {
         "systemProxy": "修改作業系統的代理設定，如果開啟失敗，可手動修改作業系統的代理設定",

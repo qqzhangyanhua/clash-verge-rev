@@ -50,14 +50,6 @@ export interface TranslationResources {
           title: string
         }
         clashMode: {
-          descriptions: {
-            direct: string
-            global: string
-            rule: string
-          }
-          errors: {
-            communication: string
-          }
           labels: {
             direct: string
             global: string
@@ -96,34 +88,10 @@ export interface TranslationResources {
             noServices: string
           }
           labels: {
-            asn: string
-            autoRefresh: string
-            ip: string
-            isp: string
-            location: string
-            org: string
-            timezone: string
             unknown: string
-          }
-          title: string
-        }
-        proxyTun: {
-          status: {
-            systemProxyDisabled: string
-            systemProxyEnabled: string
-            tunModeDisabled: string
-            tunModeEnabled: string
-            tunModeServiceRequired: string
-          }
-          tooltips: {
-            systemProxy: string
-            tunMode: string
           }
         }
         systemInfo: {
-          actions: {
-            settings: string
-          }
           badges: {
             adminMode: string
             adminServiceMode: string
@@ -143,52 +111,17 @@ export interface TranslationResources {
           title: string
         }
         traffic: {
-          chartStyles: {
-            linear: string
-            smooth: string
-          }
-          diagnostics: string
-          legends: {
-            download: string
-            upload: string
-          }
           metrics: {
-            activeConnections: string
             downloadSpeed: string
-            memoryUsage: string
             uploadSpeed: string
           }
-          patterns: {
-            minutes: string
-          }
-          unknownTime: string
         }
       }
       page: {
-        cards: {
-          networkSettings: string
-          proxyMode: string
-          trafficStats: string
-        }
-        settings: {
-          cards: {
-            clashInfo: string
-            currentProxy: string
-            ip: string
-            network: string
-            profile: string
-            proxyMode: string
-            systemInfo: string
-            tests: string
-            traffic: string
-          }
-          title: string
-        }
         title: string
         tooltips: {
           lightweightMode: string
           manual: string
-          settings: string
         }
       }
     }
@@ -1337,6 +1270,9 @@ export interface TranslationResources {
             tunMode: string
             tunUnavailable: string
           }
+        }
+        status: {
+          title: string
         }
         system: {
           fields: {

@@ -29,6 +29,9 @@
         }
       }
     },
+    "status": {
+      "title": "Status"
+    },
     "proxyControl": {
       "tooltips": {
         "systemProxy": "Ändern Sie die Proxy-Einstellungen des Betriebssystems. Wenn die Aktivierung fehlschlägt, können Sie die Proxy-Einstellungen des Betriebssystems manuell ändern.",

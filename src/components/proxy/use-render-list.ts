@@ -17,11 +17,7 @@ import {
 import { useHeadStateNew } from './use-head-state'
 import { useWindowWidth } from './use-window-width'
 
-export {
-  hasRenderableItems,
-  type IRenderItem,
-  type ResolvedMemberOccurrence,
-} from './render-list'
+export { hasRenderableItems, type IRenderItem } from './render-list'
 
 type RuntimeConfigWithProxySequence = IConfigData & { proxies?: unknown }
 

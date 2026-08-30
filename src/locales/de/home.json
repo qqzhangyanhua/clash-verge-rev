@@ -2,44 +2,11 @@
   "page": {
     "tooltips": {
       "lightweightMode": "Leichtgewichtiger Modus",
-      "manual": "Bedienungsanleitung",
-      "settings": "Startseite-Einstellungen"
-    },
-    "cards": {
-      "trafficStats": "Verkehrsstatistik",
-      "networkSettings": "Netzwerkeinstellungen",
-      "proxyMode": "Proxy-Modus"
-    },
-    "settings": {
-      "cards": {
-        "profile": "Abonnement-Karte",
-        "currentProxy": "Aktueller Proxy-Karte",
-        "network": "Netzwerkeinstellungen-Karte",
-        "proxyMode": "Proxy-Modus-Karte",
-        "traffic": "Verkehrsstatistik-Karte",
-        "tests": "Website-Tests-Karte",
-        "ip": "IP-Informationen-Karte",
-        "clashInfo": "Clash-Informationen-Karten",
-        "systemInfo": "Systeminformationen-Karten"
-      },
-      "title": "Startseite-Einstellungen"
+      "manual": "Bedienungsanleitung"
     },
     "title": "Startseite"
   },
   "components": {
-    "proxyTun": {
-      "status": {
-        "systemProxyEnabled": "Der Systemproxy ist aktiviert. Ihre Anwendungen werden über den Proxy auf das Netzwerk zugreifen.",
-        "systemProxyDisabled": "Der Systemproxy ist deaktiviert. Es wird empfohlen, diesen Eintrag für die meisten Benutzer zu aktivieren.",
-        "tunModeServiceRequired": "Der TUN-Modus erfordert den Service-Modus. Bitte installieren Sie zuerst den Service.",
-        "tunModeEnabled": "Der TUN-Modus ist aktiviert. Die Anwendungen werden über die virtuelle Netzwerkschnittstelle auf das Netzwerk zugreifen.",
-        "tunModeDisabled": "Der TUN-Modus ist deaktiviert. Dies ist für spezielle Anwendungen geeignet."
-      },
-      "tooltips": {
-        "systemProxy": "Ändern Sie die Proxy-Einstellungen des Betriebssystems. Wenn die Aktivierung fehlschlägt, können Sie die Proxy-Einstellungen des Betriebssystems manuell ändern.",
-        "tunMode": "Der TUN-Modus kann den gesamten Anwendungsverkehr übernehmen und eignet sich für spezielle Anwendungen, die die Systemproxy-Einstellungen nicht befolgen."
-      }
-    },
     "clashInfo": {
       "title": "Clash-Informationen",
       "fields": {
@@ -59,9 +26,6 @@
         "lastCheckUpdate": "Letzte Aktualitätsprüfung",
         "vergeVersion": "Verge-Version"
       },
-      "actions": {
-        "settings": "Einstellungen"
-      },
       "badges": {
         "adminMode": "Administrator-Modus",
         "serviceMode": "Service-Modus",
@@ -70,15 +34,7 @@
       }
     },
     "ipInfo": {
-      "title": "IP-Informationen",
       "labels": {
-        "ip": "IP",
-        "asn": "Autonomes Systemnummer",
-        "isp": "Internetdienstanbieter",
-        "org": "Organisation",
-        "location": "Standort",
-        "timezone": "Zeitzone",
-        "autoRefresh": "Automatische Aktualisierung",
         "unknown": "Unbekannt"
       },
       "errors": {
@@ -118,37 +74,14 @@
     "traffic": {
       "metrics": {
         "uploadSpeed": "Upload-Geschwindigkeit",
-        "downloadSpeed": "Download-Geschwindigkeit",
-        "activeConnections": "Aktive Verbindungen",
-        "memoryUsage": "Kern-Speichernutzung"
-      },
-      "legends": {
-        "upload": "Hochladen",
-        "download": "Herunterladen"
-      },
-      "patterns": {
-        "minutes": "{{time}} Minutes"
-      },
-      "unknownTime": "Unbekannte Zeit",
-      "chartStyles": {
-        "smooth": "Weich",
-        "linear": "Linear"
-      },
-      "diagnostics": "Punkte: {{points}} | Komprimiert: {{compressed}} | FPS: {{fps}}"
+        "downloadSpeed": "Download-Geschwindigkeit"
+      }
     },
     "clashMode": {
-      "errors": {
-        "communication": "Kernkommunikationsfehler, bitte starten Sie den Computer neu und versuchen Sie es erneut"
-      },
       "labels": {
         "rule": "Regel-Modus",
         "global": "Globaler Modus",
         "direct": "Direktverbindungs-Modus"
-      },
-      "descriptions": {
-        "rule": "Automatically choose proxies according to the rule set.",
-        "global": "Forward all network requests through the selected proxy.",
-        "direct": "Bypass the proxy and connect to the internet directly."
       }
     }
   }

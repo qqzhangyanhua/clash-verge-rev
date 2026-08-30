@@ -29,6 +29,9 @@
         }
       }
     },
+    "status": {
+      "title": "状态"
+    },
     "proxyControl": {
       "tooltips": {
         "systemProxy": "修改操作系统的代理设置，如果开启失败，可手动修改操作系统的代理设置",

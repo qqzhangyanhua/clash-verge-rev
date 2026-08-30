@@ -2,44 +2,11 @@
   "page": {
     "tooltips": {
       "lightweightMode": "Режим LightWeight",
-      "manual": "Документация",
-      "settings": "Настройки главной страницы"
-    },
-    "cards": {
-      "trafficStats": "Статистика трафика",
-      "networkSettings": "Настройки сети",
-      "proxyMode": "Режим работы"
-    },
-    "settings": {
-      "cards": {
-        "profile": "Карточка профиля",
-        "currentProxy": "Карточка текущего прокси",
-        "network": "Карточка сети",
-        "proxyMode": "Карточка режима работы",
-        "traffic": "Карточка трафика",
-        "tests": "Карточка проверки доступности сайтов",
-        "ip": "Информация об IP",
-        "clashInfo": "Информация о Clash",
-        "systemInfo": "Информация о системе"
-      },
-      "title": "Настройки главной страницы"
+      "manual": "Документация"
     },
     "title": "Главная"
   },
   "components": {
-    "proxyTun": {
-      "status": {
-        "systemProxyEnabled": "Системный прокси включён — приложения используют его для доступа в сеть",
-        "systemProxyDisabled": "Системный прокси отключён — большинству пользователей рекомендуется его включить",
-        "tunModeServiceRequired": "Режим TUN требует установленной службы Clash Verge",
-        "tunModeEnabled": "Режим TUN включён — приложения используют виртуальный сетевой интерфейс",
-        "tunModeDisabled": "Режим TUN отключён"
-      },
-      "tooltips": {
-        "systemProxy": "Разрешает изменение системных настроек прокси. Если не удаётся, настройте прокси вручную",
-        "tunMode": "Режим TUN перехватывает трафик всех приложений и подходит для программ, не работающих через системный прокси"
-      }
-    },
     "clashInfo": {
       "title": "Информация о Clash",
       "fields": {
@@ -59,9 +26,6 @@
         "lastCheckUpdate": "Последняя проверка обновлений",
         "vergeVersion": "Версия Clash Verge Rev"
       },
-      "actions": {
-        "settings": "Настройки"
-      },
       "badges": {
         "adminMode": "Режим администратора",
         "serviceMode": "Режим службы",
@@ -70,15 +34,7 @@
       }
     },
     "ipInfo": {
-      "title": "Информация об IP",
       "labels": {
-        "ip": "IP",
-        "asn": "ASN",
-        "isp": "Провайдер",
-        "org": "Организация",
-        "location": "Местоположение",
-        "timezone": "Часовой пояс",
-        "autoRefresh": "Автообновление через",
         "unknown": "Неизвестно"
       },
       "errors": {
@@ -118,37 +74,14 @@
     "traffic": {
       "metrics": {
         "uploadSpeed": "Скорость загрузки",
-        "downloadSpeed": "Скорость скачивания",
-        "activeConnections": "Активные соединения",
-        "memoryUsage": "Использование памяти"
-      },
-      "legends": {
-        "upload": "Загрузка",
-        "download": "Скачивание"
-      },
-      "patterns": {
-        "minutes": "{{time}} мин"
-      },
-      "unknownTime": "Неизвестное время",
-      "chartStyles": {
-        "smooth": "Плавный",
-        "linear": "Линейный"
-      },
-      "diagnostics": "Точки: {{points}} | Сжато: {{compressed}} | Кадры/с: {{fps}}"
+        "downloadSpeed": "Скорость скачивания"
+      }
     },
     "clashMode": {
-      "errors": {
-        "communication": "Ошибка связи с ядром. Перезагрузите компьютер и повторите попытку"
-      },
       "labels": {
         "rule": "Правила",
         "global": "Глобальный",
         "direct": "Прямой"
-      },
-      "descriptions": {
-        "rule": "Автоматический выбор прокси в зависимости от правил",
-        "global": "Весь трафик проходит через выбранный прокси",
-        "direct": "Подключение напрямую без прокси"
       }
     }
   }

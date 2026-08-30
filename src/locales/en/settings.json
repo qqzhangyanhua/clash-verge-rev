@@ -29,6 +29,9 @@
         }
       }
     },
+    "status": {
+      "title": "Status"
+    },
     "proxyControl": {
       "tooltips": {
         "systemProxy": "Enable to modify the operating system's proxy settings. If enabling fails, modify the operating system's proxy settings manually",

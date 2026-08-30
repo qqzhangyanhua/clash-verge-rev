@@ -2,44 +2,11 @@
   "page": {
     "tooltips": {
       "lightweightMode": "Mode Ringan",
-      "manual": "Manual",
-      "settings": "Home Settings"
-    },
-    "cards": {
-      "trafficStats": "Traffic Stats",
-      "networkSettings": "Network Settings",
-      "proxyMode": "Proxy Mode"
-    },
-    "settings": {
-      "cards": {
-        "profile": "Profile Card",
-        "currentProxy": "Current Proxy Card",
-        "network": "Network Settings Card",
-        "proxyMode": "Proxy Mode Card",
-        "traffic": "Traffic Stats Card",
-        "tests": "Website Tests Card",
-        "ip": "IP Information Card",
-        "clashInfo": "Clash Info Cards",
-        "systemInfo": "System Info Cards"
-      },
-      "title": "Home Settings"
+      "manual": "Manual"
     },
     "title": "Home"
   },
   "components": {
-    "proxyTun": {
-      "status": {
-        "systemProxyEnabled": "System proxy is enabled, your applications will access the network through the proxy",
-        "systemProxyDisabled": "System proxy is disabled, it is recommended for most users to turn on this option",
-        "tunModeServiceRequired": "TUN mode requires service mode, please install the service first",
-        "tunModeEnabled": "TUN mode is enabled, applications will access the network through the virtual network card",
-        "tunModeDisabled": "TUN mode is disabled, suitable for special applications"
-      },
-      "tooltips": {
-        "systemProxy": "Aktifkan untuk mengubah pengaturan proksi sistem operasi. Jika pengaktifan gagal, ubah pengaturan proksi sistem operasi secara manual",
-        "tunMode": "TUN mode can take over all application traffic, suitable for special applications that do not follow the system proxy settings"
-      }
-    },
     "clashInfo": {
       "title": "Clash Info",
       "fields": {
@@ -59,9 +26,6 @@
         "lastCheckUpdate": "Last Check Update",
         "vergeVersion": "Versi Verge"
       },
-      "actions": {
-        "settings": "Pengaturan"
-      },
       "badges": {
         "adminMode": "Administrator Mode",
         "serviceMode": "Mode Layanan",
@@ -70,15 +34,7 @@
       }
     },
     "ipInfo": {
-      "title": "IP Information",
       "labels": {
-        "ip": "IP",
-        "asn": "ASN",
-        "isp": "ISP",
-        "org": "ORG",
-        "location": "Location",
-        "timezone": "Timezone",
-        "autoRefresh": "Auto refresh",
         "unknown": "Unknown"
       },
       "errors": {
@@ -118,37 +74,14 @@
     "traffic": {
       "metrics": {
         "uploadSpeed": "Kecepatan Unggah",
-        "downloadSpeed": "Kecepatan Unduh",
-        "activeConnections": "Active Connections",
-        "memoryUsage": "Penggunaan Memori"
-      },
-      "legends": {
-        "upload": "Upload",
-        "download": "Download"
-      },
-      "patterns": {
-        "minutes": "{{time}} Minutes"
-      },
-      "unknownTime": "Waktu tidak diketahui",
-      "chartStyles": {
-        "smooth": "Halus",
-        "linear": "Linier"
-      },
-      "diagnostics": "Titik: {{points}} | Terkompresi: {{compressed}} | FPS: {{fps}}"
+        "downloadSpeed": "Kecepatan Unduh"
+      }
     },
     "clashMode": {
-      "errors": {
-        "communication": "Kesalahan komunikasi inti, mulai ulang komputer dan coba lagi"
-      },
       "labels": {
         "rule": "Mode Aturan",
         "global": "Mode Global",
         "direct": "Mode Langsung"
-      },
-      "descriptions": {
-        "rule": "Automatically choose proxies according to the rule set.",
-        "global": "Forward all network requests through the selected proxy.",
-        "direct": "Bypass the proxy and connect to the internet directly."
       }
     }
   }

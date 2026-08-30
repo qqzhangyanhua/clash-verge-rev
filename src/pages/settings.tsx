@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import { BasePage } from '@/components/base'
 import SettingClash from '@/components/setting/setting-clash'
+import SettingStatus from '@/components/setting/setting-status'
 import SettingSystem from '@/components/setting/setting-system'
 import SettingVergeAdvanced from '@/components/setting/setting-verge-advanced'
 import SettingVergeBasic from '@/components/setting/setting-verge-basic'
@@ -15,7 +16,7 @@ import { openExternalUrl } from '@/utils/open-external-url'
 const SettingPage = () => {
   const { t } = useTranslation()
 
-  const onError = (err: any) => {
+  const onError = (err: Error) => {
     showNotice.error(err)
   }
 
@@ -112,6 +113,9 @@ const SettingPage = () => {
           >
             <SettingVergeAdvanced onError={onError} />
           </Box>
+        </Grid>
+        <Grid size={12}>
+          <SettingStatus />
         </Grid>
       </Grid>
     </BasePage>
