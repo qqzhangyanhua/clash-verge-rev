@@ -44,7 +44,7 @@
       }
     },
     "currentProxy": {
-      "title": "当前节点",
+      "title": "代理",
       "actions": {
         "refreshDelay": "延迟测试"
       },
