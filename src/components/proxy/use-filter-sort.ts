@@ -3,7 +3,7 @@ import { memberDetails } from '@/types/proxy-view'
 import { compareByDelay, DEFAULT_DELAY_TIMEOUT } from '@/utils/delay'
 import { compileStringMatcher } from '@/utils/search-matcher'
 
-import type { ResolvedMemberOccurrence } from './use-render-list'
+import type { ResolvedMemberOccurrence } from './render-list'
 
 export type ProxySortType = 0 | 1 | 2
 
