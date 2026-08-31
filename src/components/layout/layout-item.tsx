@@ -65,7 +65,7 @@ export const LayoutItem = (props: Props) => {
             {
               bgcolor: 'var(--selected-sidebar)',
               color: 'var(--selected-sidebar-fg)',
-              boxShadow: 'var(--selection-glow)',
+              boxShadow: 'none',
             },
         }}
         title={navCollapsed ? children : undefined}

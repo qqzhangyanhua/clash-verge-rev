@@ -102,32 +102,18 @@ export const ProxyItem = (props: Props) => {
             px: table ? 2 : 1.25,
             borderBottom: table ? 0 : '1px solid var(--divider-color)',
           },
-          ({ palette: { primary } }) => {
+          () => {
             const showDelay = delayValue > 0
 
             return {
               '&:hover .the-check': { display: !showDelay ? 'block' : 'none' },
               '&:hover .the-delay': { display: showDelay ? 'block' : 'none' },
               '&:hover .the-icon': { display: 'none' },
-              '&.Mui-selected': table
-                ? {
-                    bgcolor: 'var(--selected-row)',
-                    boxShadow:
-                      'inset 3px 0 0 var(--primary-main), var(--selection-glow)',
-                  }
-                : {
-                    bgcolor: primary.main,
-                    color: primary.contrastText,
-                  },
-              '&.Mui-selected:hover': table
-                ? { bgcolor: 'var(--selected-row)' }
-                : { bgcolor: primary.main },
-              '&.Mui-selected .MuiListItemText-secondary, &.Mui-selected .MuiListItemText-secondary *':
-                table
-                  ? {}
-                  : {
-                      color: primary.contrastText,
-                    },
+              '&.Mui-selected': {
+                bgcolor: 'var(--selected-row)',
+                boxShadow: 'none',
+              },
+              '&.Mui-selected:hover': { bgcolor: 'var(--selected-row)' },
             }
           },
         ]}

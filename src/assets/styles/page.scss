@@ -175,8 +175,8 @@
     background-color: transparent !important;
 
     &.Mui-selected {
-      background-color: var(--primary-main) !important;
-      color: #fff !important;
+      background-color: var(--content-color) !important;
+      color: var(--text-primary) !important;
       box-shadow: var(--segment-selected-shadow);
     }
 
@@ -185,7 +185,7 @@
     }
 
     &.Mui-selected:hover {
-      background-color: var(--primary-main) !important;
+      background-color: var(--content-color) !important;
     }
   }
 }

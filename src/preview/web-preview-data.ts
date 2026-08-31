@@ -12,7 +12,7 @@ const capabilities = {
 
 export const previewVergeConfig: IVergeConfig = {
   language: 'zh',
-  theme_mode: 'dark',
+  theme_mode: 'light',
   traffic_graph: true,
   enable_tun_mode: false,
   enable_system_proxy: true,
@@ -315,6 +315,26 @@ export const previewConnections = {
       rulePayload: 'youtube.com',
       curUpload: 80,
       curDownload: 9600,
+    },
+    {
+      id: 'c-3',
+      metadata: {
+        network: 'tcp',
+        type: 'HTTPS',
+        host: 'apple.com',
+        sourceIP: '127.0.0.1',
+        sourcePort: '51236',
+        destinationPort: '443',
+        process: 'Safari',
+      },
+      upload: 2048,
+      download: 51200,
+      start: new Date(Date.now() - 8_000).toISOString(),
+      chains: ['DIRECT'],
+      rule: 'GeoIP',
+      rulePayload: 'CN',
+      curUpload: 20,
+      curDownload: 800,
     },
   ],
 }

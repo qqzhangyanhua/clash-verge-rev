@@ -65,7 +65,6 @@ export const FeaturedNodePanel = ({
 
   return (
     <section className={className}>
-      <div className="featured-node__atmosphere" aria-hidden />
       <div className="proxy-featured__body">
         <div className="proxy-featured__identity">
           <div className="featured-node__title-row">

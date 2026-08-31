@@ -48,7 +48,7 @@ export const HomeHeroCard = ({ model }: { model: CurrentProxyCardModel }) => {
 
   return (
     <FeaturedNodePanel
-      variant="hero"
+      variant="compact"
       nodeName={model.view.nodeName}
       protocols={protocols}
       location={location}

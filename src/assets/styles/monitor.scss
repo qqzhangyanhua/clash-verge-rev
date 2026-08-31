@@ -43,8 +43,8 @@
   }
 
   &[data-active='true'] {
-    border-color: color-mix(in srgb, var(--primary-main) 45%, transparent);
-    box-shadow: var(--selection-glow);
+    border-color: transparent;
+    box-shadow: none;
   }
 
   &__value {
@@ -85,8 +85,8 @@
 
     &.is-selected {
       background: var(--selected-row);
-      border-color: color-mix(in srgb, var(--primary-main) 45%, transparent);
-      box-shadow: inset 3px 0 0 var(--primary-main), var(--selection-glow);
+      border-color: transparent;
+      box-shadow: none;
     }
   }
 
@@ -126,8 +126,8 @@
 
   &.is-selected {
     background: var(--selected-row);
-    border-color: color-mix(in srgb, var(--primary-main) 45%, transparent);
-    box-shadow: inset 3px 0 0 var(--primary-main), var(--selection-glow);
+    border-color: transparent;
+    box-shadow: none;
   }
 
   &__content {
@@ -214,8 +214,8 @@
 
   &.is-selected {
     background: var(--selected-row);
-    border-color: color-mix(in srgb, var(--primary-main) 45%, transparent);
-    box-shadow: inset 3px 0 0 var(--primary-main), var(--selection-glow);
+    border-color: transparent;
+    box-shadow: none;
   }
 }
 
@@ -256,19 +256,19 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.02em;
-  box-shadow: 0 0 10px color-mix(in srgb, var(--primary-main) 22%, transparent);
+  box-shadow: none;
 
   &[data-action='DIRECT'] {
     background: color-mix(in srgb, #22c55e 16%, transparent);
     color: #22c55e;
-    box-shadow: 0 0 10px rgba(34, 197, 94, 0.22);
+    box-shadow: none;
   }
 
   &[data-action='REJECT'],
   &[data-action='REJECT-DROP'] {
     background: color-mix(in srgb, #f43f5e 16%, transparent);
     color: #f43f5e;
-    box-shadow: 0 0 10px rgba(244, 63, 94, 0.22);
+    box-shadow: none;
   }
 }
 
@@ -307,8 +307,8 @@
 
   &.is-selected {
     background: var(--selected-row);
-    border-color: color-mix(in srgb, var(--primary-main) 45%, transparent);
-    box-shadow: inset 3px 0 0 var(--primary-main), var(--selection-glow);
+    border-color: transparent;
+    box-shadow: none;
   }
 
   &__time {
@@ -348,21 +348,21 @@
   &[data-type='inf'] {
     background: color-mix(in srgb, var(--primary-main) 18%, transparent);
     color: var(--primary-main);
-    box-shadow: 0 0 10px color-mix(in srgb, var(--primary-main) 28%, transparent);
+    box-shadow: none;
   }
 
   &[data-type='warning'],
   &[data-type='warn'] {
     background: color-mix(in srgb, #f59e0b 18%, transparent);
     color: #f59e0b;
-    box-shadow: 0 0 10px rgba(245, 158, 11, 0.28);
+    box-shadow: none;
   }
 
   &[data-type='error'],
   &[data-type='err'] {
     background: color-mix(in srgb, #f43f5e 18%, transparent);
     color: #f43f5e;
-    box-shadow: 0 0 10px rgba(244, 63, 94, 0.28);
+    box-shadow: none;
   }
 }
 
@@ -391,8 +391,8 @@
 
   &:hover {
     background: color-mix(in srgb, var(--selected-row) 40%, var(--glass-bg));
-    border-color: color-mix(in srgb, var(--primary-main) 35%, transparent);
-    box-shadow: var(--selection-glow);
+    border-color: transparent;
+    box-shadow: none;
   }
 
   &__header {
@@ -428,13 +428,13 @@
     &[data-tone='success'] {
       background: color-mix(in srgb, #22c55e 18%, transparent);
       color: #22c55e;
-      box-shadow: 0 0 14px rgba(34, 197, 94, 0.28);
+      box-shadow: none;
     }
 
     &[data-tone='error'] {
       background: color-mix(in srgb, #f43f5e 18%, transparent);
       color: #f43f5e;
-      box-shadow: 0 0 14px rgba(244, 63, 94, 0.28);
+      box-shadow: none;
     }
 
     &[data-tone='warning'] {
@@ -483,12 +483,12 @@
   .MuiButton-contained {
     min-height: 32px;
     border-radius: 999px;
-    box-shadow: var(--selection-glow);
+    box-shadow: none;
   }
 
   .MuiButton-text {
     min-height: 32px;
     border-radius: 999px;
-    color: #fb7185;
+    color: var(--text-secondary);
   }
 }

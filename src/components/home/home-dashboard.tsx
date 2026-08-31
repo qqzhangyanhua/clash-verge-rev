@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 
 import { CurrentProxyPickers } from '@/components/home/current-proxy-card'
+import { HomeActivityBoard } from '@/components/home/home-activity-board'
 import { HomeHeroCard } from '@/components/home/home-hero-card'
 import { HomeProfileCard } from '@/components/home/home-profile-card'
 import { HomeTrafficRow } from '@/components/home/home-traffic-row'
@@ -14,10 +15,11 @@ export const HomeDashboard = () => {
 
   return (
     <Box className="home-dashboard">
-      <HomeHeroCard model={controller.model} />
+      <HomeActivityBoard model={controller.model} />
       <Box className="home-dashboard__modules">
         <HomeProfileCard current={current} onProfileUpdated={mutateProfiles} />
         <CurrentProxyPickers controller={controller} />
+        <HomeHeroCard model={controller.model} />
         <HomeTrafficRow />
         <IpInfoCard />
       </Box>
