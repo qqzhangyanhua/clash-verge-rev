@@ -18,8 +18,8 @@ body {
 :root {
   --primary-main: #007aff;
   --text-primary: #1d1d1f;
-  --selection-color: #f5f5f5;
-  --scroller-color: #8c8c8c;
+  --selection-color: #f5f5f7;
+  --scroller-color: #c7c7cc;
   --background-color: #f2f2f7;
   --sidebar-color: #f2f2f7;
   --content-color: #ffffff;
@@ -29,6 +29,9 @@ body {
   --segment-track: rgba(0, 0, 0, 0.05);
   --divider-color: rgba(60, 60, 67, 0.12);
   --selected-row: #e5e5ea;
+  --window-border-color: rgba(60, 60, 67, 0.18);
+  --scrollbar-bg: #f2f2f7;
+  --scrollbar-thumb: #c7c7cc;
 }
 
 ::selection {

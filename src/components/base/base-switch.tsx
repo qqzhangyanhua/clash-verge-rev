@@ -1,6 +1,8 @@
 import { styled } from '@mui/material/styles'
 import { default as MuiSwitch, SwitchProps } from '@mui/material/Switch'
 
+import { darkSurface, lightSurface } from '@/pages/_theme'
+
 export const Switch = styled((props: SwitchProps) => (
   <MuiSwitch
     focusVisibleClassName=".Mui-focusVisible"
@@ -29,7 +31,7 @@ export const Switch = styled((props: SwitchProps) => (
       },
     },
     '&.Mui-focusVisible .MuiSwitch-thumb': {
-      color: '#33cf4d',
+      color: theme.palette.success.main,
       border: '6px solid #fff',
     },
     '&.Mui-disabled .MuiSwitch-thumb': {
@@ -49,7 +51,10 @@ export const Switch = styled((props: SwitchProps) => (
   },
   '& .MuiSwitch-track': {
     borderRadius: 26 / 2,
-    backgroundColor: theme.palette.mode === 'light' ? '#BBBBBB' : '#39393D',
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? lightSurface.switchTrack
+        : darkSurface.switchTrack,
     opacity: 1,
     transition: theme.transitions.create(['background-color'], {
       duration: 500,

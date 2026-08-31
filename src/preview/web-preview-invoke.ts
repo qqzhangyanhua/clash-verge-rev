@@ -119,7 +119,13 @@ export const handleWebPreviewInvoke = (
   switch (cmd) {
     case 'get_verge_config':
       return previewVergeConfig
-    case 'patch_verge_config':
+    case 'patch_verge_config': {
+      const payload = asRecord(args).payload
+      if (payload && typeof payload === 'object') {
+        Object.assign(previewVergeConfig, payload)
+      }
+      return { status: 'valid' }
+    }
     case 'patch_clash_config':
     case 'patch_profiles_config':
     case 'enhance_profiles':

@@ -18,7 +18,6 @@ import { useTranslation } from 'react-i18next'
 
 import { useIconCache } from '@/hooks/use-icon-cache'
 import { useVerge } from '@/hooks/use-verge'
-import { useThemeMode } from '@/services/states'
 import type { ResolvedProxyMember } from '@/types/proxy-view'
 
 import { ProxyGroupTools } from './proxy-group-tools'
@@ -56,9 +55,7 @@ export const ProxyRender = memo(function ProxyRender(props: RenderProps) {
   const { type, group, headState, member, memberCol } = item
   const { verge } = useVerge()
   const enable_group_icon = verge?.enable_group_icon ?? true
-  const mode = useThemeMode()
-  const isDark = mode === 'dark'
-  const itembackgroundcolor = isDark ? '#282A36' : '#ffffff'
+  const itembackgroundcolor = 'var(--content-color)'
   const iconCachePath = useIconCache({
     icon: group.icon,
     cacheKey: group.name.replaceAll(' ', ''),

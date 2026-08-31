@@ -221,8 +221,7 @@ export const useCustomTheme = () => {
       const backgroundColor = dt.background_color
       const sidebarColor = surface.sidebar
       const contentColor = surface.content
-      const selectColor = mode === 'light' ? '#f5f5f5' : '#3E3E3E'
-      const scrollColor = mode === 'light' ? '#90939980' : '#555555'
+      const selectColor = mode === 'light' ? '#F5F5F7' : '#3A3A3C'
       const dividerColor = surface.divider
       rootEle.style.setProperty('--divider-color', dividerColor)
       rootEle.style.setProperty('--background-color', backgroundColor)
@@ -230,7 +229,7 @@ export const useCustomTheme = () => {
       rootEle.style.setProperty('--content-color', contentColor)
       rootEle.style.setProperty('--selection-color', selectColor)
       rootEle.style.setProperty('--selected-row', surface.selectedRow)
-      rootEle.style.setProperty('--scroller-color', scrollColor)
+      rootEle.style.setProperty('--scroller-color', surface.scrollbarThumb)
       rootEle.style.setProperty('--primary-main', muiTheme.palette.primary.main)
       rootEle.style.setProperty('--text-primary', muiTheme.palette.text.primary)
       rootEle.style.setProperty(
@@ -242,18 +241,9 @@ export const useCustomTheme = () => {
         alpha(muiTheme.palette.primary.main, 0.1),
       )
       rootEle.style.setProperty('--segment-track', surface.segmentTrack)
-      rootEle.style.setProperty(
-        '--window-border-color',
-        mode === 'light' ? '#cccccc' : '#1E1E1E',
-      )
-      rootEle.style.setProperty(
-        '--scrollbar-bg',
-        mode === 'light' ? '#f1f1f1' : '#1C1C1E',
-      )
-      rootEle.style.setProperty(
-        '--scrollbar-thumb',
-        mode === 'light' ? '#c1c1c1' : '#555555',
-      )
+      rootEle.style.setProperty('--window-border-color', surface.windowBorder)
+      rootEle.style.setProperty('--scrollbar-bg', surface.scrollbarBg)
+      rootEle.style.setProperty('--scrollbar-thumb', surface.scrollbarThumb)
       rootEle.style.setProperty(
         '--user-background-image',
         hasUserBackground ? `url('${userBackgroundImage}')` : 'none',
@@ -296,7 +286,7 @@ export const useCustomTheme = () => {
           border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-          background-color: ${mode === 'light' ? '#a1a1a1' : '#666666'};
+          background-color: ${surface.scrollbarThumbHover};
         }
 
         body {

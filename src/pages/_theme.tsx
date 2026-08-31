@@ -10,6 +10,11 @@ export const lightSurface = {
   selectedRow: '#E5E5EA',
   divider: 'rgba(60, 60, 67, 0.12)',
   segmentTrack: 'rgba(0, 0, 0, 0.05)',
+  windowBorder: 'rgba(60, 60, 67, 0.18)',
+  scrollbarBg: '#F2F2F7',
+  scrollbarThumb: '#C7C7CC',
+  scrollbarThumbHover: '#AEAEB2',
+  switchTrack: '#E9E9EA',
 } as const
 
 export const darkSurface = {
@@ -20,6 +25,11 @@ export const darkSurface = {
   selectedRow: '#3A3A3C',
   divider: 'rgba(84, 84, 88, 0.36)',
   segmentTrack: 'rgba(255, 255, 255, 0.08)',
+  windowBorder: 'rgba(84, 84, 88, 0.48)',
+  scrollbarBg: '#1C1C1E',
+  scrollbarThumb: '#636366',
+  scrollbarThumbHover: '#8E8E93',
+  switchTrack: '#39393D',
 } as const
 
 // default theme setting
