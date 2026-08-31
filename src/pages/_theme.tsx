@@ -1,17 +1,21 @@
 import getSystem from '@/utils/get-system'
 const OS = getSystem()
 
-/** Window chrome + inset cards, aligned to Apple grouped surfaces. */
+/** Window chrome + inset cards, tuned for native macOS Settings / Mail. */
 export const lightSurface = {
-  background: '#F2F2F7',
-  sidebar: '#F2F2F7',
+  background: '#F5F5F7',
+  sidebar: '#E8E8ED',
   content: '#FFFFFF',
   paper: '#FFFFFF',
   selectedRow: '#E5E5EA',
-  divider: 'rgba(60, 60, 67, 0.12)',
-  segmentTrack: 'rgba(0, 0, 0, 0.05)',
-  windowBorder: 'rgba(60, 60, 67, 0.18)',
-  scrollbarBg: '#F2F2F7',
+  selectedSidebar: '#D8D8DC',
+  divider: 'rgba(60, 60, 67, 0.1)',
+  segmentTrack: 'rgba(0, 0, 0, 0.06)',
+  segmentSelectedShadow:
+    '0 0.5px 1px rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.04)',
+  cardShadow: '0 0.5px 0 rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.04)',
+  windowBorder: 'rgba(60, 60, 67, 0.16)',
+  scrollbarBg: '#F5F5F7',
   scrollbarThumb: '#C7C7CC',
   scrollbarThumbHover: '#AEAEB2',
   switchTrack: '#E9E9EA',
@@ -19,12 +23,16 @@ export const lightSurface = {
 
 export const darkSurface = {
   background: '#1C1C1E',
-  sidebar: '#1C1C1E',
+  sidebar: '#161618',
   content: '#2C2C2E',
   paper: '#2C2C2E',
   selectedRow: '#3A3A3C',
-  divider: 'rgba(84, 84, 88, 0.36)',
-  segmentTrack: 'rgba(255, 255, 255, 0.08)',
+  selectedSidebar: '#2C2C2E',
+  divider: 'rgba(84, 84, 88, 0.32)',
+  segmentTrack: 'rgba(255, 255, 255, 0.1)',
+  segmentSelectedShadow:
+    '0 0.5px 1px rgba(0, 0, 0, 0.45), 0 0 0 0.5px rgba(255, 255, 255, 0.06)',
+  cardShadow: 'none',
   windowBorder: 'rgba(84, 84, 88, 0.48)',
   scrollbarBg: '#1C1C1E',
   scrollbarThumb: '#636366',
@@ -43,7 +51,7 @@ export const defaultTheme = {
   warning_color: '#FF9500',
   success_color: '#34C759',
   background_color: lightSurface.background,
-  font_family: `-apple-system, BlinkMacSystemFont,"Microsoft YaHei UI", "Microsoft YaHei", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji"${
+  font_family: `-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji"${
     OS === 'windows' ? ', twemoji mozilla' : ''
   }`,
 }

@@ -34,25 +34,33 @@ export const LayoutItem = (props: Props) => {
       ref={sortable?.ref}
       style={sortable?.style}
       disablePadding
-      sx={{ px: navCollapsed ? 0 : 0.75 }}
+      sx={{ px: navCollapsed ? 0 : 0 }}
     >
       <ListItemButton
         ref={sortable?.handleRef}
         selected={!!match}
         sx={{
-          minHeight: 32,
-          borderRadius: 1,
-          py: 0.5,
+          minHeight: 28,
+          borderRadius: '7px',
+          py: 0.4,
           px: 1,
           cursor: 'pointer',
           '& .MuiListItemText-primary': {
             color: 'text.primary',
             fontSize: 13,
-            fontWeight: 500,
+            fontWeight: 400,
+            letterSpacing: '-0.01em',
+          },
+          '&:hover': {
+            bgcolor:
+              'color-mix(in srgb, var(--selected-sidebar) 62%, transparent)',
+          },
+          '&.Mui-selected .MuiListItemText-primary': {
+            fontWeight: 600,
           },
           '&.Mui-selected, &.Mui-selected:hover, &.Mui-selected.Mui-focusVisible':
             {
-              bgcolor: 'var(--selected-row)',
+              bgcolor: 'var(--selected-sidebar)',
             },
         }}
         title={navCollapsed ? children : undefined}

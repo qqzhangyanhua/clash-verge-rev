@@ -12,20 +12,20 @@
     overflow: hidden;
 
     &__left {
-      flex: 0 0 188px;
-      width: 188px;
-      min-width: 188px;
-      max-width: 188px;
+      flex: 0 0 200px;
+      width: 200px;
+      min-width: 200px;
+      max-width: 200px;
       display: flex;
       height: 100%;
-      padding: 6px 0 8px;
+      padding: 8px 0 12px;
       flex-direction: column;
       box-sizing: border-box;
       user-select: none;
       -webkit-user-select: none;
       overflow: hidden;
       background-color: var(--sidebar-color);
-      border-right: 1px solid var(--divider-color);
+      border-right: 0;
 
       .the-logo {
         position: relative;
@@ -48,7 +48,7 @@
         flex: 1 1 auto;
         overflow-y: auto;
         margin: 0;
-        padding: 4px 0;
+        padding: 2px 8px;
         scrollbar-width: none;
 
         &::-webkit-scrollbar {
@@ -79,13 +79,13 @@
 
 .the-control-bar {
   flex: 0 0 auto;
-  min-height: 40px;
+  min-height: 36px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 8px 12px;
-  padding: 6px 12px;
+  gap: 8px 16px;
+  padding: 5px 16px;
   box-sizing: border-box;
   border-bottom: 1px solid var(--divider-color);
   background-color: var(--background-color);
@@ -93,19 +93,21 @@
   &__switches {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
     min-width: 0;
   }
 
   &__switch {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 4px;
     min-width: 0;
   }
 
   &__label {
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
     color: var(--text-secondary, inherit);
     white-space: nowrap;
   }

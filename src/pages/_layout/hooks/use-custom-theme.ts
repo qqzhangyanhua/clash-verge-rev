@@ -178,12 +178,14 @@ export const useCustomTheme = () => {
             paper: mode === 'light' ? lightSurface.paper : darkSurface.paper,
           },
         },
-        shape: { borderRadius: 6 },
+        shape: { borderRadius: 10 },
         shadows: Array(25).fill('none') as Shadows,
         typography: {
           fontFamily: setting.font_family
             ? `${setting.font_family}, ${dt.font_family}`
             : dt.font_family,
+          fontSize: 13,
+          button: { textTransform: 'none', fontWeight: 500 },
         },
         components: {
           MuiButton: { defaultProps: { disableElevation: true } },
@@ -210,8 +212,8 @@ export const useCustomTheme = () => {
             paper: mode === 'light' ? lightSurface.paper : darkSurface.paper,
           },
         },
-        shape: { borderRadius: 6 },
-        typography: { fontFamily: dt.font_family },
+        shape: { borderRadius: 10 },
+        typography: { fontFamily: dt.font_family, fontSize: 13 },
       })
     }
 
@@ -229,6 +231,13 @@ export const useCustomTheme = () => {
       rootEle.style.setProperty('--content-color', contentColor)
       rootEle.style.setProperty('--selection-color', selectColor)
       rootEle.style.setProperty('--selected-row', surface.selectedRow)
+      rootEle.style.setProperty('--selected-sidebar', surface.selectedSidebar)
+      rootEle.style.setProperty('--card-shadow', surface.cardShadow)
+      rootEle.style.setProperty(
+        '--segment-selected-shadow',
+        surface.segmentSelectedShadow,
+      )
+      rootEle.style.setProperty('--border-radius', '10px')
       rootEle.style.setProperty('--scroller-color', surface.scrollbarThumb)
       rootEle.style.setProperty('--primary-main', muiTheme.palette.primary.main)
       rootEle.style.setProperty('--text-primary', muiTheme.palette.text.primary)
@@ -303,10 +312,10 @@ export const useCustomTheme = () => {
           background-color: ${surface.paper} !important;
         }
 
-        /* 移除可能的白色点或线条 */
-        * {
-          outline: none !important;
-          box-shadow: none !important;
+        button,
+        [role='button'],
+        a {
+          outline: none;
         }
       `
 

@@ -51,7 +51,7 @@ export const EnhancedCard = forwardRef<HTMLElement, EnhancedCardProps>(
             alignItems: 'center',
             justifyContent: 'space-between',
             gap: 1,
-            borderBottom: '1px solid var(--divider-color)',
+            boxShadow: 'inset 14px -1px 0 0 var(--divider-color)',
           }}
         >
           <Box
