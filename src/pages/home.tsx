@@ -26,7 +26,7 @@ const HomePage = () => {
   return (
     <BasePage
       title={t('home.page.title')}
-      contentStyle={{ padding: 12 }}
+      contentStyle={{ padding: 16 }}
       header={
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Tooltip title={t('home.page.tooltips.lightweightMode')} arrow>

@@ -44,7 +44,7 @@
       }
     },
     "currentProxy": {
-      "title": "Current Node",
+      "title": "Proxy",
       "actions": {
         "refreshDelay": "Delay check"
       },

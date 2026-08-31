@@ -32,6 +32,12 @@ import {
 } from './_layout/hooks'
 import { handleNoticeMessage } from './_layout/utils'
 import { navItems } from './_navigation'
+import {
+  darkSurface,
+  defaultDarkTheme,
+  defaultTheme,
+  lightSurface,
+} from './_theme'
 
 import 'dayjs/locale/ru'
 import 'dayjs/locale/zh-cn'
@@ -190,12 +196,16 @@ const Layout = () => {
         style={{
           width: '100vw',
           height: '100vh',
-          background: mode === 'light' ? '#fff' : '#181a1b',
+          background:
+            mode === 'light' ? lightSurface.background : darkSurface.background,
           transition: 'background 0.2s',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: mode === 'light' ? '#333' : '#fff',
+          color:
+            mode === 'light'
+              ? defaultTheme.primary_text
+              : defaultDarkTheme.primary_text,
         }}
       ></div>
     )

@@ -122,6 +122,7 @@ export const previewProxyView: ProxyViewV1 = {
       type: 'URLTest',
       alive: true,
       now: 'Singapore-01',
+      fixed: 'Singapore-01',
       history: [],
       members: [
         { kind: 'node', name: 'Singapore-01', recordId: 'n-sg' },

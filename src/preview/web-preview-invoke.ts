@@ -119,9 +119,14 @@ export const handleWebPreviewInvoke = (
   switch (cmd) {
     case 'get_verge_config':
       return previewVergeConfig
-    case 'patch_verge_config':
+    case 'patch_verge_config': {
+      const payload = asRecord(args).payload
+      if (payload && typeof payload === 'object') {
+        Object.assign(previewVergeConfig, payload)
+      }
+      return { status: 'valid' }
+    }
     case 'patch_clash_config':
-    case 'patch_clash_mode':
     case 'patch_profiles_config':
     case 'enhance_profiles':
     case 'update_profile':
@@ -138,6 +143,14 @@ export const handleWebPreviewInvoke = (
       return { status: 'valid' }
     case 'get_profiles':
       return previewProfiles
+    case 'patch_clash_mode': {
+      const payload = asRecord(args).payload
+      if (typeof payload === 'string') {
+        previewClashConfig.mode = payload
+        previewMihomoBaseConfig.mode = payload
+      }
+      return { status: 'valid' }
+    }
     case 'get_clash_info':
       return previewClashInfo
     case 'get_clash_mode':
@@ -228,7 +241,20 @@ export const handleWebPreviewInvoke = (
       return { providers: {} }
     case 'plugin:mihomo|get_connections':
       return previewConnections
-    case 'plugin:mihomo|select_node_for_group':
+    case 'plugin:mihomo|select_node_for_group': {
+      const groupName = asRecord(args).groupName
+      const node = asRecord(args).node
+      if (typeof groupName === 'string' && typeof node === 'string') {
+        if (previewProxyView.global?.name === groupName) {
+          previewProxyView.global.now = node
+        }
+        const group = previewProxyView.groups.find(
+          (item) => item.name === groupName,
+        )
+        if (group) group.now = node
+      }
+      return null
+    }
     case 'plugin:mihomo|close_all_connections':
     case 'plugin:mihomo|close_connection':
     case 'plugin:mihomo|ws_disconnect':

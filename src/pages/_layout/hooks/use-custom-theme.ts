@@ -12,7 +12,12 @@ import type { Theme as TauriOsTheme } from '@tauri-apps/api/window'
 import { useEffect, useMemo } from 'react'
 
 import { useVerge } from '@/hooks/use-verge'
-import { defaultDarkTheme, defaultTheme } from '@/pages/_theme'
+import {
+  darkSurface,
+  defaultDarkTheme,
+  defaultTheme,
+  lightSurface,
+} from '@/pages/_theme'
 import { useSetThemeMode, useThemeMode } from '@/services/states'
 
 const CSS_INJECTION_SCOPE_ROOT = '[data-css-injection-root]'
@@ -170,15 +175,17 @@ export const useCustomTheme = () => {
           },
           background: {
             default: dt.background_color,
-            paper: mode === 'light' ? '#FFFFFF' : '#2C2C2E',
+            paper: mode === 'light' ? lightSurface.paper : darkSurface.paper,
           },
         },
-        shape: { borderRadius: 6 },
+        shape: { borderRadius: 10 },
         shadows: Array(25).fill('none') as Shadows,
         typography: {
           fontFamily: setting.font_family
             ? `${setting.font_family}, ${dt.font_family}`
             : dt.font_family,
+          fontSize: 13,
+          button: { textTransform: 'none', fontWeight: 500 },
         },
         components: {
           MuiButton: { defaultProps: { disableElevation: true } },
@@ -202,33 +209,36 @@ export const useCustomTheme = () => {
           text: { primary: dt.primary_text, secondary: dt.secondary_text },
           background: {
             default: dt.background_color,
-            paper: mode === 'light' ? '#FFFFFF' : '#2C2C2E',
+            paper: mode === 'light' ? lightSurface.paper : darkSurface.paper,
           },
         },
-        shape: { borderRadius: 6 },
-        typography: { fontFamily: dt.font_family },
+        shape: { borderRadius: 10 },
+        typography: { fontFamily: dt.font_family, fontSize: 13 },
       })
     }
 
+    const surface = mode === 'light' ? lightSurface : darkSurface
     const rootEle = document.documentElement
     if (rootEle) {
       const backgroundColor = dt.background_color
-      const sidebarColor = mode === 'light' ? '#ececec' : '#1c1c1e'
-      const contentColor = mode === 'light' ? '#ffffff' : '#2c2c2e'
-      const selectColor = mode === 'light' ? '#f5f5f5' : '#3E3E3E'
-      const scrollColor = mode === 'light' ? '#90939980' : '#555555'
-      const dividerColor =
-        mode === 'light' ? 'rgba(60, 60, 67, 0.18)' : 'rgba(84, 84, 88, 0.42)'
+      const sidebarColor = surface.sidebar
+      const contentColor = surface.content
+      const selectColor = mode === 'light' ? '#F5F5F7' : '#3A3A3C'
+      const dividerColor = surface.divider
       rootEle.style.setProperty('--divider-color', dividerColor)
       rootEle.style.setProperty('--background-color', backgroundColor)
       rootEle.style.setProperty('--sidebar-color', sidebarColor)
       rootEle.style.setProperty('--content-color', contentColor)
       rootEle.style.setProperty('--selection-color', selectColor)
+      rootEle.style.setProperty('--selected-row', surface.selectedRow)
+      rootEle.style.setProperty('--selected-sidebar', surface.selectedSidebar)
+      rootEle.style.setProperty('--card-shadow', surface.cardShadow)
       rootEle.style.setProperty(
-        '--selected-row',
-        mode === 'light' ? '#d1d1d6' : '#3a3a3c',
+        '--segment-selected-shadow',
+        surface.segmentSelectedShadow,
       )
-      rootEle.style.setProperty('--scroller-color', scrollColor)
+      rootEle.style.setProperty('--border-radius', '10px')
+      rootEle.style.setProperty('--scroller-color', surface.scrollbarThumb)
       rootEle.style.setProperty('--primary-main', muiTheme.palette.primary.main)
       rootEle.style.setProperty('--text-primary', muiTheme.palette.text.primary)
       rootEle.style.setProperty(
@@ -239,22 +249,10 @@ export const useCustomTheme = () => {
         '--background-color-alpha',
         alpha(muiTheme.palette.primary.main, 0.1),
       )
-      rootEle.style.setProperty(
-        '--segment-track',
-        mode === 'light' ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.1)',
-      )
-      rootEle.style.setProperty(
-        '--window-border-color',
-        mode === 'light' ? '#cccccc' : '#1E1E1E',
-      )
-      rootEle.style.setProperty(
-        '--scrollbar-bg',
-        mode === 'light' ? '#f1f1f1' : '#1C1C1E',
-      )
-      rootEle.style.setProperty(
-        '--scrollbar-thumb',
-        mode === 'light' ? '#c1c1c1' : '#555555',
-      )
+      rootEle.style.setProperty('--segment-track', surface.segmentTrack)
+      rootEle.style.setProperty('--window-border-color', surface.windowBorder)
+      rootEle.style.setProperty('--scrollbar-bg', surface.scrollbarBg)
+      rootEle.style.setProperty('--scrollbar-thumb', surface.scrollbarThumb)
       rootEle.style.setProperty(
         '--user-background-image',
         hasUserBackground ? `url('${userBackgroundImage}')` : 'none',
@@ -297,7 +295,7 @@ export const useCustomTheme = () => {
           border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-          background-color: ${mode === 'light' ? '#a1a1a1' : '#666666'};
+          background-color: ${surface.scrollbarThumbHover};
         }
 
         body {
@@ -311,13 +309,13 @@ export const useCustomTheme = () => {
 
         /* 确保模态框和对话框也使用暗色主题 */
         .MuiDialog-paper {
-          background-color: ${mode === 'light' ? '#ffffff' : '#2C2C2E'} !important;
+          background-color: ${surface.paper} !important;
         }
 
-        /* 移除可能的白色点或线条 */
-        * {
-          outline: none !important;
-          box-shadow: none !important;
+        button,
+        [role='button'],
+        a {
+          outline: none;
         }
       `
 
