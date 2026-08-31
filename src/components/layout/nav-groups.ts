@@ -4,7 +4,7 @@ export const NAV_GROUP_ORDER = ['overview', 'network', 'monitor'] as const
 
 export type NavGroupId = (typeof NAV_GROUP_ORDER)[number]
 
-export const NAV_GROUP_BY_PATH: Record<string, NavGroupId | 'system'> = {
+const NAV_GROUP_BY_PATH: Record<string, NavGroupId | 'system'> = {
   '/': 'overview',
   '/proxies': 'network',
   '/profile': 'network',

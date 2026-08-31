@@ -1,16 +1,19 @@
-import { Box, ClickAwayListener } from '@mui/material'
+import { Box, ClickAwayListener, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
-import {
-  CurrentProxyCardHeader,
-  CurrentProxyCardRow,
-} from './current-proxy-card-rows'
+import { CurrentProxyCardRow } from './current-proxy-card-rows'
 import { GroupPickerList, ProxyPickerList } from './current-proxy-pickers'
-import { useCurrentProxyCard } from './use-current-proxy-card'
+import { type CurrentProxyCardController } from './use-current-proxy-card'
 
 const GROUP_PICKER_ID = 'current-proxy-group-listbox'
 const PROXY_PICKER_ID = 'current-proxy-node-listbox'
 
-export const CurrentProxyCard = () => {
+export const CurrentProxyPickers = ({
+  controller,
+}: {
+  controller: CurrentProxyCardController
+}) => {
+  const { t } = useTranslation()
   const {
     model,
     sortType,
@@ -23,12 +26,14 @@ export const CurrentProxyCard = () => {
     handleProxyChange,
     handleCheckDelay,
     handleSortTypeChange,
-  } = useCurrentProxyCard()
+  } = controller
 
   return (
     <ClickAwayListener onClickAway={() => closePicker()}>
-      <Box className="inset-group current-proxy-card">
-        <CurrentProxyCardHeader view={model.view} />
+      <Box className="home-module current-proxy-card">
+        <Typography className="home-module__title">
+          {t('home.components.currentProxy.title')}
+        </Typography>
         <CurrentProxyCardRow
           id="current-proxy-group-row"
           row={model.view.groupRow}

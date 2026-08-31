@@ -8,11 +8,7 @@ import {
   useRef,
 } from 'react'
 
-import {
-  delayToneColor,
-  type CardRow,
-  type CurrentProxyCardView,
-} from './current-proxy-card-view'
+import { type CardRow } from './current-proxy-card-view'
 
 const mergeRefs = <T,>(
   ...refs: Array<Ref<T> | undefined>
@@ -28,30 +24,6 @@ const mergeRefs = <T,>(
     }
   }
 }
-
-export const CurrentProxyCardHeader = ({
-  view,
-}: {
-  view: CurrentProxyCardView
-}) => (
-  <Box className="current-proxy-card__header">
-    <Typography className="current-proxy-card__title">
-      {view.headerTitle}
-    </Typography>
-    <Box className="current-proxy-card__value">
-      <Typography noWrap className="current-proxy-card__name">
-        {view.nodeName}
-      </Typography>
-      <Typography
-        noWrap
-        className="current-proxy-card__delay"
-        sx={{ color: delayToneColor(view.delay.tone) }}
-      >
-        {view.delay.text}
-      </Typography>
-    </Box>
-  </Box>
-)
 
 export const CurrentProxyCardRow = ({
   id,

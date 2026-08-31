@@ -1,7 +1,15 @@
 import { describe, expect, it } from 'vitest'
 
-import { collectGroupProtocols } from '@/components/proxy/proxy-group-meta'
-import type { ProxyGroupView, ProxyNodeView } from '@/types/proxy-view'
+import {
+  collectGroupProtocols,
+  collectMemberProtocols,
+  protocolLabel,
+} from '@/components/proxy/proxy-group-meta'
+import type {
+  ProxyGroupView,
+  ProxyNodeView,
+  ResolvedProxyMember,
+} from '@/types/proxy-view'
 
 const capabilities = {
   udp: true,
@@ -29,6 +37,25 @@ const node = (recordId: string, type: string): ProxyNodeView => ({
   history: [],
   source: { kind: 'core', proxyName: recordId },
   ...capabilities,
+})
+
+describe('protocolLabel', () => {
+  it('maps short types to display names', () => {
+    expect(protocolLabel('ss')).toBe('Shadowsocks')
+    expect(protocolLabel('vmess')).toBe('VMess')
+    expect(protocolLabel('custom')).toBe('custom')
+  })
+})
+
+describe('collectMemberProtocols', () => {
+  it('returns protocol and UDP chips for a node', () => {
+    const member: ResolvedProxyMember = {
+      kind: 'node',
+      ref: { kind: 'node', name: 'Tokyo-01', recordId: 'a' },
+      node: node('a', 'ss'),
+    }
+    expect(collectMemberProtocols(member)).toEqual(['Shadowsocks', 'UDP'])
+  })
 })
 
 describe('collectGroupProtocols', () => {

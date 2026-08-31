@@ -33,7 +33,13 @@
         "adminServiceMode": "系統管理員 + 服務模式"
       }
     },
+    "hero": {
+      "healthy": "健康",
+      "upload": "上傳",
+      "download": "下載"
+    },
     "ipInfo": {
+      "title": "出口",
       "labels": {
         "unknown": "未知"
       },
@@ -72,6 +78,7 @@
       "title": "網站測試"
     },
     "traffic": {
+      "title": "流量",
       "metrics": {
         "uploadSpeed": "上傳速度",
         "downloadSpeed": "下載速度"

@@ -81,6 +81,11 @@ export interface TranslationResources {
           }
           title: string
         }
+        hero: {
+          download: string
+          healthy: string
+          upload: string
+        }
         ipInfo: {
           errors: {
             load: string
@@ -90,6 +95,7 @@ export interface TranslationResources {
           labels: {
             unknown: string
           }
+          title: string
         }
         systemInfo: {
           badges: {
@@ -115,6 +121,7 @@ export interface TranslationResources {
             downloadSpeed: string
             uploadSpeed: string
           }
+          title: string
         }
       }
       page: {

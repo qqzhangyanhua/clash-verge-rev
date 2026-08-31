@@ -33,7 +33,13 @@
         "adminServiceMode": "Admin + Service Mode"
       }
     },
+    "hero": {
+      "healthy": "Healthy",
+      "upload": "Upload",
+      "download": "Download"
+    },
     "ipInfo": {
+      "title": "Exit",
       "labels": {
         "unknown": "Desconocido"
       },
@@ -72,6 +78,7 @@
       "title": "Pruebas de sitios web"
     },
     "traffic": {
+      "title": "Traffic",
       "metrics": {
         "uploadSpeed": "Velocidad de subida",
         "downloadSpeed": "Velocidad de descarga"
