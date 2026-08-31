@@ -52,8 +52,8 @@ const seedWebSocket = (cmd: string, args: InvokeArgs): number => {
     let upTotal = 16 * 1024 * 1024
     let downTotal = 128 * 1024 * 1024
     const pointCount = 48
-    for (let index = 0; index < pointCount; index += 1) {
-      const wave = index / (pointCount - 1)
+    const emitTrafficPoint = (index: number) => {
+      const wave = index / Math.max(pointCount - 1, 1)
       const up = Math.round(
         (0.38 + 0.86 * (0.5 + 0.5 * Math.sin(wave * Math.PI * 2.4))) *
           1024 *
@@ -66,8 +66,10 @@ const seedWebSocket = (cmd: string, args: InvokeArgs): number => {
       )
       upTotal += up
       downTotal += down
-      const payload = JSON.stringify({ up, down, upTotal, downTotal })
-      channel?.onmessage?.(payload)
+      emitChannel(channel, JSON.stringify({ up, down, upTotal, downTotal }))
+    }
+    for (let index = 0; index < pointCount; index += 1) {
+      emitTrafficPoint(index)
     }
   }
 
