@@ -1,12 +1,8 @@
-import { Box } from '@mui/material'
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { TrafficSparkline } from '@/components/shared/traffic-sparkline'
+import { FeaturedNodePanel } from '@/components/shared/featured-node-panel'
+import { useFeaturedTraffic } from '@/hooks/use-featured-traffic'
 import { useProxyDelayState } from '@/hooks/use-proxy-delay-state'
-import { useTrafficData } from '@/hooks/use-traffic-data'
-import { useTrafficMonitorEnhanced } from '@/hooks/use-traffic-monitor'
-import { useVisibility } from '@/hooks/use-visibility'
 import { getIpInfo } from '@/services/api'
 import delayManager from '@/services/delay'
 import { useQuery } from '@/services/query-client'
@@ -16,34 +12,37 @@ import {
   type ProxyViewV1,
   type ResolvedProxyMember,
 } from '@/types/proxy-view'
-import parseTraffic from '@/utils/parse-traffic'
+import { getCountryFlag } from '@/utils/country-flag'
 
-const SPARKLINE_POINT_COUNT = 48
 const IP_INFO_CACHE_KEY = 'cv_ip_info_cache'
 
-const ProtocolChips = ({ chips }: { chips: string[] }) => {
-  if (chips.length === 0) return null
-  return (
-    <Box className="proxy-group-item__chips" sx={{ mt: 0.75 }}>
-      {chips.map((chip) => (
-        <span key={chip} className="proto-chip">
-          {chip}
-        </span>
-      ))}
-    </Box>
-  )
-}
-
-const FeaturedMetrics = ({
+const FeaturedDelayPanel = ({
   member,
   groupName,
+  nodeName,
+  protocols,
+  location,
+  ip,
+  countryFlag,
+  uploadText,
+  downloadText,
+  upValues,
+  downValues,
 }: {
   member: ResolvedProxyMember
   groupName: string
+  nodeName: string
+  protocols: string[]
+  location: string
+  ip?: string
+  countryFlag?: string
+  uploadText: string
+  downloadText: string
+  upValues: number[]
+  downValues: number[]
 }) => {
   const { t } = useTranslation()
   const { delayValue, timeout } = useProxyDelayState(member, groupName)
-
   const delayText =
     delayValue > 0 ? delayManager.formatDelay(delayValue, timeout) : '—'
   const delayColor =
@@ -52,66 +51,20 @@ const FeaturedMetrics = ({
       : 'text.secondary'
 
   return (
-    <div className="proxy-featured__metrics">
-      <div className="proxy-featured__latency">
-        <Box
-          className="proxy-featured__latency-value"
-          sx={{ color: delayColor }}
-        >
-          {delayText}
-        </Box>
-        <div className="proxy-featured__latency-label">
-          {t('proxies.page.labels.latency')}
-        </div>
-      </div>
-      <FeaturedSpeeds />
-    </div>
-  )
-}
-
-const FeaturedSpeeds = () => {
-  const pageVisible = useVisibility()
-  const {
-    response: { data: traffic },
-  } = useTrafficData({ enabled: pageVisible })
-  const [up, upUnit] = parseTraffic(traffic?.up || 0)
-  const [down, downUnit] = parseTraffic(traffic?.down || 0)
-
-  return (
-    <div className="proxy-featured__speeds">
-      <span>
-        ↑ {up} {upUnit}/s
-      </span>
-      <span>
-        ↓ {down} {downUnit}/s
-      </span>
-    </div>
-  )
-}
-
-const FeaturedSparkline = () => {
-  const pageVisible = useVisibility()
-  const { graphData } = useTrafficMonitorEnhanced({
-    subscribe: true,
-    enabled: pageVisible,
-  })
-  const sparklinePoints = useMemo(() => {
-    const points = graphData.dataPoints.slice(-SPARKLINE_POINT_COUNT)
-    return {
-      upValues: points.map((point) => point.up),
-      downValues: points.map((point) => point.down),
-    }
-  }, [graphData.dataPoints])
-
-  return (
-    <div className="proxy-featured__spark">
-      <TrafficSparkline
-        upValues={sparklinePoints.upValues}
-        downValues={sparklinePoints.downValues}
-        width={320}
-        height={52}
-      />
-    </div>
+    <FeaturedNodePanel
+      nodeName={nodeName}
+      protocols={protocols}
+      location={location}
+      ip={ip}
+      countryFlag={countryFlag}
+      latencyText={delayText}
+      latencyColor={delayColor}
+      latencyLabel={t('proxies.page.labels.latency')}
+      uploadText={uploadText}
+      downloadText={downloadText}
+      upValues={upValues}
+      downValues={downValues}
+    />
   )
 }
 
@@ -136,33 +89,46 @@ export const ProxyFeaturedCard = ({
     refetchOnReconnect: false,
     retry: 1,
   })
-
+  const traffic = useFeaturedTraffic(48)
   const nodeName = current?.member.ref.name ?? group.now ?? group.name
   const location =
     [ipInfo?.country, ipInfo?.city].filter(Boolean).join(' · ') ||
     t('home.components.ipInfo.labels.unknown')
-  const ip = ipInfo?.ip
+  const countryFlag = getCountryFlag(ipInfo?.country_code)
+
+  if (!current) {
+    return (
+      <FeaturedNodePanel
+        nodeName={nodeName}
+        protocols={protocols}
+        location={location}
+        ip={ipInfo?.ip}
+        countryFlag={countryFlag}
+        latencyText="—"
+        latencyLabel={t('proxies.page.labels.latency')}
+        uploadText={traffic.uploadText}
+        downloadText={traffic.downloadText}
+        upValues={traffic.upValues}
+        downValues={traffic.downValues}
+        empty
+        emptyText={t('home.components.currentProxy.labels.noActiveNode')}
+      />
+    )
+  }
 
   return (
-    <section className="proxy-featured">
-      <div className="proxy-featured__body">
-        <div className="proxy-featured__identity">
-          <h2 className="proxy-featured__name">{nodeName}</h2>
-          <ProtocolChips chips={protocols} />
-          <div className="proxy-featured__meta">
-            {location}
-            {ip ? `  ·  ${ip}` : ''}
-          </div>
-        </div>
-        {current ? (
-          <FeaturedMetrics member={current.member} groupName={group.name} />
-        ) : (
-          <div className="proxy-featured__meta">
-            {t('home.components.currentProxy.labels.noActiveNode')}
-          </div>
-        )}
-      </div>
-      <FeaturedSparkline />
-    </section>
+    <FeaturedDelayPanel
+      member={current.member}
+      groupName={group.name}
+      nodeName={nodeName}
+      protocols={protocols}
+      location={location}
+      ip={ipInfo?.ip}
+      countryFlag={countryFlag}
+      uploadText={traffic.uploadText}
+      downloadText={traffic.downloadText}
+      upValues={traffic.upValues}
+      downValues={traffic.downValues}
+    />
   )
 }

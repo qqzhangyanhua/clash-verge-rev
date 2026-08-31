@@ -51,15 +51,23 @@ const seedWebSocket = (cmd: string, args: InvokeArgs): number => {
   if (cmd === 'plugin:mihomo|ws_traffic') {
     let upTotal = 16 * 1024 * 1024
     let downTotal = 128 * 1024 * 1024
-    for (let index = 0; index < 6; index += 1) {
-      const up = 800 + index * 120
-      const down = 3600 + index * 240
+    const pointCount = 48
+    for (let index = 0; index < pointCount; index += 1) {
+      const wave = index / (pointCount - 1)
+      const up = Math.round(
+        (0.38 + 0.86 * (0.5 + 0.5 * Math.sin(wave * Math.PI * 2.4))) *
+          1024 *
+          1024,
+      )
+      const down = Math.round(
+        (2.4 + 6.2 * (0.5 + 0.5 * Math.sin(wave * Math.PI * 2.4 + 0.9))) *
+          1024 *
+          1024,
+      )
       upTotal += up
       downTotal += down
       const payload = JSON.stringify({ up, down, upTotal, downTotal })
-      window.setTimeout(() => {
-        channel?.onmessage?.(payload)
-      }, index * 400)
+      channel?.onmessage?.(payload)
     }
   }
 

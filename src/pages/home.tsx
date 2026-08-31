@@ -4,18 +4,13 @@ import { useLockFn } from 'ahooks'
 import { useTranslation } from 'react-i18next'
 
 import { BasePage } from '@/components/base'
-import { CurrentProxyCard } from '@/components/home/current-proxy-card'
-import { HomeProfileCard } from '@/components/home/home-profile-card'
-import { HomeTrafficRow } from '@/components/home/home-traffic-row'
-import { IpInfoCard } from '@/components/home/ip-info-card'
-import { useProfiles } from '@/hooks/use-profiles'
+import { HomeDashboard } from '@/components/home/home-dashboard'
 import { entry_lightweight_mode } from '@/services/cmds'
 import { showNotice } from '@/services/notice-service'
 import { openExternalUrl } from '@/utils/open-external-url'
 
 const HomePage = () => {
   const { t } = useTranslation()
-  const { current, mutateProfiles } = useProfiles()
 
   const toGithubDoc = useLockFn(() =>
     openExternalUrl('https://clash-verge-rev.github.io/index.html').catch(
@@ -46,12 +41,7 @@ const HomePage = () => {
         </Box>
       }
     >
-      <Box className="home-console">
-        <HomeProfileCard current={current} onProfileUpdated={mutateProfiles} />
-        <CurrentProxyCard />
-        <HomeTrafficRow />
-        <IpInfoCard />
-      </Box>
+      <HomeDashboard />
     </BasePage>
   )
 }

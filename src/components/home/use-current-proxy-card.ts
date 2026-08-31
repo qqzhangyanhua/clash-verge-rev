@@ -380,3 +380,5 @@ export const useCurrentProxyCard = () => {
     handleSortTypeChange,
   }
 }
+
+export type CurrentProxyCardController = ReturnType<typeof useCurrentProxyCard>

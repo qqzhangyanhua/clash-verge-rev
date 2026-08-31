@@ -33,7 +33,13 @@
         "adminServiceMode": "Yönetici + Hizmet Modu"
       }
     },
+    "hero": {
+      "healthy": "Healthy",
+      "upload": "Upload",
+      "download": "Download"
+    },
     "ipInfo": {
+      "title": "Exit",
       "labels": {
         "unknown": "Bilinmiyor"
       },
@@ -72,6 +78,7 @@
       "title": "Web Sitesi Testleri"
     },
     "traffic": {
+      "title": "Traffic",
       "metrics": {
         "uploadSpeed": "Yükleme Hızı",
         "downloadSpeed": "İndirme Hızı"

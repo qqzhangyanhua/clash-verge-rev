@@ -33,7 +33,13 @@
         "adminServiceMode": "Режим администратора + служба"
       }
     },
+    "hero": {
+      "healthy": "Healthy",
+      "upload": "Upload",
+      "download": "Download"
+    },
     "ipInfo": {
+      "title": "Exit",
       "labels": {
         "unknown": "Неизвестно"
       },
@@ -72,6 +78,7 @@
       "title": "Проверка доступности сайтов"
     },
     "traffic": {
+      "title": "Traffic",
       "metrics": {
         "uploadSpeed": "Скорость загрузки",
         "downloadSpeed": "Скорость скачивания"

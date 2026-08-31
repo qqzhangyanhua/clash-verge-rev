@@ -5,18 +5,11 @@ import {
   CloudUploadRounded,
 } from '@mui/icons-material'
 import { Box, Typography } from '@mui/material'
-import { type ReactNode, useMemo } from 'react'
+import { type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { TrafficErrorBoundary } from '@/components/shared/traffic-error-boundary'
-import { TrafficSparkline } from '@/components/shared/traffic-sparkline'
-import { useTrafficData } from '@/hooks/use-traffic-data'
-import { useTrafficMonitorEnhanced } from '@/hooks/use-traffic-monitor'
-import { useVerge } from '@/hooks/use-verge'
-import { useVisibility } from '@/hooks/use-visibility'
-import parseTraffic from '@/utils/parse-traffic'
-
-const SPARKLINE_POINT_COUNT = 60
+import { useFeaturedTraffic } from '@/hooks/use-featured-traffic'
 
 const TrafficMetric = ({
   icon,
@@ -30,77 +23,25 @@ const TrafficMetric = ({
   unit: string
 }) => (
   <Box
+    className="home-traffic__metric"
     aria-label={`${label} ${value} ${unit}`.trim()}
-    sx={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: 0.75,
-      minWidth: 0,
-    }}
   >
-    <Box
-      sx={{
-        display: 'flex',
-        color: 'text.secondary',
-        '& .MuiSvgIcon-root': { fontSize: 16 },
-      }}
-    >
-      {icon}
+    <Box className="home-traffic__metric-icon">{icon}</Box>
+    <Box className="home-traffic__metric-copy">
+      <Typography className="home-traffic__metric-value">
+        {value}
+        <Typography component="span" className="home-traffic__metric-unit">
+          {unit}
+        </Typography>
+      </Typography>
+      <Typography className="home-traffic__metric-label">{label}</Typography>
     </Box>
-    <Typography
-      variant="body2"
-      sx={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}
-    >
-      {value}
-    </Typography>
-    <Typography variant="caption" color="text.secondary" noWrap>
-      {unit}
-    </Typography>
   </Box>
 )
 
 export const HomeTrafficRow = () => {
   const { t } = useTranslation()
-  const { verge } = useVerge()
-  const pageVisible = useVisibility()
-  const trafficGraph = verge?.traffic_graph ?? true
-
-  const {
-    response: { data: traffic },
-  } = useTrafficData({ enabled: pageVisible })
-
-  const { graphData } = useTrafficMonitorEnhanced({
-    subscribe: trafficGraph,
-    enabled: pageVisible && trafficGraph,
-  })
-
-  const parsed = useMemo(() => {
-    const [up, upUnit] = parseTraffic(traffic?.up || 0)
-    const [down, downUnit] = parseTraffic(traffic?.down || 0)
-    const [uploadTotal, uploadTotalUnit] = parseTraffic(traffic?.upTotal || 0)
-    const [downloadTotal, downloadTotalUnit] = parseTraffic(
-      traffic?.downTotal || 0,
-    )
-
-    return {
-      up,
-      upUnit,
-      down,
-      downUnit,
-      uploadTotal,
-      uploadTotalUnit,
-      downloadTotal,
-      downloadTotalUnit,
-    }
-  }, [traffic])
-
-  const sparklinePoints = useMemo(() => {
-    const points = graphData.dataPoints.slice(-SPARKLINE_POINT_COUNT)
-    return {
-      upValues: points.map((point) => point.up),
-      downValues: points.map((point) => point.down),
-    }
-  }, [graphData.dataPoints])
+  const parsed = useFeaturedTraffic(48)
 
   return (
     <TrafficErrorBoundary
@@ -108,28 +49,11 @@ export const HomeTrafficRow = () => {
         console.error('[HomeTrafficRow] 组件错误:', error, errorInfo)
       }}
     >
-      <Box className="home-console__row">
-        {trafficGraph && (
-          <Box sx={{ width: 120, flexShrink: 0 }}>
-            <TrafficSparkline
-              upValues={sparklinePoints.upValues}
-              downValues={sparklinePoints.downValues}
-              width={120}
-              height={36}
-            />
-          </Box>
-        )}
-
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            gap: { xs: 1.5, sm: 2.5 },
-            minWidth: 0,
-            flex: 1,
-          }}
-        >
+      <Box className="home-module home-traffic">
+        <Typography className="home-module__title">
+          {t('home.components.traffic.title')}
+        </Typography>
+        <Box className="home-traffic__grid">
           <TrafficMetric
             icon={<ArrowUpwardRounded />}
             label={t('home.components.traffic.metrics.uploadSpeed')}
