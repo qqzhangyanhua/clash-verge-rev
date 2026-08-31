@@ -12,7 +12,12 @@ import type { Theme as TauriOsTheme } from '@tauri-apps/api/window'
 import { useEffect, useMemo } from 'react'
 
 import { useVerge } from '@/hooks/use-verge'
-import { defaultDarkTheme, defaultTheme } from '@/pages/_theme'
+import {
+  darkSurface,
+  defaultDarkTheme,
+  defaultTheme,
+  lightSurface,
+} from '@/pages/_theme'
 import { useSetThemeMode, useThemeMode } from '@/services/states'
 
 const CSS_INJECTION_SCOPE_ROOT = '[data-css-injection-root]'
@@ -170,7 +175,7 @@ export const useCustomTheme = () => {
           },
           background: {
             default: dt.background_color,
-            paper: mode === 'light' ? '#FFFFFF' : '#2C2C2E',
+            paper: mode === 'light' ? lightSurface.paper : darkSurface.paper,
           },
         },
         shape: { borderRadius: 6 },
@@ -202,7 +207,7 @@ export const useCustomTheme = () => {
           text: { primary: dt.primary_text, secondary: dt.secondary_text },
           background: {
             default: dt.background_color,
-            paper: mode === 'light' ? '#FFFFFF' : '#2C2C2E',
+            paper: mode === 'light' ? lightSurface.paper : darkSurface.paper,
           },
         },
         shape: { borderRadius: 6 },
@@ -210,24 +215,21 @@ export const useCustomTheme = () => {
       })
     }
 
+    const surface = mode === 'light' ? lightSurface : darkSurface
     const rootEle = document.documentElement
     if (rootEle) {
       const backgroundColor = dt.background_color
-      const sidebarColor = mode === 'light' ? '#ececec' : '#1c1c1e'
-      const contentColor = mode === 'light' ? '#ffffff' : '#2c2c2e'
+      const sidebarColor = surface.sidebar
+      const contentColor = surface.content
       const selectColor = mode === 'light' ? '#f5f5f5' : '#3E3E3E'
       const scrollColor = mode === 'light' ? '#90939980' : '#555555'
-      const dividerColor =
-        mode === 'light' ? 'rgba(60, 60, 67, 0.18)' : 'rgba(84, 84, 88, 0.42)'
+      const dividerColor = surface.divider
       rootEle.style.setProperty('--divider-color', dividerColor)
       rootEle.style.setProperty('--background-color', backgroundColor)
       rootEle.style.setProperty('--sidebar-color', sidebarColor)
       rootEle.style.setProperty('--content-color', contentColor)
       rootEle.style.setProperty('--selection-color', selectColor)
-      rootEle.style.setProperty(
-        '--selected-row',
-        mode === 'light' ? '#d1d1d6' : '#3a3a3c',
-      )
+      rootEle.style.setProperty('--selected-row', surface.selectedRow)
       rootEle.style.setProperty('--scroller-color', scrollColor)
       rootEle.style.setProperty('--primary-main', muiTheme.palette.primary.main)
       rootEle.style.setProperty('--text-primary', muiTheme.palette.text.primary)
@@ -239,10 +241,7 @@ export const useCustomTheme = () => {
         '--background-color-alpha',
         alpha(muiTheme.palette.primary.main, 0.1),
       )
-      rootEle.style.setProperty(
-        '--segment-track',
-        mode === 'light' ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.1)',
-      )
+      rootEle.style.setProperty('--segment-track', surface.segmentTrack)
       rootEle.style.setProperty(
         '--window-border-color',
         mode === 'light' ? '#cccccc' : '#1E1E1E',
@@ -311,7 +310,7 @@ export const useCustomTheme = () => {
 
         /* 确保模态框和对话框也使用暗色主题 */
         .MuiDialog-paper {
-          background-color: ${mode === 'light' ? '#ffffff' : '#2C2C2E'} !important;
+          background-color: ${surface.paper} !important;
         }
 
         /* 移除可能的白色点或线条 */
