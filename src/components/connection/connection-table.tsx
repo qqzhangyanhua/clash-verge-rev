@@ -9,6 +9,7 @@ import {
   useState,
   type MouseEvent as ReactMouseEvent,
   type TouchEvent as ReactTouchEvent,
+  type ReactNode,
   type UIEvent as ReactUIEvent,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -68,7 +69,7 @@ interface BaseColumn {
   minWidth: number
   maxWidth?: number
   align?: 'left' | 'right'
-  cell?: (row: IConnectionsItem, snapshot: TableRowSnapshot) => string
+  cell?: (row: IConnectionsItem, snapshot: TableRowSnapshot) => ReactNode
 }
 
 interface DisplayColumn extends BaseColumn {
@@ -249,7 +250,6 @@ interface RowComponentProps {
   columns: DisplayColumn[]
   onShowDetail: (id: string) => void
   getSnapshot: (row: IConnectionsItem) => TableRowSnapshot
-  borderColor: string
   selected: boolean
   virtualTop: number
 }
@@ -260,7 +260,6 @@ const RowComponent = memo(
     columns,
     onShowDetail,
     getSnapshot,
-    borderColor,
     selected,
     virtualTop,
   }: RowComponentProps) {
@@ -273,16 +272,14 @@ const RowComponent = memo(
     return (
       <div
         aria-selected={selected}
+        className={`connection-table__row${selected ? ' is-selected' : ''}`}
         style={{
-          display: 'flex',
           position: 'absolute',
           top: virtualTop,
           left: 0,
           right: 0,
           height: ROW_HEIGHT,
           cursor: 'pointer',
-          backgroundColor: selected ? 'var(--selected-row)' : undefined,
-          borderBottom: `1px solid ${borderColor}`,
         }}
         onClick={handleClick}
       >
@@ -317,7 +314,6 @@ const RowComponent = memo(
     prev.virtualTop === next.virtualTop &&
     prev.onShowDetail === next.onShowDetail &&
     prev.getSnapshot === next.getSnapshot &&
-    prev.borderColor === next.borderColor &&
     prev.selected === next.selected,
 )
 
@@ -436,12 +432,21 @@ export const ConnectionTable = (props: Props) => {
         headerName: t('connections.components.fields.rule'),
         width: 220,
         minWidth: 160,
+        cell: (_, snapshot) => (
+          <span className="proto-chip">{snapshot.ruleText}</span>
+        ),
       },
       {
         field: 'process',
         headerName: t('connections.components.fields.process'),
         width: 180,
         minWidth: 140,
+        cell: (_, snapshot) =>
+          snapshot.process ? (
+            <span className="proto-chip">{snapshot.process}</span>
+          ) : (
+            '—'
+          ),
       },
       {
         field: 'time',
@@ -465,8 +470,14 @@ export const ConnectionTable = (props: Props) => {
       {
         field: 'type',
         headerName: t('connections.components.fields.type'),
-        width: 120,
-        minWidth: 80,
+        width: 140,
+        minWidth: 100,
+        cell: (row) => (
+          <span className="connection-table__chips">
+            <span className="proto-chip">{row.metadata.type}</span>
+            <span className="proto-chip">{row.metadata.network}</span>
+          </span>
+        ),
       },
     ]
   }, [t])
@@ -792,6 +803,7 @@ export const ConnectionTable = (props: Props) => {
               }}
             >
               <div
+                className="connection-table__head"
                 style={{
                   display: 'flex',
                   borderBottom: `1px solid ${borderColor}`,
@@ -882,7 +894,6 @@ export const ConnectionTable = (props: Props) => {
                       columns={visibleColumns}
                       onShowDetail={onShowDetail}
                       getSnapshot={getRowSnapshot}
-                      borderColor={borderColor}
                       selected={row.id === selectedId}
                       virtualTop={index * ROW_HEIGHT}
                     />

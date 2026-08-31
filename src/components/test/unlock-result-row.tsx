@@ -1,5 +1,5 @@
 import { RefreshRounded } from '@mui/icons-material'
-import { Box, Button, Chip, Tooltip } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -41,30 +41,15 @@ export const UnlockResultRow = ({
   const { t } = useTranslation()
 
   return (
-    <Box className="unlock-result-row">
-      <Box className="unlock-result-row__name">{item.name}</Box>
-      <Box className="unlock-result-row__meta">
-        <Chip
-          label={statusLabel}
-          color={statusColor}
-          size="small"
-          icon={statusIcon}
-          sx={{ fontWeight: item.status === 'Pending' ? 'normal' : 600 }}
-        />
-        {item.region && (
-          <Chip label={item.region} size="small" variant="outlined" />
-        )}
-        <Box className="unlock-result-row__time">
-          {item.check_time || '-- --'}
-        </Box>
+    <article className="unlock-card">
+      <div className="unlock-card__header">
+        <h3 className="unlock-card__name">{item.name}</h3>
         <Tooltip title={t('tests.components.item.actions.test')}>
           <span>
-            <Button
+            <IconButton
               size="small"
-              variant="text"
-              color="primary"
+              color="inherit"
               disabled={disabled}
-              sx={{ minWidth: 32, width: 32, height: 32 }}
               onClick={() => onTest(item.name)}
               aria-label={t('tests.components.item.actions.test')}
             >
@@ -77,10 +62,18 @@ export const UnlockResultRow = ({
                   },
                 }}
               />
-            </Button>
+            </IconButton>
           </span>
         </Tooltip>
-      </Box>
-    </Box>
+      </div>
+      <div className="unlock-card__badge" data-tone={statusColor}>
+        {statusIcon}
+        {statusLabel}
+      </div>
+      <div className="unlock-card__meta">
+        {item.region && <span className="proto-chip">{item.region}</span>}
+        <span className="unlock-card__time">{item.check_time || '-- --'}</span>
+      </div>
+    </article>
   )
 }

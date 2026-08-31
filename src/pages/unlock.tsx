@@ -264,7 +264,7 @@ const UnlockPage = () => {
           <BaseEmpty textKey="tests.unlock.page.empty" />
         </Box>
       ) : (
-        <Box className="unlock-list">
+        <Box className="unlock-grid">
           {unlockItems.map((item) => (
             <UnlockResultRow
               key={item.name}

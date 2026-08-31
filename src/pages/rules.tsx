@@ -69,29 +69,17 @@ const RulesPage = () => {
         </Box>
       }
     >
-      <Box
-        sx={{
-          pt: 1,
-          mb: 0.5,
-          mx: '10px',
-          height: '36px',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
+      <Box className="page-toolbar">
         <BaseSearchBox onSearch={(match) => setMatch(() => match)} />
       </Box>
 
       {filteredRules && filteredRules.length > 0 ? (
         <>
-          <Box
-            className="page-surface"
-            sx={{ flex: 1, mx: '10px', mb: 1.5, minHeight: 0 }}
-          >
+          <Box className="rules-board">
             <VirtualList
               ref={virtuosoRef}
               count={filteredRules.length}
-              estimateSize={40}
+              estimateSize={60}
               renderItem={(i) => <RuleItem value={filteredRules[i]} />}
               style={{ height: '100%' }}
               onScroll={handleScroll}

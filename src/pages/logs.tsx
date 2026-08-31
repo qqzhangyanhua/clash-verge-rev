@@ -151,16 +151,7 @@ const LogPage = () => {
         </Box>
       }
     >
-      <Box
-        sx={{
-          pt: 1,
-          mb: 0.5,
-          mx: '10px',
-          height: '39px',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
+      <Box className="page-toolbar">
         <BaseStyledSelect
           value={logState}
           onChange={(e) => handleLogLevelChange(e.target.value as LogFilter)}
@@ -182,14 +173,11 @@ const LogPage = () => {
       </Box>
 
       {filteredLogs.length > 0 ? (
-        <Box
-          className="page-surface"
-          sx={{ flex: 1, mx: '10px', mb: 1.5, minHeight: 0 }}
-        >
+        <Box className="logs-board">
           <VirtualList
             ref={virtuosoRef}
             count={filteredLogs.length}
-            estimateSize={50}
+            estimateSize={36}
             renderItem={(i) => (
               <LogItem value={filteredLogs[i]} searchState={searchState} />
             )}

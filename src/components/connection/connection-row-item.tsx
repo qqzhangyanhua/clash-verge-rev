@@ -15,19 +15,6 @@ interface Props {
   onShowDetail: (id: string) => void
 }
 
-const tagStyle = {
-  boxSizing: 'border-box',
-  maxWidth: '100%',
-  padding: '0 4px',
-  border: '1px solid rgba(128,128,128,0.35)',
-  borderRadius: 4,
-  fontSize: 10,
-  lineHeight: 1.375,
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-} as const
-
 const itemStyle = {
   boxSizing: 'border-box',
   minHeight: 56,
@@ -88,23 +75,25 @@ export const ConnectionRowItem = memo(
     return (
       <div
         aria-selected={selected}
-        style={{
-          ...itemStyle,
-          backgroundColor: selected ? 'var(--selected-row)' : undefined,
-        }}
+        className={selected ? 'connection-row is-selected' : 'connection-row'}
+        style={itemStyle}
       >
         <div style={contentStyle} onClick={handleShowDetail}>
           <div style={primaryStyle}>{row.host}</div>
           <div style={tagsStyle}>
-            <span style={tagStyle}>{row.network}</span>
-            <span style={tagStyle}>{row.type}</span>
-            {row.process && <span style={tagStyle}>{row.process}</span>}
-            {row.chains && <span style={tagStyle}>{row.chains}</span>}
-            <span style={tagStyle}>
+            <span className="connection-row__tag">{row.network}</span>
+            <span className="connection-row__tag">{row.type}</span>
+            {row.process && (
+              <span className="connection-row__tag">{row.process}</span>
+            )}
+            {row.chains && (
+              <span className="connection-row__tag">{row.chains}</span>
+            )}
+            <span className="connection-row__tag">
               <RelativeTime start={row.time} />
             </span>
             {showTraffic && (
-              <span style={tagStyle}>
+              <span className="connection-row__tag">
                 {row.uploadSpeedText} / {row.downloadSpeedText}
               </span>
             )}
