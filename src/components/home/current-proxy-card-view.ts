@@ -34,7 +34,7 @@ export type CardRow = {
   tappable: boolean
 }
 
-export type CurrentProxyCardView = {
+type CurrentProxyCardView = {
   headerTitle: string
   nodeName: string
   delay: HeaderDelay

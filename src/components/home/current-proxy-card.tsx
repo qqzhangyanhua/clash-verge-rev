@@ -3,10 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { CurrentProxyCardRow } from './current-proxy-card-rows'
 import { GroupPickerList, ProxyPickerList } from './current-proxy-pickers'
-import {
-  useCurrentProxyCard,
-  type CurrentProxyCardController,
-} from './use-current-proxy-card'
+import { type CurrentProxyCardController } from './use-current-proxy-card'
 
 const GROUP_PICKER_ID = 'current-proxy-group-listbox'
 const PROXY_PICKER_ID = 'current-proxy-node-listbox'
@@ -76,9 +73,4 @@ export const CurrentProxyPickers = ({
       </Box>
     </ClickAwayListener>
   )
-}
-
-export const CurrentProxyCard = () => {
-  const controller = useCurrentProxyCard()
-  return <CurrentProxyPickers controller={controller} />
 }
