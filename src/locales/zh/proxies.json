@@ -26,7 +26,18 @@
     "labels": {
       "proxyCount": "节点数量",
       "delayCheckReset": "进行延迟测试，以取消固定",
-      "nodeCount": "{{count}} 个节点"
+      "nodeCount": "{{count}} 个节点",
+      "latency": "延迟",
+      "online": "在线",
+      "offline": "离线",
+      "node": "节点"
+    },
+    "table": {
+      "name": "名称",
+      "protocol": "协议",
+      "type": "类型",
+      "latency": "延迟",
+      "status": "状态"
     },
     "tooltips": {
       "locate": "当前节点",

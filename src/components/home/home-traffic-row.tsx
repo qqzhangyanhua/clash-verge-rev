@@ -4,83 +4,19 @@ import {
   CloudDownloadRounded,
   CloudUploadRounded,
 } from '@mui/icons-material'
-import { Box, Typography, useTheme } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { type ReactNode, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { TrafficErrorBoundary } from '@/components/shared/traffic-error-boundary'
+import { TrafficSparkline } from '@/components/shared/traffic-sparkline'
 import { useTrafficData } from '@/hooks/use-traffic-data'
 import { useTrafficMonitorEnhanced } from '@/hooks/use-traffic-monitor'
 import { useVerge } from '@/hooks/use-verge'
 import { useVisibility } from '@/hooks/use-visibility'
 import parseTraffic from '@/utils/parse-traffic'
 
-const SPARKLINE_WIDTH = 120
-const SPARKLINE_HEIGHT = 36
 const SPARKLINE_POINT_COUNT = 60
-
-const toSparklinePath = (values: number[], max: number): string => {
-  if (values.length < 2) return ''
-
-  const pad = 1
-  const plotWidth = SPARKLINE_WIDTH - pad * 2
-  const plotHeight = SPARKLINE_HEIGHT - pad * 2
-
-  return values
-    .map((value, index) => {
-      const x = pad + (index / (values.length - 1)) * plotWidth
-      const y = pad + plotHeight - (value / max) * plotHeight
-      return `${index === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`
-    })
-    .join(' ')
-}
-
-const TrafficSparkline = ({
-  upValues,
-  downValues,
-}: {
-  upValues: number[]
-  downValues: number[]
-}) => {
-  const theme = useTheme()
-  const max = Math.max(...upValues, ...downValues, 1)
-  const upPath = toSparklinePath(upValues, max)
-  const downPath = toSparklinePath(downValues, max)
-
-  return (
-    <Box
-      component="svg"
-      viewBox={`0 0 ${SPARKLINE_WIDTH} ${SPARKLINE_HEIGHT}`}
-      aria-hidden
-      sx={{
-        width: SPARKLINE_WIDTH,
-        height: SPARKLINE_HEIGHT,
-        flexShrink: 0,
-      }}
-    >
-      {upPath && (
-        <path
-          d={upPath}
-          fill="none"
-          stroke={theme.palette.secondary.main}
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-      )}
-      {downPath && (
-        <path
-          d={downPath}
-          fill="none"
-          stroke={theme.palette.primary.main}
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-      )}
-    </Box>
-  )
-}
 
 const TrafficMetric = ({
   icon,
@@ -174,10 +110,14 @@ export const HomeTrafficRow = () => {
     >
       <Box className="home-console__row">
         {trafficGraph && (
-          <TrafficSparkline
-            upValues={sparklinePoints.upValues}
-            downValues={sparklinePoints.downValues}
-          />
+          <Box sx={{ width: 120, flexShrink: 0 }}>
+            <TrafficSparkline
+              upValues={sparklinePoints.upValues}
+              downValues={sparklinePoints.downValues}
+              width={120}
+              height={36}
+            />
+          </Box>
         )}
 
         <Box

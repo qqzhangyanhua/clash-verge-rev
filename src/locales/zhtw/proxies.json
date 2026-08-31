@@ -26,7 +26,18 @@
     "labels": {
       "proxyCount": "節點數量",
       "delayCheckReset": "測試延遲以取消固定",
-      "nodeCount": "{{count}} 個節點"
+      "nodeCount": "{{count}} 個節點",
+      "latency": "延遲",
+      "online": "在線",
+      "offline": "離線",
+      "node": "節點"
+    },
+    "table": {
+      "name": "名稱",
+      "protocol": "協定",
+      "type": "類型",
+      "latency": "延遲",
+      "status": "狀態"
     },
     "tooltips": {
       "locate": "目前節點",

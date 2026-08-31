@@ -31,6 +31,7 @@ interface RenderProps {
   item: IRenderItem
   stickyed?: boolean
   isChainMode?: boolean
+  itemLayout?: 'row' | 'table'
   onLocation: (group: IRenderItem['group']) => void
   onCheckAll: (groupName: string) => void
   onHeadState: (groupName: string, patch: Partial<HeadState>) => void
@@ -51,6 +52,7 @@ export const ProxyRender = memo(function ProxyRender(props: RenderProps) {
     onChangeProxy,
     onGroupToggle,
     isChainMode: _ = false,
+    itemLayout = 'row',
   } = props
   const { type, group, headState, member, memberCol } = item
   const { verge } = useVerge()
@@ -234,7 +236,8 @@ export const ProxyRender = memo(function ProxyRender(props: RenderProps) {
         member={member!.member}
         selected={group.now === member?.member.ref.name}
         showType={headState?.showType}
-        sx={{ py: 0, pl: 2 }}
+        layout={itemLayout}
+        sx={{ py: 0, pl: itemLayout === 'table' ? 0 : 2 }}
         onClick={(nextMember) => onChangeProxy(group, nextMember)}
       />
     )

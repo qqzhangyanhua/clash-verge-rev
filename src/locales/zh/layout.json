@@ -11,6 +11,18 @@
         "unlock": "测 试",
         "settings": "设 置"
       },
+      "groups": {
+        "overview": "总览",
+        "network": "网络",
+        "monitor": "监控"
+      },
+      "brand": {
+        "subtitle": "网络控制"
+      },
+      "status": {
+        "systemProxyOn": "系统代理已开启",
+        "systemProxyOff": "系统代理已关闭"
+      },
       "menu": {
         "reorderMode": "菜单排序模式",
         "restoreDefaultOrder": "恢复默认排序",

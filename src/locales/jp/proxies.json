@@ -26,7 +26,18 @@
     "labels": {
       "proxyCount": "ノード数",
       "delayCheckReset": "遅延テストを実行して固定を解除する",
-      "nodeCount": "{{count}} ノード"
+      "nodeCount": "{{count}} ノード",
+      "latency": "Latency",
+      "online": "Online",
+      "offline": "Offline",
+      "node": "Node"
+    },
+    "table": {
+      "name": "Name",
+      "protocol": "Protocol",
+      "type": "Type",
+      "latency": "Latency",
+      "status": "Status"
     },
     "tooltips": {
       "locate": "現在のノード",

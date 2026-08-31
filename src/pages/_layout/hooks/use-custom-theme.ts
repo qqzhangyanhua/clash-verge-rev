@@ -178,7 +178,7 @@ export const useCustomTheme = () => {
             paper: mode === 'light' ? lightSurface.paper : darkSurface.paper,
           },
         },
-        shape: { borderRadius: 10 },
+        shape: { borderRadius: 14 },
         shadows: Array(25).fill('none') as Shadows,
         typography: {
           fontFamily: setting.font_family
@@ -190,6 +190,28 @@ export const useCustomTheme = () => {
         components: {
           MuiButton: { defaultProps: { disableElevation: true } },
           MuiPaper: { defaultProps: { elevation: 0 } },
+          MuiSwitch: {
+            styleOverrides: {
+              root: { padding: 8 },
+              switchBase: {
+                '&.Mui-checked + .MuiSwitch-track': {
+                  boxShadow: 'var(--selection-glow)',
+                },
+              },
+              track: { borderRadius: 12 },
+            },
+          },
+          MuiChip: {
+            styleOverrides: {
+              root: {
+                height: 20,
+                borderRadius: 6,
+                fontSize: 10,
+                fontWeight: 600,
+                letterSpacing: '0.02em',
+              },
+            },
+          },
         },
       })
     } catch (e) {
@@ -212,7 +234,7 @@ export const useCustomTheme = () => {
             paper: mode === 'light' ? lightSurface.paper : darkSurface.paper,
           },
         },
-        shape: { borderRadius: 10 },
+        shape: { borderRadius: 14 },
         typography: { fontFamily: dt.font_family, fontSize: 13 },
       })
     }
@@ -223,7 +245,7 @@ export const useCustomTheme = () => {
       const backgroundColor = dt.background_color
       const sidebarColor = surface.sidebar
       const contentColor = surface.content
-      const selectColor = mode === 'light' ? '#F5F5F7' : '#3A3A3C'
+      const selectColor = mode === 'light' ? '#F5F5F7' : '#1A1E2C'
       const dividerColor = surface.divider
       rootEle.style.setProperty('--divider-color', dividerColor)
       rootEle.style.setProperty('--background-color', backgroundColor)
@@ -232,12 +254,21 @@ export const useCustomTheme = () => {
       rootEle.style.setProperty('--selection-color', selectColor)
       rootEle.style.setProperty('--selected-row', surface.selectedRow)
       rootEle.style.setProperty('--selected-sidebar', surface.selectedSidebar)
+      rootEle.style.setProperty(
+        '--selected-sidebar-fg',
+        surface.selectedSidebarFg,
+      )
       rootEle.style.setProperty('--card-shadow', surface.cardShadow)
+      rootEle.style.setProperty('--glass-bg', surface.glassBg)
+      rootEle.style.setProperty('--glass-border', surface.glassBorder)
+      rootEle.style.setProperty('--selection-glow', surface.selectionGlow)
+      rootEle.style.setProperty('--traffic-up', surface.trafficUp)
+      rootEle.style.setProperty('--traffic-down', surface.trafficDown)
       rootEle.style.setProperty(
         '--segment-selected-shadow',
         surface.segmentSelectedShadow,
       )
-      rootEle.style.setProperty('--border-radius', '10px')
+      rootEle.style.setProperty('--border-radius', '14px')
       rootEle.style.setProperty('--scroller-color', surface.scrollbarThumb)
       rootEle.style.setProperty('--primary-main', muiTheme.palette.primary.main)
       rootEle.style.setProperty('--text-primary', muiTheme.palette.text.primary)
@@ -310,6 +341,9 @@ export const useCustomTheme = () => {
         /* 确保模态框和对话框也使用暗色主题 */
         .MuiDialog-paper {
           background-color: ${surface.paper} !important;
+          background-image: none !important;
+          border: 1px solid ${surface.glassBorder};
+          box-shadow: ${surface.cardShadow};
         }
 
         button,

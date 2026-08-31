@@ -26,7 +26,18 @@
     "labels": {
       "proxyCount": "Proxy Count",
       "delayCheckReset": "Беркетелгәнне гамәлдән чыгару өчен задержканы тикшерү",
-      "nodeCount": "{{count}} төен"
+      "nodeCount": "{{count}} төен",
+      "latency": "Latency",
+      "online": "Online",
+      "offline": "Offline",
+      "node": "Node"
+    },
+    "table": {
+      "name": "Name",
+      "protocol": "Protocol",
+      "type": "Type",
+      "latency": "Latency",
+      "status": "Status"
     },
     "tooltips": {
       "locate": "Урын",

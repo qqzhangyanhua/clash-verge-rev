@@ -26,7 +26,18 @@
     "labels": {
       "proxyCount": "Proxy Count",
       "delayCheckReset": "بررسی تأخیر برای لغو ثابت",
-      "nodeCount": "{{count}} نود"
+      "nodeCount": "{{count}} نود",
+      "latency": "Latency",
+      "online": "Online",
+      "offline": "Offline",
+      "node": "Node"
+    },
+    "table": {
+      "name": "Name",
+      "protocol": "Protocol",
+      "type": "Type",
+      "latency": "Latency",
+      "status": "Status"
     },
     "tooltips": {
       "locate": "موقعیت",

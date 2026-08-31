@@ -26,6 +26,7 @@ interface Props {
   member: ResolvedProxyMember
   selected: boolean
   showType?: boolean
+  layout?: 'row' | 'table'
   sx?: SxProps<Theme>
   onClick?: (member: ResolvedProxyMember) => void
 }
@@ -50,7 +51,16 @@ const TypeBox = styled('span')(({ theme }) => ({
 
 export const ProxyItem = (props: Props) => {
   const { t } = useTranslation()
-  const { group, member, selected, showType = true, sx, onClick } = props
+  const {
+    group,
+    member,
+    selected,
+    showType = true,
+    layout = 'row',
+    sx,
+    onClick,
+  } = props
+  const table = layout === 'table'
   const details = memberDetails(member)
   const unresolved = member.kind === 'unresolved'
   const name = member.ref.name
@@ -63,6 +73,19 @@ export const ProxyItem = (props: Props) => {
     group.name,
   )
 
+  const statusTone = unresolved
+    ? 'neutral'
+    : details?.alive
+      ? 'success'
+      : 'error'
+  const statusLabel = unresolved
+    ? t('home.components.ipInfo.labels.unknown')
+    : details?.alive
+      ? t('proxies.page.labels.online')
+      : t('proxies.page.labels.offline')
+  const kindLabel =
+    member.kind === 'group' ? type : t('proxies.page.labels.node')
+
   return (
     <ListItem disablePadding sx={sx}>
       <ListItemButton
@@ -72,11 +95,12 @@ export const ProxyItem = (props: Props) => {
         onClick={unresolved ? undefined : () => onClick?.(member)}
         sx={[
           {
-            borderRadius: 0,
-            minHeight: 36,
-            height: 36,
-            px: 1.25,
-            borderBottom: '1px solid var(--divider-color)',
+            borderRadius: table ? '10px' : 0,
+            minHeight: table ? 42 : 36,
+            height: table ? 42 : 36,
+            mx: table ? 1 : 0,
+            px: table ? 2 : 1.25,
+            borderBottom: table ? 0 : '1px solid var(--divider-color)',
           },
           ({ palette: { primary } }) => {
             const showDelay = delayValue > 0
@@ -85,65 +109,127 @@ export const ProxyItem = (props: Props) => {
               '&:hover .the-check': { display: !showDelay ? 'block' : 'none' },
               '&:hover .the-delay': { display: showDelay ? 'block' : 'none' },
               '&:hover .the-icon': { display: 'none' },
-              '&.Mui-selected': {
-                bgcolor: primary.main,
-                color: primary.contrastText,
-              },
-              '&.Mui-selected:hover': {
-                bgcolor: primary.main,
-              },
+              '&.Mui-selected': table
+                ? {
+                    bgcolor: 'var(--selected-row)',
+                    boxShadow:
+                      'inset 3px 0 0 var(--primary-main), var(--selection-glow)',
+                  }
+                : {
+                    bgcolor: primary.main,
+                    color: primary.contrastText,
+                  },
+              '&.Mui-selected:hover': table
+                ? { bgcolor: 'var(--selected-row)' }
+                : { bgcolor: primary.main },
               '&.Mui-selected .MuiListItemText-secondary, &.Mui-selected .MuiListItemText-secondary *':
-                {
-                  color: primary.contrastText,
-                },
+                table
+                  ? {}
+                  : {
+                      color: primary.contrastText,
+                    },
             }
           },
         ]}
       >
-        <ListItemText
-          title={name}
-          slotProps={{
-            primary: { component: 'span' },
-            secondary: { component: 'span' },
-          }}
-          secondary={
-            <>
-              <Box
-                sx={{
-                  display: 'inline-block',
-                  marginRight: '8px',
-                  fontSize: '14px',
-                  color: 'text.primary',
-                }}
-              >
-                {name}
-                {showType && now && ` - ${now}`}
-              </Box>
-              {showType && <TypeBox>{type}</TypeBox>}
-              {!unresolved && showType && details?.udp && (
-                <TypeBox>UDP</TypeBox>
+        {table ? (
+          <Box className="proxy-table__row" title={name}>
+            <Box
+              sx={{
+                minWidth: 0,
+                fontSize: 13,
+                fontWeight: 600,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {name}
+              {showType && now ? ` · ${now}` : ''}
+            </Box>
+            <Box className="proxy-group-item__chips">
+              {type && <span className="proto-chip">{type}</span>}
+              {!unresolved && details?.udp && (
+                <span className="proto-chip">UDP</span>
               )}
-              {!unresolved && showType && details?.xudp && (
-                <TypeBox>XUDP</TypeBox>
-              )}
-              {!unresolved && showType && details?.tfo && (
-                <TypeBox>TFO</TypeBox>
-              )}
-              {!unresolved && showType && details?.mptcp && (
-                <TypeBox>MPTCP</TypeBox>
-              )}
-              {!unresolved && showType && details?.smux && (
-                <TypeBox>SMUX</TypeBox>
-              )}
-            </>
-          }
-        />
+            </Box>
+            <Box sx={{ fontSize: 12, color: 'text.secondary' }}>
+              {kindLabel}
+            </Box>
+            <Box
+              sx={{
+                fontSize: 12,
+                fontWeight: 600,
+                fontVariantNumeric: 'tabular-nums',
+                color:
+                  delayValue > 0
+                    ? delayManager.formatDelayColor(delayValue, timeout)
+                    : 'text.secondary',
+              }}
+              onClick={(e) => {
+                if (unresolved || isPreset) return
+                e.preventDefault()
+                e.stopPropagation()
+                void onDelay()
+              }}
+            >
+              {delayValue === -2
+                ? '…'
+                : delayValue > 0
+                  ? delayManager.formatDelay(delayValue, timeout)
+                  : '—'}
+            </Box>
+            <span className="proxy-status" data-tone={statusTone}>
+              <span className="proxy-status__dot" data-tone={statusTone} />
+              {statusLabel}
+            </span>
+          </Box>
+        ) : (
+          <ListItemText
+            title={name}
+            slotProps={{
+              primary: { component: 'span' },
+              secondary: { component: 'span' },
+            }}
+            secondary={
+              <>
+                <Box
+                  sx={{
+                    display: 'inline-block',
+                    marginRight: '8px',
+                    fontSize: '14px',
+                    color: 'text.primary',
+                  }}
+                >
+                  {name}
+                  {showType && now && ` - ${now}`}
+                </Box>
+                {showType && <TypeBox>{type}</TypeBox>}
+                {!unresolved && showType && details?.udp && (
+                  <TypeBox>UDP</TypeBox>
+                )}
+                {!unresolved && showType && details?.xudp && (
+                  <TypeBox>XUDP</TypeBox>
+                )}
+                {!unresolved && showType && details?.tfo && (
+                  <TypeBox>TFO</TypeBox>
+                )}
+                {!unresolved && showType && details?.mptcp && (
+                  <TypeBox>MPTCP</TypeBox>
+                )}
+                {!unresolved && showType && details?.smux && (
+                  <TypeBox>SMUX</TypeBox>
+                )}
+              </>
+            }
+          />
+        )}
 
         <ListItemIcon
           sx={{
             justifyContent: 'flex-end',
             color: 'primary.main',
-            display: isPreset ? 'none' : '',
+            display: table || isPreset ? 'none' : '',
           }}
         >
           {!unresolved && delayValue === -2 && (

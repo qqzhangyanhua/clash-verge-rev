@@ -128,6 +128,14 @@ export interface TranslationResources {
     layout: {
       components: {
         navigation: {
+          brand: {
+            subtitle: string
+          }
+          groups: {
+            monitor: string
+            network: string
+            overview: string
+          }
           menu: {
             collapseNavBar: string
             expandNavBar: string
@@ -135,6 +143,10 @@ export interface TranslationResources {
             reorderMode: string
             restoreDefaultOrder: string
             unlock: string
+          }
+          status: {
+            systemProxyOff: string
+            systemProxyOn: string
           }
           tabs: {
             connections: string
@@ -482,7 +494,11 @@ export interface TranslationResources {
         }
         labels: {
           delayCheckReset: string
+          latency: string
+          node: string
           nodeCount: string
+          offline: string
+          online: string
           proxyCount: string
         }
         messages: {
@@ -506,6 +522,13 @@ export interface TranslationResources {
         rules: {
           select: string
           title: string
+        }
+        table: {
+          latency: string
+          name: string
+          protocol: string
+          status: string
+          type: string
         }
         title: {
           chainMode: string

@@ -182,21 +182,28 @@ const LogPage = () => {
       </Box>
 
       {filteredLogs.length > 0 ? (
-        <VirtualList
-          ref={virtuosoRef}
-          count={filteredLogs.length}
-          estimateSize={50}
-          renderItem={(i) => (
-            <LogItem value={filteredLogs[i]} searchState={searchState} />
-          )}
-          onScroll={(event) => {
-            const element = event.currentTarget as HTMLDivElement
-            scrollRef.current.isNearBottom =
-              element.scrollHeight - element.scrollTop - element.clientHeight <=
-              20
-          }}
-          style={{ flex: 1 }}
-        />
+        <Box
+          className="page-surface"
+          sx={{ flex: 1, mx: '10px', mb: 1.5, minHeight: 0 }}
+        >
+          <VirtualList
+            ref={virtuosoRef}
+            count={filteredLogs.length}
+            estimateSize={50}
+            renderItem={(i) => (
+              <LogItem value={filteredLogs[i]} searchState={searchState} />
+            )}
+            onScroll={(event) => {
+              const element = event.currentTarget as HTMLDivElement
+              scrollRef.current.isNearBottom =
+                element.scrollHeight -
+                  element.scrollTop -
+                  element.clientHeight <=
+                20
+            }}
+            style={{ height: '100%' }}
+          />
+        </Box>
       ) : (
         <BaseEmpty />
       )}

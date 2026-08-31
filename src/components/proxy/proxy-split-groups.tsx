@@ -1,4 +1,4 @@
-import { Box, ListItemButton, ListItemText } from '@mui/material'
+import { Box } from '@mui/material'
 import { throttle } from 'lodash-es'
 import {
   useCallback,
@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import {
   StickyVirtualList,
@@ -16,6 +17,8 @@ import {
 import { useProxiesData } from '@/providers/app-data-context'
 import type { ProxyGroupView } from '@/types/proxy-view'
 
+import { ProxyFeaturedCard } from './proxy-featured-card'
+import { collectGroupProtocols } from './proxy-group-meta'
 import { ProxyRender } from './proxy-render'
 import {
   useEmptyRenderList,
@@ -58,6 +61,7 @@ interface Props {
 }
 
 export const ProxySplitGroups = ({ mode }: Props) => {
+  const { t } = useTranslation()
   const { proxyView } = useProxiesData()
   const emptyList = useEmptyRenderList()
   const groups = useMemo(
@@ -183,9 +187,34 @@ export const ProxySplitGroups = ({ mode }: Props) => {
 
   const renderHead = useCallback(
     (item: IRenderItem) => (
+      <Box>
+        <ProxyRender
+          item={item}
+          stickyed
+          itemLayout="table"
+          onLocation={handleLocation}
+          onCheckAll={handleCheckAll}
+          onHeadState={onHeadState}
+          onChangeProxy={handleChangeProxy}
+        />
+        <div className="proxy-table__head">
+          <span>{t('proxies.page.table.name')}</span>
+          <span>{t('proxies.page.table.protocol')}</span>
+          <span>{t('proxies.page.table.type')}</span>
+          <span>{t('proxies.page.table.latency')}</span>
+          <span>{t('proxies.page.table.status')}</span>
+        </div>
+      </Box>
+    ),
+    [handleChangeProxy, handleCheckAll, handleLocation, onHeadState, t],
+  )
+
+  const renderNode = useCallback(
+    (item: IRenderItem) => (
       <ProxyRender
+        key={item.key}
         item={item}
-        stickyed
+        itemLayout="table"
         onLocation={handleLocation}
         onCheckAll={handleCheckAll}
         onHeadState={onHeadState}
@@ -195,19 +224,8 @@ export const ProxySplitGroups = ({ mode }: Props) => {
     [handleChangeProxy, handleCheckAll, handleLocation, onHeadState],
   )
 
-  const renderNode = useCallback(
-    (item: IRenderItem) => (
-      <ProxyRender
-        key={item.key}
-        item={item}
-        onLocation={handleLocation}
-        onCheckAll={handleCheckAll}
-        onHeadState={onHeadState}
-        onChangeProxy={handleChangeProxy}
-      />
-    ),
-    [handleChangeProxy, handleCheckAll, handleLocation, onHeadState],
-  )
+  const activeGroupView = groups.find((group) => group.name === activeGroup)
+  const records = proxyView?.records ?? {}
 
   if (groups.length === 0) return emptyList
 
@@ -216,63 +234,59 @@ export const ProxySplitGroups = ({ mode }: Props) => {
       <div className="proxy-split__groups">
         {groups.map((group) => {
           const selected = group.name === activeGroup
+          const protocols = collectGroupProtocols(group, records)
           return (
-            <ListItemButton
+            <button
               key={group.name}
-              selected={selected}
+              type="button"
+              className="proxy-group-item"
+              data-selected={selected}
               onClick={() => handleSelectGroup(group.name)}
-              sx={{
-                minHeight: 36,
-                py: 0.75,
-                px: 1.25,
-                alignItems: 'flex-start',
-                borderRadius: 0,
-                borderBottom: '1px solid var(--divider-color)',
-                '&.Mui-selected, &.Mui-selected:hover, &.Mui-selected.Mui-focusVisible':
-                  {
-                    bgcolor: 'var(--selected-row)',
-                  },
-              }}
             >
-              <ListItemText
-                primary={group.name}
-                secondary={group.now}
-                slotProps={{
-                  primary: {
-                    sx: {
-                      fontSize: 13,
-                      fontWeight: 500,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    },
-                  },
-                  secondary: {
-                    sx: {
-                      fontSize: 12,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    },
-                  },
-                }}
-              />
-            </ListItemButton>
+              <div className="proxy-group-item__row">
+                <span
+                  className="proxy-group-item__dot"
+                  data-active={selected}
+                />
+                <span className="proxy-group-item__name">{group.name}</span>
+                <span className="proxy-group-item__count">
+                  {group.members.length}
+                </span>
+              </div>
+              {protocols.length > 0 && (
+                <div className="proxy-group-item__chips">
+                  {protocols.map((protocol) => (
+                    <span key={protocol} className="proto-chip">
+                      {protocol}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </button>
           )
         })}
       </div>
-      <Box className="proxy-split__nodes">
-        <StickyVirtualList
-          ref={stickyListRef}
-          items={renderList}
-          isGroupItem={(item) => item.type === 1}
-          getItemKey={(item) => item.key}
-          estimateGroupItemHeight={36}
-          estimateItemHeight={36}
-          renderGroupItem={renderHead}
-          renderItem={renderNode}
-        />
-      </Box>
+      <div className="proxy-split__main">
+        {activeGroupView && proxyView && (
+          <ProxyFeaturedCard
+            group={activeGroupView}
+            proxyView={proxyView}
+            protocols={collectGroupProtocols(activeGroupView, records)}
+          />
+        )}
+        <Box className="proxy-split__nodes">
+          <StickyVirtualList
+            ref={stickyListRef}
+            items={renderList}
+            isGroupItem={(item) => item.type === 1}
+            getItemKey={(item) => item.key}
+            estimateGroupItemHeight={72}
+            estimateItemHeight={42}
+            renderGroupItem={renderHead}
+            renderItem={renderNode}
+          />
+        </Box>
+      </div>
     </div>
   )
 }
