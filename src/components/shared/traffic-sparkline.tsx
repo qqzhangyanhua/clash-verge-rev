@@ -109,11 +109,11 @@ export const TrafficSparkline = ({
       <defs>
         <linearGradient id={upGradientId} x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="var(--traffic-up)" />
-          <stop offset="100%" stopColor="var(--primary-main)" />
+          <stop offset="100%" stopColor="var(--traffic-up)" />
         </linearGradient>
         <linearGradient id={downGradientId} x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="var(--traffic-down)" />
-          <stop offset="100%" stopColor="var(--traffic-up)" />
+          <stop offset="100%" stopColor="var(--traffic-down)" />
         </linearGradient>
         <linearGradient id={upFillId} x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stopColor="var(--traffic-up)" stopOpacity="0.28" />
@@ -169,7 +169,7 @@ export const TrafficSparkline = ({
           d={upPath}
           fill="none"
           stroke={`url(#${upGradientId})`}
-          strokeWidth={chart ? 2.2 : 1.8}
+          strokeWidth={chart ? 1.6 : 1.4}
           strokeLinejoin="round"
           strokeLinecap="round"
         />
@@ -179,7 +179,7 @@ export const TrafficSparkline = ({
           d={downPath}
           fill="none"
           stroke={`url(#${downGradientId})`}
-          strokeWidth={chart ? 2.2 : 1.8}
+          strokeWidth={chart ? 1.6 : 1.4}
           strokeLinejoin="round"
           strokeLinecap="round"
           opacity={0.9}

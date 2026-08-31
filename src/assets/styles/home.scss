@@ -1,3 +1,109 @@
+.activity-board {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activity-board__metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+
+  @media (max-width: 860px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.activity-board__lower {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 12px;
+
+  @media (max-width: 860px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.activity-metric,
+.activity-split,
+.activity-history {
+  min-width: 0;
+  padding: 16px 18px 14px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  background: var(--glass-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.activity-metric__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.activity-metric__value {
+  margin-top: 8px;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.activity-metric__unit {
+  margin-left: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.activity-metric__hint {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.activity-split__row,
+.activity-split__track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.activity-split__track {
+  height: 6px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--text-secondary) 12%, transparent);
+}
+
+.activity-split__fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+}
+
+.activity-split__fill--direct {
+  background: var(--traffic-up);
+}
+
+.activity-split__fill--proxy {
+  background: var(--traffic-down);
+}
+
+.activity-history__bars {
+  display: block;
+  width: 100%;
+  height: 72px;
+}
+
 .home-dashboard {
   display: flex;
   flex-direction: column;
@@ -31,8 +137,7 @@
     box-shadow 0.16s ease;
 
   &:hover {
-    border-color: color-mix(in srgb, var(--primary-main) 28%, transparent);
-    box-shadow: var(--card-shadow), var(--selection-glow);
+    background: color-mix(in srgb, var(--selected-row) 40%, var(--glass-bg));
   }
 }
 
@@ -291,8 +396,7 @@
 }
 
 .featured-node__live-dot[data-tone='success'] {
-  background: #22c55e;
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.55);
+  background: #34c759;
 }
 
 .featured-node__badge {
@@ -344,74 +448,8 @@
   color: var(--text-secondary);
 }
 
-.featured-node--hero {
-  min-height: 292px;
-  padding: 22px 24px 16px;
-  box-shadow: var(--card-shadow), 0 0 28px rgba(59, 130, 246, 0.12);
-}
-
-.featured-node--hero .featured-node__atmosphere {
-  background:
-    radial-gradient(
-      90% 70% at 88% 0%,
-      color-mix(in srgb, var(--primary-main) 28%, transparent),
-      transparent 56%
-    ),
-    radial-gradient(
-      70% 60% at 8% 100%,
-      color-mix(in srgb, var(--traffic-up) 20%, transparent),
-      transparent 52%
-    );
-}
-
-.featured-node--hero .featured-node__atmosphere::after {
-  content: '';
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 42%;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    color-mix(in srgb, var(--background-color) 55%, transparent)
-  );
-  clip-path: polygon(
-    0% 62%,
-    12% 48%,
-    22% 56%,
-    36% 34%,
-    49% 50%,
-    63% 28%,
-    78% 46%,
-    100% 22%,
-    100% 100%,
-    0% 100%
-  );
-  background-color: color-mix(in srgb, var(--text-primary) 10%, transparent);
-}
-
-.featured-node--hero .proxy-featured__name {
-  font-size: 28px;
-}
-
-.featured-node--hero .proxy-featured__metrics {
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-}
-
-.featured-node--hero .proxy-featured__latency-value {
-  font-size: 40px;
-}
-
-.featured-node--hero .proxy-featured__speeds {
-  flex-direction: row;
-  gap: 16px;
-}
-
-.featured-node--hero .proxy-featured__spark {
-  margin-top: 8px;
-}
-
-.featured-node--hero .proxy-featured__spark svg {
-  height: 132px;
+.featured-node--hero,
+.featured-node {
+  min-height: 168px;
+  padding: 18px 20px 14px;
 }

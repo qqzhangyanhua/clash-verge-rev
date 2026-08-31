@@ -25,7 +25,7 @@ export const Switch = styled((props: SwitchProps) => (
         backgroundColor: theme.palette.primary.main,
         opacity: 1,
         border: 0,
-        boxShadow: 'var(--selection-glow)',
+        boxShadow: 'none',
       },
       '&.Mui-disabled + .MuiSwitch-track': {
         opacity: 0.5,

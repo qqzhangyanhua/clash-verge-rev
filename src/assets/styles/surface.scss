@@ -27,8 +27,8 @@
   &[data-selected='true'],
   &[aria-selected='true'] {
     background: var(--selected-row);
-    border-color: color-mix(in srgb, var(--primary-main) 45%, transparent);
-    box-shadow: inset 3px 0 0 var(--primary-main), var(--selection-glow);
+    border-color: transparent;
+    box-shadow: none;
   }
 }
 
@@ -81,8 +81,8 @@
 
   &[aria-selected='true'] {
     background: var(--selected-row);
-    border-color: color-mix(in srgb, var(--primary-main) 45%, transparent);
-    box-shadow: inset 3px 0 0 var(--primary-main), var(--selection-glow);
+    border-color: transparent;
+    box-shadow: none;
   }
 
   .MuiLinearProgress-root {
@@ -149,8 +149,8 @@
   &:has(.Mui-checked),
   &[data-active='true'] {
     background: var(--selected-row);
-    border-color: color-mix(in srgb, var(--primary-main) 35%, transparent);
-    box-shadow: inset 3px 0 0 var(--primary-main), var(--selection-glow);
+    border-color: transparent;
+    box-shadow: none;
   }
 
   .MuiInputBase-root,
@@ -274,20 +274,9 @@
 
   &[data-role='entry'],
   &[data-role='exit'] {
-    border-color: color-mix(in srgb, var(--primary-main) 35%, transparent);
-    box-shadow: inset 3px 0 0 var(--primary-main), var(--selection-glow);
-  }
-
-  &[data-role='entry'] {
-    box-shadow:
-      inset 3px 0 0 #22c55e,
-      0 0 0 1px color-mix(in srgb, #22c55e 28%, transparent);
-  }
-
-  &[data-role='exit'] {
-    box-shadow:
-      inset 3px 0 0 #f59e0b,
-      0 0 0 1px color-mix(in srgb, #f59e0b 28%, transparent);
+    background: var(--selected-row);
+    border-color: transparent;
+    box-shadow: none;
   }
 }
 
@@ -328,8 +317,8 @@
   &.is-selected,
   &.Mui-selected {
     background: var(--selected-row) !important;
-    border-color: color-mix(in srgb, var(--primary-main) 45%, transparent);
-    box-shadow: inset 3px 0 0 var(--primary-main), var(--selection-glow);
+    border-color: transparent;
+    box-shadow: none;
   }
 }
 

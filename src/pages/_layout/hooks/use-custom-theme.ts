@@ -268,7 +268,7 @@ export const useCustomTheme = () => {
         '--segment-selected-shadow',
         surface.segmentSelectedShadow,
       )
-      rootEle.style.setProperty('--border-radius', '14px')
+      rootEle.style.setProperty('--border-radius', '16px')
       rootEle.style.setProperty('--scroller-color', surface.scrollbarThumb)
       rootEle.style.setProperty('--primary-main', muiTheme.palette.primary.main)
       rootEle.style.setProperty('--text-primary', muiTheme.palette.text.primary)
