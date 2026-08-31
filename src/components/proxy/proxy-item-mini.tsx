@@ -1,5 +1,5 @@
 import { CheckCircleOutlineRounded } from '@mui/icons-material'
-import { alpha, Box, ListItemButton, styled, Typography } from '@mui/material'
+import { alpha, Box, ListItemButton, styled } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { BaseLoading } from '@/components/base'
@@ -19,7 +19,6 @@ interface Props {
   onClick?: (member: ResolvedProxyMember) => void
 }
 
-// 多列布局
 export const ProxyItemMini = (props: Props) => {
   const { group, member, selected, showType = true, onClick } = props
   const details = memberDetails(member)
@@ -27,14 +26,12 @@ export const ProxyItemMini = (props: Props) => {
   const name = member.ref.name
   const type = unresolved ? member.ref.reason : (details?.type ?? '')
   const now = member.kind === 'group' ? member.group.now : undefined
-
   const { t } = useTranslation()
-
-  // -1/<=0 为不显示，-2 为 loading
   const { delayValue, isPreset, timeout, onDelay } = useProxyDelayState(
     member,
     group.name,
   )
+  const showDelay = delayValue > 0
 
   return (
     <ListItemButton
@@ -42,116 +39,45 @@ export const ProxyItemMini = (props: Props) => {
       disabled={unresolved}
       selected={!unresolved && selected}
       onClick={unresolved ? undefined : () => onClick?.(member)}
-      sx={[
-        {
-          height: 56,
-          borderRadius: 1.5,
-          pl: 1.5,
-          pr: 1,
-          justifyContent: 'space-between',
-          alignItems: 'center',
+      className={`proxy-mini${!unresolved && selected ? ' is-selected' : ''}`}
+      sx={{
+        '&:hover .the-check': { display: !showDelay ? 'block' : 'none' },
+        '&:hover .the-delay': { display: showDelay ? 'block' : 'none' },
+        '&:hover .the-icon': { display: 'none' },
+        '& .the-pin, & .the-unpin': {
+          position: 'absolute',
+          fontSize: '12px',
+          top: '-5px',
+          right: '-5px',
         },
-        ({ palette: { mode, primary } }) => {
-          const bgcolor = 'var(--content-color)'
-          const showDelay = delayValue > 0
-          const selectColor = mode === 'light' ? primary.main : primary.light
-
-          return {
-            '&:hover .the-check': { display: !showDelay ? 'block' : 'none' },
-            '&:hover .the-delay': { display: showDelay ? 'block' : 'none' },
-            '&:hover .the-icon': { display: 'none' },
-            '& .the-pin, & .the-unpin': {
-              position: 'absolute',
-              fontSize: '12px',
-              top: '-5px',
-              right: '-5px',
-            },
-            '& .the-unpin': { filter: 'grayscale(1)' },
-            '&.Mui-selected': {
-              width: `calc(100% + 3px)`,
-              marginLeft: `-3px`,
-              borderLeft: `3px solid ${selectColor}`,
-              bgcolor:
-                mode === 'light'
-                  ? alpha(primary.main, 0.15)
-                  : alpha(primary.main, 0.35),
-            },
-            backgroundColor: bgcolor,
-          }
-        },
-      ]}
+        '& .the-unpin': { filter: 'grayscale(1)' },
+      }}
     >
-      <Box title={`${name}\n${now ?? ''}`} sx={{ overflow: 'hidden' }}>
-        <Typography
-          variant="body2"
-          component="div"
-          color="text.primary"
-          sx={{
-            display: 'block',
-            textOverflow: 'ellipsis',
-            wordBreak: 'break-all',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {name}
-        </Typography>
-
+      <Box
+        title={`${name}\n${now ?? ''}`}
+        sx={{ overflow: 'hidden', minWidth: 0 }}
+      >
+        <div className="proxy-mini__name">{name}</div>
         {showType && (
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'nowrap',
-              flex: 'none',
-              marginTop: '4px',
-            }}
-          >
-            {now && (
-              <Typography
-                variant="body2"
-                component="div"
-                color="text.secondary"
-                sx={{
-                  display: 'block',
-                  textOverflow: 'ellipsis',
-                  wordBreak: 'break-all',
-                  overflow: 'hidden',
-                  whiteSpace: 'nowrap',
-                  marginRight: '8px',
-                }}
-              >
-                {now}
-              </Typography>
-            )}
-            <TypeBox color="text.secondary" component="span">
-              {type}
-            </TypeBox>
+          <div className="proxy-mini__chips">
+            {now && <span className="proto-chip">{now}</span>}
+            {type && <span className="proto-chip">{type}</span>}
             {!unresolved && details?.udp && (
-              <TypeBox color="text.secondary" component="span">
-                UDP
-              </TypeBox>
+              <span className="proto-chip">UDP</span>
             )}
             {!unresolved && details?.xudp && (
-              <TypeBox color="text.secondary" component="span">
-                XUDP
-              </TypeBox>
+              <span className="proto-chip">XUDP</span>
             )}
             {!unresolved && details?.tfo && (
-              <TypeBox color="text.secondary" component="span">
-                TFO
-              </TypeBox>
+              <span className="proto-chip">TFO</span>
             )}
             {!unresolved && details?.mptcp && (
-              <TypeBox color="text.secondary" component="span">
-                MPTCP
-              </TypeBox>
+              <span className="proto-chip">MPTCP</span>
             )}
             {!unresolved && details?.smux && (
-              <TypeBox color="text.secondary" component="span">
-                SMUX
-              </TypeBox>
+              <span className="proto-chip">SMUX</span>
             )}
-          </Box>
+          </div>
         )}
       </Box>
       <Box
@@ -171,16 +97,14 @@ export const ProxyItemMini = (props: Props) => {
               void onDelay()
             }}
             sx={({ palette }) => ({
-              display: 'none', // hover 时显示
+              display: 'none',
               ':hover': { bgcolor: alpha(palette.primary.main, 0.15) },
             })}
           >
             {t('shared.actions.check')}
           </Widget>
         )}
-
         {!unresolved && delayValue >= 0 && (
-          // 显示延迟
           <Widget
             className="the-delay"
             onClick={(e) => {
@@ -201,7 +125,6 @@ export const ProxyItemMini = (props: Props) => {
           delayValue !== -2 &&
           delayValue < 0 &&
           selected && (
-            // 展示已选择的 icon
             <CheckCircleOutlineRounded
               className="the-icon"
               sx={{ fontSize: 16, mr: 0.5, display: 'block' }}
@@ -209,7 +132,6 @@ export const ProxyItemMini = (props: Props) => {
           )}
       </Box>
       {!unresolved && group.fixed && group.fixed === name && (
-        // 展示 fixed 状态
         <span
           className={name === group.now ? 'the-pin' : 'the-unpin'}
           title={
@@ -230,20 +152,4 @@ const Widget = styled(Box)(({ theme: { typography } }) => ({
   fontSize: 14,
   fontFamily: typography.fontFamily,
   borderRadius: '4px',
-}))
-
-const TypeBox = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'component',
-})<{ component?: React.ElementType }>(({ theme: { typography } }) => ({
-  display: 'inline-block',
-  border: '1px solid #ccc',
-  borderColor: 'text.secondary',
-  color: 'text.secondary',
-  borderRadius: 4,
-  fontSize: 10,
-  fontFamily: typography.fontFamily,
-  marginRight: '4px',
-  marginTop: 'auto',
-  padding: '0 4px',
-  lineHeight: 1.5,
 }))

@@ -2,7 +2,6 @@ import { FeaturedPlayListRounded } from '@mui/icons-material'
 import {
   Box,
   Badge,
-  Chip,
   IconButton,
   Menu,
   MenuItem,
@@ -136,13 +135,9 @@ export const ProfileMore = (props: Props) => {
             {t(globalTitles[id])}
           </Typography>
 
-          <Chip
-            label={t(chipLabels[id])}
-            color="primary"
-            size="small"
-            variant="outlined"
-            sx={{ height: 20, textTransform: 'capitalize' }}
-          />
+          <span className="proto-chip" data-tone="primary">
+            {t(chipLabels[id])}
+          </span>
         </Box>
 
         <Box sx={boxStyle}>

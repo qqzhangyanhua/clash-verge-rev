@@ -31,7 +31,7 @@ import {
   getConnectionTypeLabel,
 } from './connection-row-view'
 
-const ROW_HEIGHT = 40
+const ROW_HEIGHT = 44
 const RESIZE_HANDLE_WIDTH = 6
 const OVERSCAN_ROWS = 6
 const MAX_ROW_SNAPSHOT_CACHE_SIZE = 2_000

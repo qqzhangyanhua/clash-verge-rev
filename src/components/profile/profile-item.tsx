@@ -620,7 +620,7 @@ const ProfileItemBase = (props: ProfileItemProps) => {
   })
 
   return (
-    <Box ref={setElement} sx={{ position: 'relative', borderRadius: '8px' }}>
+    <Box ref={setElement} sx={{ position: 'relative' }}>
       <ProfileBox
         aria-selected={selected}
         onClick={(e) => {
@@ -701,7 +701,8 @@ const ProfileItemBase = (props: ProfileItemProps) => {
 
             <Typography
               sx={{
-                width: batchMode ? 'calc(100% - 56px)' : 'calc(100% - 36px)',
+                flex: 1,
+                minWidth: 0,
                 fontSize: '18px',
                 fontWeight: '600',
                 lineHeight: '26px',
@@ -713,6 +714,16 @@ const ProfileItemBase = (props: ProfileItemProps) => {
             >
               {name}
             </Typography>
+            {itemData.type === 'remote' && (
+              <span className="proto-chip" data-tone="primary">
+                {t('profiles.modals.profileForm.types.remote')}
+              </span>
+            )}
+            {itemData.type === 'local' && (
+              <span className="proto-chip">
+                {t('profiles.modals.profileForm.types.local')}
+              </span>
+            )}
           </Box>
 
           {hasUrl && (

@@ -18,9 +18,7 @@ import {
   Alert,
   Box,
   Button,
-  Chip,
   IconButton,
-  Paper,
   Typography,
   keyframes,
   useTheme,
@@ -141,26 +139,12 @@ const ChainCard = ({
       ? t('proxies.page.chain.exitNode')
       : undefined
 
-  const roleColor = isFirst
-    ? theme.palette.success.main
-    : isLast
-      ? theme.palette.warning.main
-      : undefined
-
   return (
     <Box
+      className="chain-card"
+      data-role={isFirst ? 'entry' : isLast ? 'exit' : undefined}
       sx={{
-        mb: 0,
-        display: 'flex',
-        alignItems: 'center',
-        p: 1,
-        backgroundColor: theme.palette.background.default,
-        borderRadius: 1,
-        border: roleColor
-          ? `1.5px solid ${roleColor}`
-          : `1px solid ${theme.palette.divider}`,
         opacity: proxy.recordId === undefined ? 0.55 : undefined,
-        transition: 'box-shadow 0.2s, background-color 0.2s',
         boxShadow: isDropping
           ? `0 0 0 2px ${theme.palette.primary.main}66`
           : undefined,
@@ -171,8 +155,7 @@ const ChainCard = ({
         sx={{
           display: 'flex',
           alignItems: 'center',
-          mr: 1,
-          color: theme.palette.text.secondary,
+          color: 'text.secondary',
           cursor: isDragging ? 'grabbing' : 'grab',
         }}
       >
@@ -180,62 +163,35 @@ const ChainCard = ({
       </Box>
 
       {roleLabel ? (
-        <Chip
-          label={roleLabel}
-          size="small"
-          sx={{
-            mr: 1,
-            fontWeight: 700,
-            color: '#fff',
-            backgroundColor: roleColor,
-          }}
-        />
+        <span
+          className="proto-chip"
+          data-tone={isFirst ? 'success' : 'warning'}
+        >
+          {roleLabel}
+        </span>
       ) : (
-        <Chip
-          label={`${index + 1}`}
-          size="small"
-          color="primary"
-          sx={{ mr: 1, minWidth: 32 }}
-        />
+        <span className="proto-chip" data-tone="primary">
+          {index + 1}
+        </span>
       )}
 
-      <Typography
-        variant="body2"
-        sx={{
-          flex: 1,
-          fontWeight: 500,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {proxy.name}
-      </Typography>
+      <span className="chain-card__name">{proxy.name}</span>
 
-      {proxy.type && (
-        <Chip
-          label={proxy.type}
-          size="small"
-          variant="outlined"
-          sx={{ mr: 1 }}
-        />
-      )}
+      {proxy.type && <span className="proto-chip">{proxy.type}</span>}
 
       {proxy.delay !== undefined && (
-        <Chip
-          label={
-            proxy.delay > 0 ? `${proxy.delay}ms` : t('shared.labels.timeout')
-          }
-          size="small"
-          color={
+        <span
+          className="proto-chip"
+          data-tone={
             proxy.delay > 0 && proxy.delay < 200
               ? 'success'
               : proxy.delay > 0 && proxy.delay < 800
                 ? 'warning'
                 : 'error'
           }
-          sx={{ mr: 1, fontSize: '0.7rem', minWidth: 50 }}
-        />
+        >
+          {proxy.delay > 0 ? `${proxy.delay}ms` : t('shared.labels.timeout')}
+        </span>
       )}
 
       {onRemove && (
@@ -562,25 +518,24 @@ export const ProxyChain = ({
   }, [chainConfigData, onUpdateChain])
 
   return (
-    <Paper
-      elevation={1}
-      sx={{
-        height: '100%',
-        p: 2,
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
+    <div className="chain-drawer">
       <Box
+        className="chain-header"
         sx={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           mb: 2,
+          px: 0,
+          py: 0,
+          borderBottom: 0,
+          minHeight: 0,
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-          <Typography variant="h6">{t('proxies.page.chain.header')}</Typography>
+          <h2 className="chain-header__title">
+            {t('proxies.page.chain.header')}
+          </h2>
           <TooltipIcon
             title={chainWarning}
             icon={WarningRounded}
@@ -690,6 +645,6 @@ export const ProxyChain = ({
           </DragDropProvider>
         )}
       </Box>
-    </Paper>
+    </div>
   )
 }

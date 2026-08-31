@@ -26,6 +26,14 @@
   background: var(--glass-bg);
   box-shadow: var(--card-shadow);
   backdrop-filter: blur(16px);
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--primary-main) 28%, transparent);
+    box-shadow: var(--card-shadow), var(--selection-glow);
+  }
 }
 
 .home-module__header {
