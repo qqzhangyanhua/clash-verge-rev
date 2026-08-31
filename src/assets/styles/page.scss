@@ -191,51 +191,6 @@
   }
 }
 
-.unlock-list {
-  overflow: hidden;
-  border: 1px solid var(--glass-border);
-  border-radius: var(--border-radius);
-  background: var(--glass-bg);
-  box-shadow: var(--card-shadow);
-  backdrop-filter: blur(16px);
-}
-
-.unlock-result-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  padding: 8px 12px;
-  box-sizing: border-box;
-  border-bottom: 1px solid var(--divider-color);
-
-  &:last-child {
-    border-bottom: 0;
-  }
-
-  &__name {
-    flex: 1 1 auto;
-    min-width: 0;
-    font-size: 13px;
-    font-weight: 600;
-  }
-
-  &__meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 6px;
-    flex: 0 1 auto;
-  }
-
-  &__time {
-    font-size: 11px;
-    color: var(--text-secondary);
-    white-space: nowrap;
-  }
-}
-
 .home-console {
   display: flex;
   flex-direction: column;

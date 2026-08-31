@@ -29,6 +29,7 @@ import {
   VirtualList,
 } from '@/components/base'
 import { ConnectionDetail } from '@/components/connection/connection-detail'
+import { ConnectionMetrics } from '@/components/connection/connection-metrics'
 import { ConnectionRowItem } from '@/components/connection/connection-row-item'
 import {
   getConnectionStartTime,
@@ -39,7 +40,6 @@ import { useConnectionData } from '@/hooks/use-connection-data'
 import { useConnectionSetting } from '@/hooks/use-connection-setting'
 import { useTrafficData } from '@/hooks/use-traffic-data'
 import { useVisibility } from '@/hooks/use-visibility'
-import parseTraffic from '@/utils/parse-traffic'
 
 type OrderFunc = (list: IConnectionsItem[]) => IConnectionsItem[]
 type ConnectionsType = 'active' | 'closed'
@@ -178,13 +178,6 @@ const ConnectionsPage = () => {
       }}
       header={
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Box sx={{ mx: 1 }}>
-            {t('shared.labels.downloaded')}:{' '}
-            {parseTraffic(traffic?.downTotal || 0)}
-          </Box>
-          <Box sx={{ mx: 1 }}>
-            {t('shared.labels.uploaded')}: {parseTraffic(traffic?.upTotal || 0)}
-          </Box>
           <IconButton
             color="inherit"
             size="small"
@@ -210,21 +203,15 @@ const ConnectionsPage = () => {
         </Box>
       }
     >
-      <Box
-        sx={{
-          pt: 1,
-          mb: 0.5,
-          mx: '10px',
-          minHeight: '36px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-          userSelect: 'text',
-          position: 'sticky',
-          top: 0,
-          zIndex: 2,
-        }}
-      >
+      <ConnectionMetrics
+        connectionsType={connectionsType}
+        activeCount={connections?.activeConnections.length ?? 0}
+        closedCount={connections?.closedConnections.length ?? 0}
+        downloadTotal={traffic?.downTotal || 0}
+        uploadTotal={traffic?.upTotal || 0}
+        onSelectType={selectConnectionsType}
+      />
+      <Box className="page-toolbar">
         <ToggleButtonGroup
           exclusive
           size="small"
@@ -233,7 +220,7 @@ const ConnectionsPage = () => {
           onChange={(_event, value: ConnectionsType | null) => {
             if (value) selectConnectionsType(value)
           }}
-          sx={{ flexShrink: 0, mr: 1 }}
+          sx={{ flexShrink: 0 }}
         >
           <ToggleButton value="active" disableRipple>
             {t('connections.components.actions.active')}{' '}

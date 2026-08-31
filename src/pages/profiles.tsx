@@ -823,18 +823,7 @@ const ProfilePage = () => {
         </Box>
       }
     >
-      <Stack
-        direction="row"
-        spacing={1}
-        sx={{
-          pt: 1,
-          mb: 0.5,
-          mx: '10px',
-          height: '36px',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
+      <Stack direction="row" spacing={1} className="profile-import-bar">
         <BaseStyledTextField
           value={url}
           variant="outlined"
@@ -878,7 +867,7 @@ const ProfilePage = () => {
         <Button
           disabled={!url || disabled}
           loading={loading}
-          variant="text"
+          variant="contained"
           size="small"
           onClick={onImport}
         >

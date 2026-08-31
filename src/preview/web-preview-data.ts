@@ -227,9 +227,21 @@ export const previewLogs = [
 ]
 
 export const previewLogItems = [
-  { type: 'info', payload: 'match google.com --> PROXY' },
-  { type: 'warning', payload: 'retry connection to Tokyo-01' },
-  { type: 'error', payload: 'dns lookup failed for example.test' },
+  {
+    time: '08-30 10:01:12',
+    type: 'info',
+    payload: 'match google.com --> PROXY',
+  },
+  {
+    time: '08-30 10:01:13',
+    type: 'warning',
+    payload: 'retry connection to Tokyo-01',
+  },
+  {
+    time: '08-30 10:01:14',
+    type: 'error',
+    payload: 'dns lookup failed for example.test',
+  },
 ]
 
 export const previewNetworkInterfaces: INetworkInterface[] = [
