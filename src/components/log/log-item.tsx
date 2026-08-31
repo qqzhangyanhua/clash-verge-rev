@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { type ReactNode, useState } from 'react'
 
 import type { SearchState } from '@/components/base'
 
@@ -64,18 +64,25 @@ const highlightText = (text: string, searchState?: SearchState): ReactNode => {
   }
 }
 
-const LogItem = ({ value, searchState }: Props) => (
-  <div className="log-row">
-    <span className="log-row__time">
-      {highlightText(value.time || '', searchState)}
-    </span>
-    <span className="log-level" data-type={value.type.toLowerCase()}>
-      {highlightText(value.type, searchState)}
-    </span>
-    <span className="log-row__data">
-      {highlightText(value.payload, searchState)}
-    </span>
-  </div>
-)
+const LogItem = ({ value, searchState }: Props) => {
+  const [selected, setSelected] = useState(false)
+
+  return (
+    <div
+      className={`log-row${selected ? ' is-selected' : ''}`}
+      onClick={() => setSelected((current) => !current)}
+    >
+      <span className="log-row__time">
+        {highlightText(value.time || '', searchState)}
+      </span>
+      <span className="log-level" data-type={value.type.toLowerCase()}>
+        {highlightText(value.type, searchState)}
+      </span>
+      <span className="log-row__data">
+        {highlightText(value.payload, searchState)}
+      </span>
+    </div>
+  )
+}
 
 export default LogItem

@@ -177,7 +177,7 @@ const LogPage = () => {
           <VirtualList
             ref={virtuosoRef}
             count={filteredLogs.length}
-            estimateSize={36}
+            estimateSize={44}
             renderItem={(i) => (
               <LogItem value={filteredLogs[i]} searchState={searchState} />
             )}

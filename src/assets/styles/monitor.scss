@@ -71,15 +71,21 @@
   &__row {
     display: flex;
     box-sizing: border-box;
-    border-bottom: 1px solid var(--divider-color);
+    margin: 0 8px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    transition:
+      background 0.16s ease,
+      border-color 0.16s ease,
+      box-shadow 0.16s ease;
+
+    &:hover {
+      background: color-mix(in srgb, var(--selected-row) 70%, transparent);
+    }
 
     &.is-selected {
-      background: linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--primary-main) 28%, transparent),
-        color-mix(in srgb, var(--selected-row) 70%, transparent) 42%,
-        transparent
-      );
+      background: var(--selected-row);
+      border-color: color-mix(in srgb, var(--primary-main) 45%, transparent);
       box-shadow: inset 3px 0 0 var(--primary-main), var(--selection-glow);
     }
   }
@@ -98,14 +104,62 @@
 }
 
 .connection-row {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 56px;
+  padding: 8px 48px 8px 12px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  margin: 0 8px 4px;
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--selected-row) 70%, transparent);
+  }
+
   &.is-selected {
-    background: linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--primary-main) 28%, transparent),
-      color-mix(in srgb, var(--selected-row) 70%, transparent) 42%,
-      transparent
-    ) !important;
+    background: var(--selected-row);
+    border-color: color-mix(in srgb, var(--primary-main) 45%, transparent);
     box-shadow: inset 3px 0 0 var(--primary-main), var(--selection-glow);
+  }
+
+  &__content {
+    min-width: 0;
+    flex: 1;
+    cursor: pointer;
+    user-select: text;
+  }
+
+  &__host {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text-primary);
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+    overflow: hidden;
+  }
+
+  &__action {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   &__tag {
@@ -149,6 +203,20 @@
   background: var(--glass-bg);
   box-shadow: var(--card-shadow);
   backdrop-filter: blur(16px);
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--selected-row) 70%, transparent);
+  }
+
+  &.is-selected {
+    background: var(--selected-row);
+    border-color: color-mix(in srgb, var(--primary-main) 45%, transparent);
+    box-shadow: inset 3px 0 0 var(--primary-main), var(--selection-glow);
+  }
 }
 
 .rule-row__index {
@@ -188,16 +256,19 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.02em;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--primary-main) 22%, transparent);
 
   &[data-action='DIRECT'] {
     background: color-mix(in srgb, #22c55e 16%, transparent);
     color: #22c55e;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.22);
   }
 
   &[data-action='REJECT'],
   &[data-action='REJECT-DROP'] {
     background: color-mix(in srgb, #f43f5e 16%, transparent);
     color: #f43f5e;
+    box-shadow: 0 0 10px rgba(244, 63, 94, 0.22);
   }
 }
 
@@ -215,14 +286,30 @@
 
 .log-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
-  min-height: 36px;
-  padding: 7px 14px;
-  border-bottom: 1px solid var(--divider-color);
+  min-height: 40px;
+  margin: 0 8px 4px;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 10px;
   font-size: 13px;
   line-height: 1.35;
   user-select: text;
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--selected-row) 70%, transparent);
+  }
+
+  &.is-selected {
+    background: var(--selected-row);
+    border-color: color-mix(in srgb, var(--primary-main) 45%, transparent);
+    box-shadow: inset 3px 0 0 var(--primary-main), var(--selection-glow);
+  }
 
   &__time {
     flex: 0 0 auto;
@@ -297,6 +384,16 @@
   background: var(--glass-bg);
   box-shadow: var(--card-shadow);
   backdrop-filter: blur(16px);
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--selected-row) 40%, var(--glass-bg));
+    border-color: color-mix(in srgb, var(--primary-main) 35%, transparent);
+    box-shadow: var(--selection-glow);
+  }
 
   &__header {
     display: flex;
@@ -369,9 +466,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 48px;
+  min-height: 52px;
   margin: 10px 12px 8px;
-  padding: 6px 8px 6px 10px;
+  padding: 8px 10px 8px 12px;
   border: 1px solid var(--glass-border);
   border-radius: var(--border-radius);
   background: var(--glass-bg);
@@ -380,5 +477,18 @@
 
   .MuiOutlinedInput-root {
     background: color-mix(in srgb, var(--content-color) 55%, transparent);
+    border-radius: 10px;
+  }
+
+  .MuiButton-contained {
+    min-height: 32px;
+    border-radius: 999px;
+    box-shadow: var(--selection-glow);
+  }
+
+  .MuiButton-text {
+    min-height: 32px;
+    border-radius: 999px;
+    color: #fb7185;
   }
 }

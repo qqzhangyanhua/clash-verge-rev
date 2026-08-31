@@ -2,7 +2,6 @@ import { ExpandMoreRounded } from '@mui/icons-material'
 import {
   Alert,
   Box,
-  Chip,
   IconButton,
   Menu,
   MenuItem,
@@ -100,60 +99,36 @@ function ChainRuleHeader({
   onMenuOpen,
 }: ChainRuleHeaderProps) {
   return (
-    <Box sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
-      <Box
-        sx={{
-          px: 2,
-          py: 1.5,
-          borderBottom: '1px solid',
-          borderColor: 'divider',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '16px' }}>
-            {title}
-          </Typography>
+    <div className="chain-header">
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, minWidth: 0 }}>
+        <h2 className="chain-header__title">{title}</h2>
 
-          {currentGroup && (
-            <Chip
-              size="small"
-              label={`${currentGroup.name} (${currentGroup.type})`}
-              variant="outlined"
-              sx={{
-                fontSize: '12px',
-                maxWidth: '200px',
-                '& .MuiChip-label': {
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                },
-              }}
-            />
-          )}
-        </Box>
-
-        {canSelectGroup && (
-          <IconButton
-            size="small"
-            onClick={onMenuOpen}
-            sx={{
-              border: '1px solid',
-              borderColor: 'divider',
-              borderRadius: '4px',
-              padding: '4px 8px',
-            }}
-          >
-            <Typography variant="body2" sx={{ mr: 0.5, fontSize: '12px' }}>
-              {selectLabel}
-            </Typography>
-            <ExpandMoreRounded fontSize="small" />
-          </IconButton>
+        {currentGroup && (
+          <span className="proto-chip" data-tone="primary">
+            {currentGroup.name} ({currentGroup.type})
+          </span>
         )}
       </Box>
-    </Box>
+
+      {canSelectGroup && (
+        <IconButton
+          size="small"
+          onClick={onMenuOpen}
+          sx={{
+            border: '1px solid var(--glass-border)',
+            borderRadius: '10px',
+            padding: '4px 10px',
+            background:
+              'color-mix(in srgb, var(--content-color) 55%, transparent)',
+          }}
+        >
+          <Typography variant="body2" sx={{ mr: 0.5, fontSize: '12px' }}>
+            {selectLabel}
+          </Typography>
+          <ExpandMoreRounded fontSize="small" />
+        </IconButton>
+      )}
+    </div>
   )
 }
 
@@ -472,8 +447,8 @@ export function ProxyGroupsChain(props: ProxyGroupsChainProps) {
 
   return (
     <>
-      <Box sx={{ display: 'flex', height: '100%', gap: 2 }}>
-        <Box sx={{ flex: 1, position: 'relative' }}>
+      <div className="chain-split">
+        <div className="chain-split__main">
           {showRuleHeader && (
             <ChainRuleHeader
               title={t('proxies.page.rules.title')}
@@ -488,9 +463,9 @@ export function ProxyGroupsChain(props: ProxyGroupsChainProps) {
             showRuleHeader ? 'calc(100% - 80px)' : 'calc(100% - 14px)',
           )}
           <ScrollTopButton show={showScrollTop} onClick={onScrollToTop} />
-        </Box>
+        </div>
 
-        <Box sx={{ width: '400px', minWidth: '300px' }}>
+        <div className="chain-split__drawer">
           <ProxyChain
             proxyChain={currentProxyChain}
             onUpdateChain={setProxyChain}
@@ -498,8 +473,8 @@ export function ProxyGroupsChain(props: ProxyGroupsChainProps) {
             mode={mode}
             selectedGroup={activeSelectedGroup}
           />
-        </Box>
-      </Box>
+        </div>
+      </div>
 
       <Snackbar
         open={duplicateWarning.open}

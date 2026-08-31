@@ -134,18 +134,17 @@
   }
 
   &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     overflow: hidden;
     margin: 0;
-    padding: 0;
+    padding: 8px;
     border: 1px solid var(--glass-border);
     border-radius: var(--border-radius);
     background: var(--glass-bg);
     box-shadow: var(--card-shadow);
     backdrop-filter: blur(16px);
-
-    .MuiListItem-root:not(:last-child) {
-      box-shadow: inset 16px -1px 0 0 var(--divider-color);
-    }
 
     .MuiListItem-root,
     .MuiListItemButton-root {
@@ -379,26 +378,16 @@
 }
 
 .profile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
   overflow: hidden;
   border: 1px solid var(--glass-border);
   border-radius: var(--border-radius);
   background: var(--glass-bg);
   box-shadow: var(--card-shadow);
   backdrop-filter: blur(16px);
-
-  > * {
-    border-radius: 0 !important;
-  }
-
-  [aria-selected] {
-    border: 0 !important;
-    border-radius: 0 !important;
-    border-bottom: 1px solid var(--divider-color) !important;
-  }
-
-  > *:last-child [aria-selected] {
-    border-bottom: 0 !important;
-  }
 }
 
 .base-page {

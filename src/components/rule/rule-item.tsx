@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Rule } from 'tauri-plugin-mihomo-api'
 
 interface Props {
@@ -10,10 +11,14 @@ const ruleType = (value: Rule) =>
 const RuleItem = ({ value }: Props) => {
   const type = ruleType(value)
   const target = value.payload || '—'
+  const [selected, setSelected] = useState(false)
 
   return (
     <div className="rule-row">
-      <div className="rule-row__card">
+      <div
+        className={`rule-row__card${selected ? ' is-selected' : ''}`}
+        onClick={() => setSelected((current) => !current)}
+      >
         <span className="rule-row__index">{value.lineNo}</span>
         <div className="rule-row__body">
           <span className="rule-row__target" title={target}>
