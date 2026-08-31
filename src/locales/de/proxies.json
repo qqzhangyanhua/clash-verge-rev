@@ -26,7 +26,18 @@
     "labels": {
       "proxyCount": "Anzahl der Knoten",
       "delayCheckReset": "Latenztest durchführen, um Fixierung aufzuheben",
-      "nodeCount": "{{count}} Knoten"
+      "nodeCount": "{{count}} Knoten",
+      "latency": "Latency",
+      "online": "Online",
+      "offline": "Offline",
+      "node": "Node"
+    },
+    "table": {
+      "name": "Name",
+      "protocol": "Protocol",
+      "type": "Type",
+      "latency": "Latency",
+      "status": "Status"
     },
     "tooltips": {
       "locate": "Aktueller Knoten",

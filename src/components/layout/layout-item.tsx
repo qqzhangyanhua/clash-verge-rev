@@ -40,27 +40,32 @@ export const LayoutItem = (props: Props) => {
         ref={sortable?.handleRef}
         selected={!!match}
         sx={{
-          minHeight: 28,
-          borderRadius: '7px',
-          py: 0.4,
-          px: 1,
+          minHeight: 32,
+          borderRadius: '10px',
+          py: 0.55,
+          px: 1.1,
           cursor: 'pointer',
           '& .MuiListItemText-primary': {
             color: 'text.primary',
             fontSize: 13,
-            fontWeight: 400,
+            fontWeight: 500,
             letterSpacing: '-0.01em',
           },
           '&:hover': {
-            bgcolor:
-              'color-mix(in srgb, var(--selected-sidebar) 62%, transparent)',
+            bgcolor: 'color-mix(in srgb, var(--selected-row) 80%, transparent)',
           },
           '&.Mui-selected .MuiListItemText-primary': {
-            fontWeight: 600,
+            fontWeight: 650,
+            color: 'var(--selected-sidebar-fg)',
+          },
+          '&.Mui-selected .MuiListItemIcon-root': {
+            color: 'var(--selected-sidebar-fg)',
           },
           '&.Mui-selected, &.Mui-selected:hover, &.Mui-selected.Mui-focusVisible':
             {
               bgcolor: 'var(--selected-sidebar)',
+              color: 'var(--selected-sidebar-fg)',
+              boxShadow: 'var(--selection-glow)',
             },
         }}
         title={navCollapsed ? children : undefined}

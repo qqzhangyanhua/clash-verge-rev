@@ -26,7 +26,18 @@
     "labels": {
       "proxyCount": "프록시 개수",
       "delayCheckReset": "고정 취소를 위한 지연 확인",
-      "nodeCount": "노드 {{count}}개"
+      "nodeCount": "노드 {{count}}개",
+      "latency": "Latency",
+      "online": "Online",
+      "offline": "Offline",
+      "node": "Node"
+    },
+    "table": {
+      "name": "Name",
+      "protocol": "Protocol",
+      "type": "Type",
+      "latency": "Latency",
+      "status": "Status"
     },
     "tooltips": {
       "locate": "위치 찾기",

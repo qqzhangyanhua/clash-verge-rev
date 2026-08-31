@@ -1,25 +1,10 @@
-.proxy-split {
-  display: flex;
-  height: 100%;
-  min-height: 0;
-
-  &__groups {
-    flex: 0 0 220px;
-    width: 220px;
-    min-width: 160px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    box-sizing: border-box;
-    border-right: 1px solid var(--divider-color);
-    background-color: var(--background-color);
-  }
-
-  &__nodes {
-    flex: 1 1 auto;
-    min-width: 0;
-    height: 100%;
-    position: relative;
-  }
+.page-surface {
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  background: var(--glass-bg);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(16px);
 }
 
 .connection-split {
@@ -35,6 +20,13 @@
     flex-direction: column;
     min-width: 0;
     min-height: 0;
+    margin: 10px 12px 12px;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+    background: var(--glass-bg);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    backdrop-filter: blur(16px);
   }
 
   &__inspector {
@@ -48,8 +40,12 @@
     height: 100%;
     overflow: auto;
     box-sizing: border-box;
-    border-left: 1px solid var(--divider-color);
-    background-color: var(--content-color);
+    margin: 10px 12px 12px 0;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+    background: var(--glass-bg);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: blur(16px);
   }
 }
 
@@ -118,10 +114,11 @@
 
 .inset-group {
   overflow: hidden;
-  border: 0;
+  border: 1px solid var(--glass-border);
   border-radius: var(--border-radius);
-  background-color: var(--content-color);
+  background: var(--glass-bg);
   box-shadow: var(--card-shadow);
+  backdrop-filter: blur(16px);
 }
 
 .inset-group-block {
@@ -140,10 +137,11 @@
     overflow: hidden;
     margin: 0;
     padding: 0;
-    border: 0;
+    border: 1px solid var(--glass-border);
     border-radius: var(--border-radius);
-    background-color: var(--content-color);
+    background: var(--glass-bg);
     box-shadow: var(--card-shadow);
+    backdrop-filter: blur(16px);
 
     .MuiListItem-root:not(:last-child) {
       box-shadow: inset 16px -1px 0 0 var(--divider-color);
@@ -178,8 +176,8 @@
     background-color: transparent !important;
 
     &.Mui-selected {
-      background-color: var(--content-color) !important;
-      color: var(--text-primary) !important;
+      background-color: var(--primary-main) !important;
+      color: #fff !important;
       box-shadow: var(--segment-selected-shadow);
     }
 
@@ -188,17 +186,18 @@
     }
 
     &.Mui-selected:hover {
-      background-color: var(--content-color) !important;
+      background-color: var(--primary-main) !important;
     }
   }
 }
 
 .unlock-list {
   overflow: hidden;
-  border: 0;
+  border: 1px solid var(--glass-border);
   border-radius: var(--border-radius);
-  background-color: var(--content-color);
+  background: var(--glass-bg);
   box-shadow: var(--card-shadow);
+  backdrop-filter: blur(16px);
 }
 
 .unlock-result-row {
@@ -249,10 +248,11 @@
     min-height: 40px;
     padding: 10px 14px;
     box-sizing: border-box;
-    border: 0;
+    border: 1px solid var(--glass-border);
     border-radius: var(--border-radius);
-    background-color: var(--content-color);
+    background: var(--glass-bg);
     box-shadow: var(--card-shadow);
+    backdrop-filter: blur(16px);
   }
 }
 
@@ -353,8 +353,9 @@
     max-height: 500px;
     border: 0;
     border-radius: var(--border-radius);
-    background-color: var(--content-color);
-    box-shadow: var(--card-shadow), 0 8px 24px rgba(0, 0, 0, 0.08);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--card-shadow), 0 8px 24px rgba(0, 0, 0, 0.18);
   }
 
   &__picker-toolbar {
@@ -424,10 +425,11 @@
 
 .profile-list {
   overflow: hidden;
-  border: 0;
+  border: 1px solid var(--glass-border);
   border-radius: var(--border-radius);
-  background-color: var(--content-color);
+  background: var(--glass-bg);
   box-shadow: var(--card-shadow);
+  backdrop-filter: blur(16px);
 
   > * {
     border-radius: 0 !important;
@@ -458,14 +460,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid var(--divider-color);
+    border-bottom: 1px solid var(--glass-border);
   }
 
   .base-container {
     height: 100%;
     overflow: hidden;
-    // border-radius: 10px;
-    // border-top-left-radius: var(--border-radius);
 
     > section {
       position: relative;

@@ -1,18 +1,16 @@
-import { DragDropProvider, KeyboardSensor, PointerSensor } from '@dnd-kit/react'
-import { Box, List, Menu, MenuItem, Paper, ThemeProvider } from '@mui/material'
+import { Paper, ThemeProvider } from '@mui/material'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet, useNavigate } from 'react-router'
 
-import { BaseErrorBoundary, SortableItem } from '@/components/base'
+import { BaseErrorBoundary } from '@/components/base'
 import { ControlBar } from '@/components/layout/control-bar'
-import { LayoutItem } from '@/components/layout/layout-item'
+import { LayoutSidebar } from '@/components/layout/layout-sidebar'
 import { NoticeManager } from '@/components/layout/notice-manager'
 import { ServiceMigrationDialog } from '@/components/layout/service-migration-dialog'
 import { SysproxyPrivilegeDialog } from '@/components/layout/sysproxy-privilege-dialog'
-import { UpdateButton } from '@/components/layout/update-button'
 import {
   WindowControls,
   WindowResizeHandles,
@@ -42,31 +40,7 @@ import {
 import 'dayjs/locale/ru'
 import 'dayjs/locale/zh-cn'
 
-type NavItem = (typeof navItems)[number]
-
 type MenuContextPosition = { top: number; left: number }
-
-interface SortableNavMenuItemProps {
-  item: NavItem
-  label: string
-  index: number
-}
-
-const SortableNavMenuItem = ({
-  item,
-  label,
-  index,
-}: SortableNavMenuItemProps) => {
-  return (
-    <SortableItem id={item.path} index={index}>
-      {(sortable) => (
-        <LayoutItem to={item.path} icon={item.icon} sortable={sortable}>
-          {label}
-        </LayoutItem>
-      )}
-    </SortableItem>
-  )
-}
 
 dayjs.extend(relativeTime)
 
@@ -267,123 +241,21 @@ const Layout = () => {
         {customTitlebar}
 
         <div className="layout-content">
-          <div className="layout-content__left">
-            <div className="the-logo">
-              <UpdateButton className="the-newbtn" />
-            </div>
-
-            {menuUnlocked && (
-              <Box
-                className="the-reorder-hint"
-                sx={(theme) => ({
-                  px: 1.5,
-                  py: 0.75,
-                  mx: 1,
-                  mb: 1,
-                  borderRadius: 1,
-                  fontSize: 12,
-                  fontWeight: 600,
-                  textAlign: 'center',
-                  color: theme.palette.warning.contrastText,
-                  bgcolor:
-                    theme.palette.mode === 'light'
-                      ? theme.palette.warning.main
-                      : theme.palette.warning.dark,
-                })}
-              >
-                {t('layout.components.navigation.menu.reorderMode')}
-              </Box>
-            )}
-
-            {menuUnlocked ? (
-              <List
-                className="the-menu"
-                dense
-                disablePadding
-                onContextMenu={handleMenuContextMenu}
-              >
-                <DragDropProvider
-                  sensors={[PointerSensor, KeyboardSensor]}
-                  onDragEnd={handleMenuDragEnd}
-                >
-                  {menuOrder.map((path) => {
-                    const item = navItemMap.get(path)
-                    if (!item) {
-                      return null
-                    }
-                    return (
-                      <SortableNavMenuItem
-                        key={item.path}
-                        item={item}
-                        label={t(item.label)}
-                        index={menuOrder.indexOf(path)}
-                      />
-                    )
-                  })}
-                </DragDropProvider>
-              </List>
-            ) : (
-              <List
-                className="the-menu"
-                dense
-                disablePadding
-                onContextMenu={handleMenuContextMenu}
-              >
-                {menuOrder.map((path) => {
-                  const item = navItemMap.get(path)
-                  if (!item) {
-                    return null
-                  }
-                  return (
-                    <LayoutItem key={item.path} to={item.path} icon={item.icon}>
-                      {t(item.label)}
-                    </LayoutItem>
-                  )
-                })}
-              </List>
-            )}
-
-            <Menu
-              open={Boolean(menuContextPosition)}
-              onClose={handleMenuContextClose}
-              anchorReference="anchorPosition"
-              anchorPosition={
-                menuContextPosition
-                  ? {
-                      top: menuContextPosition.top,
-                      left: menuContextPosition.left,
-                    }
-                  : undefined
-              }
-              transitionDuration={200}
-              slotProps={{
-                list: {
-                  sx: { py: 0.5 },
-                },
-              }}
-            >
-              <MenuItem onClick={handleToggleNavCollapsed} dense>
-                {navCollapsed
-                  ? t('layout.components.navigation.menu.expandNavBar')
-                  : t('layout.components.navigation.menu.collapseNavBar')}
-              </MenuItem>
-              <MenuItem
-                onClick={menuUnlocked ? handleLockMenu : handleUnlockMenu}
-                dense
-              >
-                {menuUnlocked
-                  ? t('layout.components.navigation.menu.lock')
-                  : t('layout.components.navigation.menu.unlock')}
-              </MenuItem>
-              <MenuItem
-                onClick={handleResetMenuOrder}
-                dense
-                disabled={isDefaultOrder}
-              >
-                {t('layout.components.navigation.menu.restoreDefaultOrder')}
-              </MenuItem>
-            </Menu>
-          </div>
+          <LayoutSidebar
+            navCollapsed={navCollapsed}
+            menuUnlocked={menuUnlocked}
+            menuOrder={menuOrder}
+            navItemMap={navItemMap}
+            isDefaultOrder={isDefaultOrder}
+            menuContextPosition={menuContextPosition}
+            onMenuContextMenu={handleMenuContextMenu}
+            onMenuDragEnd={handleMenuDragEnd}
+            onMenuContextClose={handleMenuContextClose}
+            onToggleNavCollapsed={handleToggleNavCollapsed}
+            onUnlockMenu={handleUnlockMenu}
+            onLockMenu={handleLockMenu}
+            onResetMenuOrder={handleResetMenuOrder}
+          />
 
           <div className="layout-content__right">
             <ControlBar />

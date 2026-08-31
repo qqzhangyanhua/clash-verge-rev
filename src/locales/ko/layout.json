@@ -11,6 +11,18 @@
         "unlock": "테스트",
         "settings": "설정"
       },
+      "groups": {
+        "overview": "Overview",
+        "network": "Network",
+        "monitor": "Monitor"
+      },
+      "brand": {
+        "subtitle": "Network Control"
+      },
+      "status": {
+        "systemProxyOn": "System Proxy ON",
+        "systemProxyOff": "System Proxy OFF"
+      },
       "menu": {
         "reorderMode": "메뉴 재정렬 모드",
         "restoreDefaultOrder": "Restore default order",

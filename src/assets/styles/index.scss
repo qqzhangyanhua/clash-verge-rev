@@ -1,5 +1,6 @@
 @use "./layout.scss";
 @use "./page.scss";
+@use "./proxy.scss";
 @use "./font.scss";
 
 body {
@@ -19,26 +20,65 @@ body {
 }
 
 :root {
-  --primary-main: #007aff;
-  --text-primary: #1d1d1f;
-  --selection-color: #f5f5f7;
-  --scroller-color: #c7c7cc;
-  --background-color: #f5f5f7;
-  --sidebar-color: #e8e8ed;
-  --content-color: #ffffff;
-  --background-color-alpha: rgba(0, 122, 255, 0.1);
-  --text-secondary: #3c3c4399;
-  --border-radius: 10px;
-  --segment-track: rgba(0, 0, 0, 0.06);
-  --segment-selected-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.12),
-    0 0 0 0.5px rgba(0, 0, 0, 0.04);
-  --divider-color: rgba(60, 60, 67, 0.1);
-  --selected-row: #e5e5ea;
-  --selected-sidebar: #d8d8dc;
-  --card-shadow: 0 0.5px 0 rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --window-border-color: rgba(60, 60, 67, 0.16);
-  --scrollbar-bg: #f5f5f7;
-  --scrollbar-thumb: #c7c7cc;
+  --primary-main: #3b82f6;
+  --text-primary: #f8fafc;
+  --selection-color: #1a1e2c;
+  --scroller-color: #3a4158;
+  --background-color: #12141d;
+  --sidebar-color: #0c0e16;
+  --content-color: #181c28;
+  --background-color-alpha: rgba(59, 130, 246, 0.12);
+  --text-secondary: #94a3b8cc;
+  --border-radius: 14px;
+  --segment-track: rgba(255, 255, 255, 0.06);
+  --segment-selected-shadow: 0 0 0 1px rgba(59, 130, 246, 0.45),
+    0 0 18px rgba(59, 130, 246, 0.28);
+  --divider-color: rgba(148, 163, 184, 0.12);
+  --selected-row: rgba(59, 130, 246, 0.16);
+  --selected-sidebar: #3b82f6;
+  --selected-sidebar-fg: #ffffff;
+  --card-shadow: 0 0 0 1px rgba(148, 163, 184, 0.08),
+    0 12px 40px rgba(0, 0, 0, 0.35);
+  --glass-bg: rgba(24, 28, 40, 0.72);
+  --glass-border: rgba(148, 163, 184, 0.12);
+  --selection-glow: 0 0 0 1px rgba(59, 130, 246, 0.35),
+    0 0 16px rgba(59, 130, 246, 0.22);
+  --traffic-up: #c084fc;
+  --traffic-down: #f472b6;
+  --window-border-color: rgba(148, 163, 184, 0.14);
+  --scrollbar-bg: #12141d;
+  --scrollbar-thumb: #3a4158;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --primary-main: #007aff;
+    --text-primary: #1d1d1f;
+    --selection-color: #f5f5f7;
+    --scroller-color: #c7c7cc;
+    --background-color: #f5f5f7;
+    --sidebar-color: #e8e8ed;
+    --content-color: #ffffff;
+    --background-color-alpha: rgba(0, 122, 255, 0.1);
+    --text-secondary: #3c3c4399;
+    --segment-track: rgba(0, 0, 0, 0.06);
+    --segment-selected-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.12),
+      0 0 0 0.5px rgba(0, 0, 0, 0.04);
+    --divider-color: rgba(60, 60, 67, 0.1);
+    --selected-row: rgba(0, 122, 255, 0.1);
+    --selected-sidebar: rgba(0, 122, 255, 0.14);
+    --selected-sidebar-fg: #007aff;
+    --card-shadow: 0 0.5px 0 rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --glass-bg: rgba(255, 255, 255, 0.88);
+    --glass-border: rgba(60, 60, 67, 0.08);
+    --selection-glow: 0 0 0 1px rgba(0, 122, 255, 0.2),
+      0 0 12px rgba(0, 122, 255, 0.12);
+    --traffic-up: #a855f7;
+    --traffic-down: #ec4899;
+    --window-border-color: rgba(60, 60, 67, 0.16);
+    --scrollbar-bg: #f5f5f7;
+    --scrollbar-thumb: #c7c7cc;
+  }
 }
 
 ::selection {

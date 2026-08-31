@@ -32,16 +32,12 @@ export const BasePage: React.FC<Props> = (props) => {
         <div
           className={full ? 'base-container no-padding' : 'base-container'}
           style={{
-            backgroundColor: full
-              ? 'var(--content-color)'
-              : 'var(--background-color)',
+            backgroundColor: 'var(--background-color)',
           }}
         >
           <section
             style={{
-              backgroundColor: full
-                ? 'var(--content-color)'
-                : 'var(--background-color)',
+              backgroundColor: 'var(--background-color)',
             }}
           >
             <div className="base-content" style={contentStyle}>

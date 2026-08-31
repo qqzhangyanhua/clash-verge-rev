@@ -11,6 +11,18 @@
         "unlock": "解 鎖",
         "settings": "設 定"
       },
+      "groups": {
+        "overview": "總覽",
+        "network": "網路",
+        "monitor": "監控"
+      },
+      "brand": {
+        "subtitle": "網路控制"
+      },
+      "status": {
+        "systemProxyOn": "系統代理已開啟",
+        "systemProxyOff": "系統代理已關閉"
+      },
       "menu": {
         "reorderMode": "選單排序模式",
         "restoreDefaultOrder": "恢復預設排序",

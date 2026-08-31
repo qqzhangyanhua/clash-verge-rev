@@ -26,7 +26,18 @@
     "labels": {
       "proxyCount": "Número de nodos",
       "delayCheckReset": "Realizar prueba de latencia para cancelar la fijación",
-      "nodeCount": "{{count}} nodos"
+      "nodeCount": "{{count}} nodos",
+      "latency": "Latency",
+      "online": "Online",
+      "offline": "Offline",
+      "node": "Node"
+    },
+    "table": {
+      "name": "Name",
+      "protocol": "Protocol",
+      "type": "Type",
+      "latency": "Latency",
+      "status": "Status"
     },
     "tooltips": {
       "locate": "Nodo actual",

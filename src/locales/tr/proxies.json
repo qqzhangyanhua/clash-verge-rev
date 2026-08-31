@@ -26,7 +26,18 @@
     "labels": {
       "proxyCount": "Vekil Sayısı",
       "delayCheckReset": "Sabit iptali için gecikme kontrolü",
-      "nodeCount": "{{count}} düğüm"
+      "nodeCount": "{{count}} düğüm",
+      "latency": "Latency",
+      "online": "Online",
+      "offline": "Offline",
+      "node": "Node"
+    },
+    "table": {
+      "name": "Name",
+      "protocol": "Protocol",
+      "type": "Type",
+      "latency": "Latency",
+      "status": "Status"
     },
     "tooltips": {
       "locate": "konum",

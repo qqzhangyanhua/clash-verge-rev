@@ -26,7 +26,18 @@
     "labels": {
       "proxyCount": "Количество прокси",
       "delayCheckReset": "Сброс проверки задержки",
-      "nodeCount": "Узлов: {{count}}"
+      "nodeCount": "Узлов: {{count}}",
+      "latency": "Latency",
+      "online": "Online",
+      "offline": "Offline",
+      "node": "Node"
+    },
+    "table": {
+      "name": "Name",
+      "protocol": "Protocol",
+      "type": "Type",
+      "latency": "Latency",
+      "status": "Status"
     },
     "tooltips": {
       "locate": "Местоположение",

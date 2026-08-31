@@ -84,14 +84,19 @@ const RulesPage = () => {
 
       {filteredRules && filteredRules.length > 0 ? (
         <>
-          <VirtualList
-            ref={virtuosoRef}
-            count={filteredRules.length}
-            estimateSize={40}
-            renderItem={(i) => <RuleItem value={filteredRules[i]} />}
-            style={{ flex: 1 }}
-            onScroll={handleScroll}
-          />
+          <Box
+            className="page-surface"
+            sx={{ flex: 1, mx: '10px', mb: 1.5, minHeight: 0 }}
+          >
+            <VirtualList
+              ref={virtuosoRef}
+              count={filteredRules.length}
+              estimateSize={40}
+              renderItem={(i) => <RuleItem value={filteredRules[i]} />}
+              style={{ height: '100%' }}
+              onScroll={handleScroll}
+            />
+          </Box>
           <ScrollTopButton onClick={scrollToTop} show={showScrollTop} />
         </>
       ) : (

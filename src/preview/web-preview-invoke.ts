@@ -71,7 +71,7 @@ const seedWebSocket = (cmd: string, args: InvokeArgs): number => {
 }
 
 const windowDefaults = (cmd: string): unknown => {
-  if (cmd.endsWith('|theme')) return 'light'
+  if (cmd.endsWith('|theme')) return 'dark'
   if (cmd.endsWith('|is_decorated')) return true
   if (cmd.endsWith('|is_maximized')) return false
   if (cmd.endsWith('|is_fullscreen')) return false

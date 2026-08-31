@@ -11,6 +11,18 @@
         "unlock": "Test",
         "settings": "Pengaturan"
       },
+      "groups": {
+        "overview": "Overview",
+        "network": "Network",
+        "monitor": "Monitor"
+      },
+      "brand": {
+        "subtitle": "Network Control"
+      },
+      "status": {
+        "systemProxyOn": "System Proxy ON",
+        "systemProxyOff": "System Proxy OFF"
+      },
       "menu": {
         "reorderMode": "Menu reorder mode",
         "restoreDefaultOrder": "Restore default order",
